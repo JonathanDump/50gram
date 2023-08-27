@@ -9,6 +9,7 @@ const UserSchema = new Schema(
     img: { type: Schema.Types.ObjectId, ref: "Image" },
     messages: [{ type: Schema.Types.ObjectId, ref: "Message", default: [] }],
     chats: [{ type: Schema.Types.ObjectId, ref: "Chat", default: [] }],
+    googleId: String,
   },
   { collection: "Users" }
 );

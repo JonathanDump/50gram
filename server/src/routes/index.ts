@@ -9,31 +9,24 @@ router.get("/", (req: Request, res: Response) => {
 
 router.post("/sign-up", userController.signUp);
 
-// router.get("/log-in", (req: Request, res: Response) =>
-//   res.json({ msg: "pls log-in" })
-// );
 router.post("/log-in/jwt", userController.logIn);
+router.get(
+  "/auth/jwt",
+  passport.authenticate("jwt", {
+    successRedirect: "/50gram",
+    // failureRedirect: "/log-in",
+  })
+);
 
 router.get("/log-in/google", passport.authenticate("google"));
 router.get(
-  "/google/auth",
+  "/auth/google",
   passport.authenticate("google", {
     successRedirect: "/50gram",
-    failureRedirect: "/log-in",
+    // failureRedirect: "/log-in",
   })
 );
-// router.get(
-//   "/50gram",
-//   // passport.authenticate("jwt", { session: false }),
-//   (req: Request, res: Response) => res.json({ msg: "auth success" })
-// );
 
-router.get("/50gram", (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.user);
-
-  req.user
-    ? res.json({ msg: "Welcome to 50gram" })
-    : res.status(401).json({ msg: "not Allowed" });
-});
+router.use("/50gram", require("./50gram"));
 
 module.exports = router;

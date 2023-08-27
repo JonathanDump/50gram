@@ -52,8 +52,15 @@ exports.logIn = asyncHandler(
     const opts: SignOptions = {};
     opts.expiresIn = 1000 * 60 * 60 * 24;
     const secret: Secret = envReader("SECRET_KEY");
-    const token = await jwt.sign({ userId: user!._id }, secret, opts);
+    const token = await jwt.sign({ user }, secret, opts);
     console.log("token", token);
     res.status(200).json({ token: `Bearer ${token}` });
+  }
+);
+
+exports.getAllUsers = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const allUsers = await User.find();
+    res.json({ users: allUsers });
   }
 );

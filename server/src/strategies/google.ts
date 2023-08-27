@@ -7,18 +7,14 @@ import { UserInterface } from "../interfaces/interfaces";
 import passport from "passport";
 import mongoose from "mongoose";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { StrategyOptions } from "passport-google-oauth20";
 import { envReader } from "../functions/functions";
-// import GoogleStrategy from 'passport-google-oauth20'
-// const passport = require("passport");
-// const mongoose = require("mongoose");
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: envReader("GOOGLE_CLIENT_ID"),
       clientSecret: envReader("GOOGLE_CLIENT_SECRET"),
-      callbackURL: "http://localhost:3000/google/auth",
+      callbackURL: "http://localhost:3000/auth/google",
       scope: ["profile", "email"],
     },
     async (
@@ -48,6 +44,7 @@ passport.use(
             email: profile.emails[0].value,
             img: img?._id,
             password: "sdf",
+            googleId: profile.id,
           });
 
           await user.save();
@@ -63,21 +60,6 @@ passport.use(
     }
   )
 );
-
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: process.env.GOOGLE_CLIENT_ID,
-//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//       callbackURL: "http://localhost:3000/google/auth",
-//       scope: ["profile"],
-//     },
-//     (accessToken, refreshToken, profile, cb) => {
-//       console.log("profile", profile);
-//       return cb(null, profile);
-//     }
-//   )
-// );
 
 passport.serializeUser((user: Express.User, done: VerifiedCallback) => {
   done(null, user);

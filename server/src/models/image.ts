@@ -7,4 +7,5 @@ const ImageSchema = new Schema({
   url: String,
 });
 
+export default mongoose.model("Image", ImageSchema);
 module.exports = mongoose.model("Image", ImageSchema);

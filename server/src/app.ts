@@ -8,7 +8,9 @@ const mongoose = require("mongoose");
 var logger = require("morgan");
 const jwtStrategy = require("./strategies/jwt");
 const indexRouter = require("./routes/index");
-require("./strategies/google.js");
+import "./strategies/google";
+
+// require("./strategies/google.js");
 const session = require("express-session");
 
 const app = express();

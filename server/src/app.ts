@@ -4,6 +4,7 @@ dotenv.config();
 const cors = require("cors");
 const mongoose = require("mongoose");
 var logger = require("morgan");
+const jwtStrategy = require("./strategies/jwt");
 
 const indexRouter = require("./routes/index");
 const app = express();

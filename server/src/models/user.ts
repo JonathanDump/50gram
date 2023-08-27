@@ -5,7 +5,7 @@ const UserSchema = new Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true },
-    password: { type: String, required: true },
+    password: { type: String, required: true, default: "" },
     img: { type: Schema.Types.ObjectId, ref: "Image" },
     messages: [{ type: Schema.Types.ObjectId, ref: "Message", default: [] }],
     chats: [{ type: Schema.Types.ObjectId, ref: "Chat", default: [] }],
@@ -14,3 +14,4 @@ const UserSchema = new Schema(
 );
 
 export default mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema);

@@ -1,13 +1,28 @@
 import express from "express";
 import dotenv from "dotenv";
+import { envReader } from "./functions/functions";
+import passport from "passport";
 dotenv.config();
 const cors = require("cors");
 const mongoose = require("mongoose");
 var logger = require("morgan");
 const jwtStrategy = require("./strategies/jwt");
-
 const indexRouter = require("./routes/index");
+require("./strategies/google.js");
+const session = require("express-session");
+
 const app = express();
+
+app.use(
+  session({
+    secret: envReader("SESSION_SECRET"),
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(cors());
 const port = process.env.PORT || 3000;
 

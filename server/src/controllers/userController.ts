@@ -5,7 +5,6 @@ import User from "../models/user";
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { envReader } from "../functions/functions";
 
-
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body);

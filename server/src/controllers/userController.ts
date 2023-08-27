@@ -42,7 +42,7 @@ exports.logIn = asyncHandler(
       next();
     }
 
-    const match = await bcrypt.compare(password, user!.password);
+    const match = await bcrypt.compare(password, user!.password!);
 
     if (!match) {
       res.status(403).json({ invalidPassword: true });

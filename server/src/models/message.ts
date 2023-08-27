@@ -8,4 +8,5 @@ const MessageSchema = new Schema({
   chat: { type: Schema.Types.ObjectId, ref: "Chat", required: true },
 });
 
+export default mongoose.model("Message", MessageSchema);
 module.exports = mongoose.model("Message", MessageSchema);

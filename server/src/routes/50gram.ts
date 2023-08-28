@@ -8,7 +8,7 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
   req.user ? next() : res.status(401).json({ msg: "failed to auth" });
 };
 
-// router.use("/", authenticate);
+router.use("/", authenticate);
 
 router.get("/", userController.getAllUsers);
 

@@ -46,6 +46,16 @@ router.get(
   })
 );
 
+router.get("/log-out", (req: Request, res: Response, next: NextFunction) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Error destroying session:", err);
+      return next(err);
+    }
+    res.json({ isSuccess: true });
+  });
+});
+
 router.use("/50gram", require("./50gram"));
 
 module.exports = router;

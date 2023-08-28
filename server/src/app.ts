@@ -28,6 +28,9 @@ app.use(passport.session());
 app.use(cors());
 const port = process.env.PORT || 3000;
 
+app.use(express.static("public"));
+app.use("/avatars", express.static("avatars"));
+
 mongoose.set("strictQuery", false);
 const mongoDB = process.env.MONGO_DB_KEY;
 main().catch((err) => console.log(err));

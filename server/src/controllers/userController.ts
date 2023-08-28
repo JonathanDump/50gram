@@ -8,6 +8,8 @@ import { envReader } from "../functions/functions";
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body);
+    console.log(req.file);
+
     const user = await User.findOne({ email: req.body.email }).exec();
     if (user) {
       res.status(400).json({ isSuccess: false });
@@ -21,6 +23,9 @@ exports.signUp = asyncHandler(
           name: req.body.name,
           email: req.body.email,
           password: hashedPassword,
+          img: req.file
+            ? `${envReader("SERVER_URL")}/avatars/${req.file.filename}`
+            : `${envReader("SERVER_URL")}/avatars/default-avatar.jpeg`,
         });
 
         await user.save();

@@ -2,12 +2,31 @@ import express, { NextFunction, Request, Response } from "express";
 import passport from "passport";
 const router = express.Router();
 const userController = require("../controllers/userController");
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/avatars");
+  },
+  filename: function (req, file, cb) {
+    // console.log(file);
+
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const filename =
+      file.fieldname + "-" + uniqueSuffix + "." + file.mimetype.split("/")[1];
+    console.log(filename);
+
+    // req.body.imgName = filename;
+    cb(null, filename);
+  },
+});
+const upload = multer({ storage: storage });
 
 router.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server11");
 });
 
-router.post("/sign-up", userController.signUp);
+router.post("/sign-up", upload.single("avatar"), userController.signUp);
 
 router.post("/log-in/jwt", userController.logIn);
 router.get(

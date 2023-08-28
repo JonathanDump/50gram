@@ -25,7 +25,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));

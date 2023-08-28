@@ -59,7 +59,7 @@ exports.logIn = asyncHandler(
     const secret: Secret = envReader("SECRET_KEY");
     const token = await jwt.sign({ user }, secret, opts);
     console.log("token", token);
-    res.status(200).json({ token: `Bearer ${token}` });
+    res.status(200).json({ token: `Bearer ${token}`, myId: user!._id });
   }
 );
 

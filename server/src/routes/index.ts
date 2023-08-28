@@ -46,6 +46,8 @@ router.get(
   })
 );
 
+router.get("/auth");
+
 router.get("/log-out", (req: Request, res: Response, next: NextFunction) => {
   req.session.destroy((err) => {
     if (err) {

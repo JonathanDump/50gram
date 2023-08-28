@@ -12,6 +12,8 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
 
 router.get("/", userController.getAllUsers);
 
-router.post("/:uerId", chatController.getChat);
+router.post("/:userId", chatController.getChat);
+
+router.post("/:userId/sendMessage", chatController.sendMessage);
 
 module.exports = router;

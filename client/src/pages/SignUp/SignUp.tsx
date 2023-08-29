@@ -1,5 +1,5 @@
 import cl from "./SignUp.module.scss";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useSyncExternalStore } from "react";
 import formCl from "..//../scss/form.module.scss";
 import { useNavigate } from "react-router-dom";
 import { DecodedJwt, InputValueInterface } from "../../interfaces/interfaces";
@@ -15,21 +15,48 @@ export default function SignUp() {
     confirmPassword: "",
     avatar: null,
   });
+  const [validPassword, setValidPassword] = useState({
+    length: false,
+    number: false,
+  });
+  const [invalidName, setInvalidName] = useState(false);
+  const [passwordNotMatch, setPasswordNotMatch] = useState(false);
   const navigate = useNavigate();
+
   console.log(inputValue);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.name === "avatar") {
       setInputValue({ ...inputValue, avatar: e.target.files![0] });
-      console.log(e.target.files![0]);
-      console.log(inputValue);
     } else {
       setInputValue({ ...inputValue, [e.target.name]: e.target.value });
+
+      if (e.target.name === "password") {
+        const updatedValidPassword = { ...validPassword };
+
+        updatedValidPassword.length = e.target.value.length >= 5;
+
+        updatedValidPassword.number = /\d/.test(e.target.value);
+
+        setValidPassword(updatedValidPassword);
+      }
+      if (e.target.name === "name") {
+        setInvalidName(!e.target.name.length);
+      }
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!inputValue.name.trim().length) {
+      setInputValue({ ...inputValue, name: "" });
+      setInvalidName(true);
+      return;
+    } else if (inputValue.password !== inputValue.confirmPassword) {
+      setPasswordNotMatch(true);
+      return;
+    }
+
     try {
       const URL = import.meta.env.VITE_API_ENDPOINT;
       const formData = new FormData();
@@ -71,8 +98,16 @@ export default function SignUp() {
               name="name"
               required
               value={inputValue.name}
+              minLength={1}
               onChange={handleInputChange}
             />
+            {invalidName && (
+              <div className={formCl.inputError}>
+                <div className={formCl.invalid}>
+                  Name should be at least 1 character long
+                </div>
+              </div>
+            )}
           </div>
           <div className={formCl.inputContainer}>
             <label htmlFor="email">Email*</label>
@@ -92,9 +127,22 @@ export default function SignUp() {
               className={formCl.password}
               name="password"
               required
+              minLength={5}
               value={inputValue.password}
               onChange={handleInputChange}
             />
+            <div className={formCl.inputError}>
+              <div
+                className={validPassword.length ? formCl.valid : formCl.invalid}
+              >
+                At least 5 characters long
+              </div>
+              <div
+                className={validPassword.number ? formCl.valid : formCl.invalid}
+              >
+                Should contain at least 1 number
+              </div>
+            </div>
           </div>
           <div className={formCl.inputContainer}>
             <label htmlFor="confirmPassword">Confirm Password*</label>
@@ -106,6 +154,11 @@ export default function SignUp() {
               value={inputValue.confirmPassword}
               onChange={handleInputChange}
             />
+            {passwordNotMatch && (
+              <div className={formCl.inputError}>
+                <div className={formCl.invalid}>Password doesn't match</div>
+              </div>
+            )}
           </div>
           <div className={formCl.inputContainer}>
             <label htmlFor={formCl.avatar}></label>

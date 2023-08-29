@@ -3,7 +3,10 @@ import React, { ChangeEvent, useState } from "react";
 import formCl from "..//../scss/form.module.scss";
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
 import { useNavigate } from "react-router-dom";
-import { InputValueInterface } from "../../interfaces/interfaces";
+import { DecodedJwt, InputValueInterface } from "../../interfaces/interfaces";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 
 export default function SignUp() {
   const [inputValue, setInputValue] = useState<InputValueInterface>({
@@ -55,6 +58,7 @@ export default function SignUp() {
       console.log(err);
     }
   };
+
   return (
     <div className={cl.signUp}>
       <div className={cl.formWrapper}>
@@ -116,7 +120,45 @@ export default function SignUp() {
           <button>Sign Up</button>
         </form>
         <div className={cl.text}> Or </div>
-        <GoogleButton title="Sign Up" />
+        <GoogleOAuthProvider clientId="785080223845-4r2ughnfu2lbdgfns0i0g2gpkqoicjnn.apps.googleusercontent.com">
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              const URL = import.meta.env.VITE_API_ENDPOINT;
+              const decoded: DecodedJwt = jwtDecode(
+                credentialResponse.credential!
+              );
+              const { name, email, picture } = decoded;
+              const body = {
+                name,
+                email,
+                img: picture,
+              };
+              const response = await fetch(`${URL}/sign-up/google`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
+              });
+              const result = await response.json();
+
+              localStorage.setItem("token", result.token);
+              localStorage.setItem("myId", result.myId);
+
+              result.isSuccess
+                ? navigate("/50gram")
+                : new Error("Sign up failed");
+              console.log(decoded);
+
+              console.log(credentialResponse);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
+        </GoogleOAuthProvider>
+
+        {/* <GoogleButton title="Sign Up" /> */}
       </div>
     </div>
   );

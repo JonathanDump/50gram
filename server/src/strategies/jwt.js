@@ -10,11 +10,11 @@ const opts = {
 
 passport.use(
   new JwtStrategy(opts, async (req, jwt_payload, done) => {
-    console.log("jwt_req", req);
+    console.log("jwt_payload", jwt_payload);
 
     if (jwt_payload.user) {
-      req.user = jwt_payload.user;
-      return done(null, jwt_payload.user);
+      // req.user = jwt_payload.user;
+      return done(null, true);
     }
     return done(null, false);
   })

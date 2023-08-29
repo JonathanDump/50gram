@@ -27,15 +27,16 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 router.post("/sign-up", upload.single("avatar"), userController.signUp);
+router.post("/sign-up/google", userController.signUpGoogle);
 
 router.post("/log-in/jwt", userController.logIn);
-router.get(
-  "/auth/jwt",
-  passport.authenticate("jwt", {
-    successRedirect: "/50gram",
-    // failureRedirect: "/log-in",
-  })
-);
+// router.get(
+//   "/auth/jwt",
+//   passport.authenticate("jwt", {
+//     successRedirect: "/50gram",
+//     // failureRedirect: "/log-in",
+//   })
+// );
 
 router.get("/log-in/google", passport.authenticate("google"));
 router.get(
@@ -45,8 +46,6 @@ router.get(
     // failureRedirect: "/log-in",
   })
 );
-
-router.get("/auth");
 
 router.get("/log-out", (req: Request, res: Response, next: NextFunction) => {
   req.session.destroy((err) => {

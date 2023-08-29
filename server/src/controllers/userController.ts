@@ -35,6 +35,42 @@ exports.signUp = asyncHandler(
   }
 );
 
+exports.signUpGoogle = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log("req.body", req.body);
+
+    const opts: SignOptions = {};
+    opts.expiresIn = 1000 * 60 * 60 * 24;
+    const secret: Secret = envReader("SECRET_KEY");
+
+    const user = await User.findOne({ email: req.body.email }).exec();
+    if (user) {
+      const token = await jwt.sign({ user }, secret, opts);
+      res
+        .status(200)
+        .json({ token: `Bearer ${token}`, myId: user!._id, isSuccess: true });
+      console.log("token", token);
+    } else {
+      const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        img: req.body.img
+          ? req.body.img
+          : `${envReader("SERVER_URL")}/avatars/default-avatar.jpeg`,
+      });
+      console.log("user", user);
+
+      await user.save();
+
+      const token = await jwt.sign({ user }, secret, opts);
+      res
+        .status(200)
+        .json({ token: `Bearer ${token}`, myId: user!._id, isSuccess: true });
+      console.log("token", token);
+    }
+  }
+);
+
 exports.logIn = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
@@ -57,7 +93,7 @@ exports.logIn = asyncHandler(
     const opts: SignOptions = {};
     opts.expiresIn = 1000 * 60 * 60 * 24;
     const secret: Secret = envReader("SECRET_KEY");
-    const token = await jwt.sign({ user }, secret, opts);
+    const token = await jwt.sign({ email: user!.email }, secret, opts);
     console.log("token", token);
     res.status(200).json({ token: `Bearer ${token}`, myId: user!._id });
   }

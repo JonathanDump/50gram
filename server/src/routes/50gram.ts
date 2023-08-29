@@ -21,11 +21,11 @@ const authenticate = (req: Request, res: Response, next: NextFunction) => {
 
 router.use(
   "/",
+  passport.authenticate("jwt", { session: false }),
   (req: Request, res: Response, next: NextFunction) => {
-    console.log(req);
-    next();
-  },
-  authenticate
+    res.send({ msg: "welcome" });
+  }
+  // authenticate
 );
 
 router.get("/", userController.getAllUsers);

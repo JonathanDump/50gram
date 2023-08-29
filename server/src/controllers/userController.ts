@@ -79,14 +79,14 @@ exports.logIn = asyncHandler(
     const user = await User.findOne({ email }).exec();
 
     if (!user) {
-      res.status(403).json({ invalidEmail: true });
+      res.json({ invalid: { email: true, password: false } });
       next();
     }
 
     const match = await bcrypt.compare(password, user!.password!);
 
     if (!match) {
-      res.status(403).json({ invalidPassword: true });
+      res.json({ invalid: { password: true, email: false } });
       next();
     }
 

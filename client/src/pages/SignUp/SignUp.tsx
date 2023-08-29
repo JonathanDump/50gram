@@ -1,7 +1,6 @@
 import cl from "./SignUp.module.scss";
 import React, { ChangeEvent, useState } from "react";
 import formCl from "..//../scss/form.module.scss";
-import GoogleButton from "../../components/GoogleButton/GoogleButton";
 import { useNavigate } from "react-router-dom";
 import { DecodedJwt, InputValueInterface } from "../../interfaces/interfaces";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -18,6 +17,7 @@ export default function SignUp() {
   });
   const navigate = useNavigate();
   console.log(inputValue);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.name === "avatar") {
       setInputValue({ ...inputValue, avatar: e.target.files![0] });
@@ -157,8 +157,6 @@ export default function SignUp() {
             }}
           />
         </GoogleOAuthProvider>
-
-        {/* <GoogleButton title="Sign Up" /> */}
       </div>
     </div>
   );

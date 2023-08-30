@@ -93,15 +93,18 @@ exports.logIn = asyncHandler(
     const opts: SignOptions = {};
     opts.expiresIn = 1000 * 60 * 60 * 24;
     const secret: Secret = envReader("SECRET_KEY");
-    const token = await jwt.sign({ email: user!.email }, secret, opts);
-    console.log("token", token);
+    const token = await jwt.sign({ user }, secret, opts);
+
     res.status(200).json({ token: `Bearer ${token}`, myId: user!._id });
   }
 );
 
 exports.getAllUsers = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const allUsers = await User.find();
+    const allUsers = await User.find({
+      _id: { $ne: req.body._id },
+    }).exec();
+
     res.json({ users: allUsers });
   }
 );

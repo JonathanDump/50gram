@@ -4,7 +4,7 @@ import { DecodedJwt } from "../../interfaces/interfaces";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
 import jwtDecode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
 
 export default function LogIn() {
@@ -52,7 +52,7 @@ export default function LogIn() {
       localStorage.setItem("myId", result.myId);
 
       setInvalidInput({ email: false, password: false });
-      navigate("/50gram");
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -118,9 +118,7 @@ export default function LogIn() {
               localStorage.setItem("token", result.token);
               localStorage.setItem("myId", result.myId);
 
-              result.isSuccess
-                ? navigate("/50gram")
-                : new Error("Sign up failed");
+              result.isSuccess ? navigate("/") : new Error("Sign up failed");
               console.log(decoded);
 
               console.log(credentialResponse);
@@ -130,6 +128,16 @@ export default function LogIn() {
             }}
           />
         </GoogleOAuthProvider>
+      </div>
+      <div className={formCl.additional}>
+        <div className={formCl.text}>
+          Don't have an account?{" "}
+          <span>
+            <NavLink to="/sign-up" className={formCl.NavLink}>
+              Sign Up
+            </NavLink>
+          </span>
+        </div>
       </div>
     </div>
   );

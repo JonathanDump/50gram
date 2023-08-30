@@ -27,3 +27,14 @@ export interface DecodedJwt {
   picture: string;
   sub: string;
 }
+
+export interface UserInterface {
+  name: string;
+  email: string;
+  img: string;
+  password: string;
+}
+
+export interface usersDataLoader {
+  users: UserInterface[];
+}

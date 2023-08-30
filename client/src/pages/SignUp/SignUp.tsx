@@ -1,7 +1,7 @@
 import cl from "./SignUp.module.scss";
 import React, { ChangeEvent, useState, useSyncExternalStore } from "react";
 import formCl from "..//../scss/form.module.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { DecodedJwt, InputValueInterface } from "../../interfaces/interfaces";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
@@ -198,9 +198,7 @@ export default function SignUp() {
               localStorage.setItem("token", result.token);
               localStorage.setItem("myId", result.myId);
 
-              result.isSuccess
-                ? navigate("/50gram")
-                : new Error("Sign up failed");
+              result.isSuccess ? navigate("/") : new Error("Sign up failed");
               console.log(decoded);
 
               console.log(credentialResponse);
@@ -210,6 +208,16 @@ export default function SignUp() {
             }}
           />
         </GoogleOAuthProvider>
+      </div>
+      <div className={formCl.additional}>
+        <div className={formCl.text}>
+          Already have an account?
+          <span>
+            <NavLink to="/log-in" className={formCl.NavLink}>
+              Log In
+            </NavLink>
+          </span>
+        </div>
       </div>
     </div>
   );

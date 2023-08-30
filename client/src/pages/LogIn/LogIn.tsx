@@ -41,15 +41,14 @@ export default function LogIn() {
       console.log("res", result);
 
       if (result.invalid) {
-        // result.invalid.email
-        //   ? setInvalidInput({ ...invalidInput, email: true })
-        //   : setInvalidInput({ ...invalidInput, password: true });
         setInvalidInput(result.invalid);
         return;
       }
 
+      console.log("myInfo log", result.myInfo);
+
       localStorage.setItem("token", result.token);
-      localStorage.setItem("myId", result.myId);
+      // localStorage.setItem("myInfo", JSON.stringify(result.myInfo));
 
       setInvalidInput({ email: false, password: false });
       navigate("/");
@@ -116,7 +115,7 @@ export default function LogIn() {
               const result = await response.json();
 
               localStorage.setItem("token", result.token);
-              localStorage.setItem("myId", result.myId);
+              // localStorage.setItem("myInfo", result.myInfo);
 
               result.isSuccess ? navigate("/") : new Error("Sign up failed");
               console.log(decoded);

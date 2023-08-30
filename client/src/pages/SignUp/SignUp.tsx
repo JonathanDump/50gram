@@ -196,7 +196,7 @@ export default function SignUp() {
               const result = await response.json();
 
               localStorage.setItem("token", result.token);
-              localStorage.setItem("myId", result.myId);
+              // localStorage.setItem("myInfo", result.myInfo);
 
               result.isSuccess ? navigate("/") : new Error("Sign up failed");
               console.log(decoded);

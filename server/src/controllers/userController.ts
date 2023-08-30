@@ -62,10 +62,19 @@ exports.signUpGoogle = asyncHandler(
 
       await user.save();
 
-      const token = await jwt.sign({ user }, secret, opts);
-      res
-        .status(200)
-        .json({ token: `Bearer ${token}`, myId: user!._id, isSuccess: true });
+      const token = await jwt.sign(
+        {
+          user: {
+            name: user!.name,
+            email: user!.email,
+            img: user!.img,
+            _id: user!._id,
+          },
+        },
+        secret,
+        opts
+      );
+      res.status(200).json({ token: `Bearer ${token}`, isSuccess: true });
       console.log("token", token);
     }
   }
@@ -93,9 +102,20 @@ exports.logIn = asyncHandler(
     const opts: SignOptions = {};
     opts.expiresIn = 1000 * 60 * 60 * 24;
     const secret: Secret = envReader("SECRET_KEY");
-    const token = await jwt.sign({ user }, secret, opts);
+    const token = await jwt.sign(
+      {
+        user: {
+          name: user!.name,
+          email: user!.email,
+          img: user!.img,
+          _id: user!._id,
+        },
+      },
+      secret,
+      opts
+    );
 
-    res.status(200).json({ token: `Bearer ${token}`, myId: user!._id });
+    res.status(200).json({ token: `Bearer ${token}`, myInfo: user });
   }
 );
 

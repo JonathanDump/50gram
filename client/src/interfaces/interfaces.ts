@@ -29,12 +29,24 @@ export interface DecodedJwt {
 }
 
 export interface UserInterface {
+  _id: string;
   name: string;
   email: string;
   img: string;
-  password: string;
+  password?: string;
 }
 
-export interface usersDataLoader {
+export interface SidebarInterface {
   users: UserInterface[];
+}
+
+export interface UserCardInterface {
+  user: UserInterface;
+  editOn?: boolean;
+}
+
+export interface DecodedJwt {
+  iat: number;
+  exp: number;
+  user: UserInterface;
 }

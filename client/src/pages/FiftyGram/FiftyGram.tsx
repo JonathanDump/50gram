@@ -1,7 +1,7 @@
 import { Outlet, redirect, useLoaderData } from "react-router-dom";
 import cl from "./FiftyGram.module.scss";
 import React from "react";
-import { usersDataLoader } from "../../interfaces/interfaces";
+import { UserInterface } from "../../interfaces/interfaces";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 export const loader = async () => {
@@ -25,15 +25,15 @@ export const loader = async () => {
   const { users } = await response.json();
   console.log(users);
 
-  return { users } as usersDataLoader;
+  return users;
 };
 export default function FiftyGram() {
-  const users = useLoaderData();
+  const users = useLoaderData() as UserInterface[];
 
   return (
     <div className={cl.fiftyGram}>
       <div className={cl.window}>
-        <Sidebar />
+        <Sidebar users={users} />
         <div className={cl.chatContainer}>
           <Outlet />
         </div>

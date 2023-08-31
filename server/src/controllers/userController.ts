@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import User from "../models/user";
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { envReader } from "../functions/functions";
+import { UserInterface } from "../interfaces/interfaces";
 
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -115,7 +116,7 @@ exports.logIn = asyncHandler(
       opts
     );
 
-    res.status(200).json({ token: `Bearer ${token}`, myInfo: user });
+    res.status(200).json({ token: `Bearer ${token}` });
   }
 );
 
@@ -126,5 +127,44 @@ exports.getAllUsers = asyncHandler(
     }).exec();
 
     res.json({ users: allUsers });
+  }
+);
+
+exports.updateUserInfo = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log("body", req.body);
+    console.log("file", req.file);
+
+    const user = await User.findById(req.body.id).exec();
+    if (!user) {
+      throw new Error("Couldn't find the user");
+    }
+    if (user) {
+      req.body.name && (user.name = req.body.name);
+      req.file &&
+        (user.img = `${envReader("SERVER_URL")}/avatars/${req.file.filename}`);
+      const newUser = await user.save();
+      console.log("old user", user);
+
+      console.log("newUser", newUser);
+
+      const opts: SignOptions = {};
+      opts.expiresIn = 1000 * 60 * 60 * 24;
+      const secret: Secret = envReader("SECRET_KEY");
+      const token = await jwt.sign(
+        {
+          user: {
+            name: user.name,
+            email: user.email,
+            img: user.img,
+            _id: user._id,
+          },
+        },
+        secret,
+        opts
+      );
+
+      res.status(200).json({ token: `Bearer ${token}` });
+    }
   }
 );

@@ -41,7 +41,7 @@ export interface SidebarInterface {
 }
 
 export interface UserCardInterface {
-  user: UserInterface;
+  user?: UserInterface;
   editOn?: boolean;
 }
 

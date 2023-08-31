@@ -9,11 +9,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 export default function Sidebar({ users }: SidebarInterface) {
   const [menuVisible, setMenuVisible] = useState(true);
   const navigate = useNavigate();
-  const myInfo = jwtDecode(
-    localStorage.getItem("token") as string
-  ) as DecodedJwt;
-
-  console.log(myInfo);
 
   const handleBurgerClick = () => {
     setMenuVisible(!menuVisible);
@@ -44,7 +39,7 @@ export default function Sidebar({ users }: SidebarInterface) {
       )}
       {menuVisible && (
         <div className={cl.menu}>
-          <UserCard user={myInfo.user} editOn={true} />
+          <UserCard editOn={true} />
           <button type="button" onClick={handleLogOutClick}>
             Log Out
           </button>

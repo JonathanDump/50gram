@@ -9,6 +9,7 @@ var logger = require("morgan");
 const jwtStrategy = require("./strategies/jwt");
 const indexRouter = require("./routes/index");
 import "./strategies/google";
+import bodyParser from "body-parser";
 
 // require("./strategies/google.js");
 const session = require("express-session");
@@ -43,7 +44,8 @@ async function main() {
 }
 
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb" }));
 
 app.use("/", indexRouter);
 

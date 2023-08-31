@@ -1,3 +1,22 @@
-.avatar {
+.avatarContainer {
   max-width: 100px;
+  min-width: 50px;
+  background-color: black;
+  cursor: pointer;
+  .avatar {
+    max-width: 100px;
+  }
+}
+.name {
+  cursor: pointer;
+  .icon {
+    max-width: 16px;
+    opacity: 0;
+  }
+
+  &:hover {
+    .icon {
+      opacity: 1;
+    }
+  }
 }

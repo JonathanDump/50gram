@@ -1,5 +1,5 @@
 import cl from "./SignUp.module.scss";
-import React, { ChangeEvent, useState, useSyncExternalStore } from "react";
+import React, { ChangeEvent, useState } from "react";
 import formCl from "..//../scss/form.module.scss";
 import { useNavigate, NavLink } from "react-router-dom";
 import { DecodedJwt, InputValueInterface } from "../../interfaces/interfaces";
@@ -22,8 +22,6 @@ export default function SignUp() {
   const [invalidName, setInvalidName] = useState(false);
   const [passwordNotMatch, setPasswordNotMatch] = useState(false);
   const navigate = useNavigate();
-
-  console.log(inputValue);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.name === "avatar") {
@@ -64,6 +62,8 @@ export default function SignUp() {
       formData.append("name", inputValue.name);
       formData.append("email", inputValue.email);
       formData.append("password", inputValue.password);
+      console.log("formData", formData);
+
       inputValue.avatar && formData.append("avatar", inputValue.avatar);
 
       const response = await fetch(`${URL}/sign-up`, {

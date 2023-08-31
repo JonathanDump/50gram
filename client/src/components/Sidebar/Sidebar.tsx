@@ -31,7 +31,7 @@ export default function Sidebar({ users }: SidebarInterface) {
       ) : (
         users.map((user) => {
           return (
-            <NavLink to={`/${user.id}`} key={user.id}>
+            <NavLink to={`/${user._id}`} key={user._id}>
               <UserCard user={user} />
             </NavLink>
           );

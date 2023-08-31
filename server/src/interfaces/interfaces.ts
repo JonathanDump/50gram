@@ -12,7 +12,7 @@ export interface ImageInterface {
 }
 
 export interface UserInterface {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   img: Types.ObjectId | undefined;

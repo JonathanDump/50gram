@@ -29,7 +29,7 @@ export interface DecodedJwt {
 }
 
 export interface UserInterface {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   img: string;

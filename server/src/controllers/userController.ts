@@ -70,7 +70,7 @@ exports.signUpGoogle = asyncHandler(
             name: user!.name,
             email: user!.email,
             img: user!.img,
-            id: user!._id,
+            _id: user!._id,
           },
         },
         secret,
@@ -110,7 +110,7 @@ exports.logIn = asyncHandler(
           name: user!.name,
           email: user!.email,
           img: user!.img,
-          id: user!._id,
+          _id: user!._id,
         },
       },
       secret,
@@ -128,7 +128,7 @@ exports.getAllUsers = asyncHandler(
     ) as DecodedJwt;
 
     const allUsers = await User.find({
-      _id: { $ne: decodedJwt.user.id },
+      _id: { $ne: decodedJwt.user._id },
     }).exec();
 
     res.json({ users: allUsers });
@@ -162,7 +162,7 @@ exports.updateUserInfo = asyncHandler(
             name: user.name,
             email: user.email,
             img: user.img,
-            id: user._id,
+            _id: user._id,
           },
         },
         secret,

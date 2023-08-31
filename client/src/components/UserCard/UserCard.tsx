@@ -78,7 +78,7 @@ export default function UserCard({ user, editOn }: UserCardInterface) {
       const token = localStorage.getItem("token") as string;
       const formData = new FormData();
       formData.append("name", inputValue.name);
-      formData.append("id", decodedJwt.user.id);
+      formData.append("id", decodedJwt.user._id);
       inputValue.image && formData.append("avatar", inputValue.image);
 
       const response = await fetch(`${URL}/50gram/user/update`, {

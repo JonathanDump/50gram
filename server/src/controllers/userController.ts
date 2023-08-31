@@ -4,7 +4,8 @@ import bcrypt from "bcrypt";
 import User from "../models/user";
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { envReader } from "../functions/functions";
-import { UserInterface } from "../interfaces/interfaces";
+import jwtDecode from "jwt-decode";
+import { DecodedJwt } from "../interfaces/interfaces";
 
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -69,7 +70,7 @@ exports.signUpGoogle = asyncHandler(
             name: user!.name,
             email: user!.email,
             img: user!.img,
-            _id: user!._id,
+            id: user!._id,
           },
         },
         secret,
@@ -109,7 +110,7 @@ exports.logIn = asyncHandler(
           name: user!.name,
           email: user!.email,
           img: user!.img,
-          _id: user!._id,
+          id: user!._id,
         },
       },
       secret,
@@ -122,8 +123,12 @@ exports.logIn = asyncHandler(
 
 exports.getAllUsers = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+    const decodedJwt = jwtDecode(
+      req.headers.authorization as string
+    ) as DecodedJwt;
+
     const allUsers = await User.find({
-      _id: { $ne: req.body._id },
+      _id: { $ne: decodedJwt.user.id },
     }).exec();
 
     res.json({ users: allUsers });
@@ -157,7 +162,7 @@ exports.updateUserInfo = asyncHandler(
             name: user.name,
             email: user.email,
             img: user.img,
-            _id: user._id,
+            id: user._id,
           },
         },
         secret,

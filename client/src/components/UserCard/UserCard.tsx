@@ -1,11 +1,4 @@
-import React, {
-  ChangeEvent,
-  FormEvent,
-  InvalidEvent,
-  MutableRefObject,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useRef, useState } from "react";
 import { DecodedJwt, UserCardInterface } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
 import editIcon from "/icons/edit.svg";
@@ -85,7 +78,7 @@ export default function UserCard({ user, editOn }: UserCardInterface) {
       const token = localStorage.getItem("token") as string;
       const formData = new FormData();
       formData.append("name", inputValue.name);
-      formData.append("id", decodedJwt.user._id);
+      formData.append("id", decodedJwt.user.id);
       inputValue.image && formData.append("avatar", inputValue.image);
 
       const response = await fetch(`${URL}/50gram/user/update`, {

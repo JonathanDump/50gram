@@ -13,7 +13,6 @@ passport.use(
     console.log(jwt_payload.user);
     console.log("body in jwt", req.body);
     if (jwt_payload.user) {
-      // req.body = jwt_payload.user;
       console.log("auth success");
       return done(null, true);
     }

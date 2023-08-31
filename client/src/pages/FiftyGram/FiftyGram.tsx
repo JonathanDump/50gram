@@ -1,8 +1,9 @@
 import { Outlet, redirect, useLoaderData } from "react-router-dom";
 import cl from "./FiftyGram.module.scss";
-import React from "react";
-import { UserInterface } from "../../interfaces/interfaces";
+
+import { DecodedJwt, UserInterface } from "../../interfaces/interfaces";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import jwtDecode from "jwt-decode";
 
 export const loader = async () => {
   const token = localStorage.getItem("token");
@@ -12,10 +13,15 @@ export const loader = async () => {
   }
 
   const URL = import.meta.env.VITE_API_ENDPOINT;
+  const decodedJwt = jwtDecode(token) as DecodedJwt;
+  const body = { id: decodedJwt.user.id };
+
   const response = await fetch(`${URL}/50gram`, {
     headers: {
       Authorization: token,
+      // "Content-Type": "application/json",
     },
+    // body: JSON.stringify(body),
   });
 
   if (!response.ok) {

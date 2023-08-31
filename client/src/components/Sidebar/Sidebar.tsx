@@ -7,7 +7,7 @@ import jwtDecode from "jwt-decode";
 import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Sidebar({ users }: SidebarInterface) {
-  const [menuVisible, setMenuVisible] = useState(true);
+  const [menuVisible, setMenuVisible] = useState(false);
   const navigate = useNavigate();
 
   const handleBurgerClick = () => {
@@ -31,7 +31,7 @@ export default function Sidebar({ users }: SidebarInterface) {
       ) : (
         users.map((user) => {
           return (
-            <NavLink to={`/${user._id}`} key={user._id}>
+            <NavLink to={`/${user.id}`} key={user.id}>
               <UserCard user={user} />
             </NavLink>
           );

@@ -12,8 +12,15 @@ export interface ImageInterface {
 }
 
 export interface UserInterface {
+  id: string;
   name: string;
   email: string;
   img: Types.ObjectId | undefined;
   password: string;
+}
+
+export interface DecodedJwt {
+  iat: number;
+  exp: number;
+  user: UserInterface;
 }

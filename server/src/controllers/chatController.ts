@@ -3,12 +3,25 @@ import Chat from "../models/chat";
 import Message from "../models/message";
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
+import jwtDecode from "jwt-decode";
+import { DecodedJwt } from "../interfaces/interfaces";
 
 exports.getChat = asyncHandler(async (req: Request, res: Response) => {
-  const { myId, userId } = req.body;
+  // const { myId, userId } = req.body;
+  console.log("getting chat");
+
+  const decodedJwt = jwtDecode(
+    req.headers.authorization as string
+  ) as DecodedJwt;
+  const myId = decodedJwt.user._id;
+  const userId = req.params.userId;
+  console.log("myId", myId);
+  console.log("userId", userId);
+
   const chat = await Chat.findOne({ users: [myId, userId] })
     .populate("messages")
     .exec();
+  console.log("chat", chat);
 
   if (!chat) {
     const newChat = new Chat({

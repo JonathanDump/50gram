@@ -1,4 +1,4 @@
-import { Outlet, redirect, useLoaderData } from "react-router-dom";
+import { Outlet, redirect, useLoaderData, useOutlet } from "react-router-dom";
 import cl from "./FiftyGram.module.scss";
 
 import { UserInterface } from "../../interfaces/interfaces";
@@ -28,15 +28,17 @@ export const loader = async () => {
 
   return users;
 };
+
 export default function FiftyGram() {
   const users = useLoaderData() as UserInterface[];
+  const outlet = useOutlet();
 
   return (
     <div className={cl.fiftyGram}>
       <div className={cl.window}>
         <Sidebar users={users} />
         <div className={cl.chatContainer}>
-          <Outlet />
+          {outlet || <div>Choose chat to start messaging</div>}
         </div>
       </div>
     </div>

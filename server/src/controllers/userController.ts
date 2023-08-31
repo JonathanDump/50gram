@@ -137,8 +137,8 @@ exports.getAllUsers = asyncHandler(
 
 exports.updateUserInfo = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("body", req.body);
-    console.log("file", req.file);
+    // console.log("body", req.body);
+    // console.log("file", req.file);
 
     const user = await User.findById(req.body.id).exec();
     if (!user) {
@@ -148,10 +148,10 @@ exports.updateUserInfo = asyncHandler(
       req.body.name && (user.name = req.body.name);
       req.file &&
         (user.img = `${envReader("SERVER_URL")}/avatars/${req.file.filename}`);
-      const newUser = await user.save();
-      console.log("old user", user);
 
-      console.log("newUser", newUser);
+      const newUser = await user.save();
+      // console.log("old user", user);
+      // console.log("newUser", newUser);
 
       const opts: SignOptions = {};
       opts.expiresIn = 1000 * 60 * 60 * 24;

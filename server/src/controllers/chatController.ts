@@ -37,7 +37,7 @@ exports.getChat = asyncHandler(async (req: Request, res: Response) => {
 
 exports.sendMessage = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { text, myId, date, chatId } = req.body;
+    const { text, myId, chatId } = req.body;
     const chat = await Chat.findById(chatId).populate("messages").exec();
 
     if (!chat) {
@@ -57,6 +57,6 @@ exports.sendMessage = asyncHandler(
     await message.save();
     await chat.save();
 
-    res.status(200).json({ isSuccess: true });
+    res.status(200).json({ message, isSuccess: true });
   }
 );

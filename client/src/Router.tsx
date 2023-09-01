@@ -18,9 +18,7 @@ export const Router = () => {
           path: "/",
           element: <FiftyGram />,
           loader: appLoader,
-          children: [
-            { path: "/:userId", element: <Chat />, loader: chatLoader },
-          ],
+          children: [{ path: "/:userId", element: <Chat /> }],
         },
         { path: "/sign-up", element: <SignUp /> },
         { path: "/log-in", element: <LogIn /> },

@@ -50,3 +50,20 @@ export interface DecodedJwt {
   exp: number;
   user: UserInterface;
 }
+
+export interface MessageInterface {
+  _id: string;
+  text: string;
+  date: string;
+}
+
+export interface ChatInterface {
+  _id: string;
+  users: string[];
+  messages: MessageInterface[];
+  _v: number;
+}
+
+export interface MessageParams {
+  message: MessageInterface;
+}

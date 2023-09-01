@@ -11,7 +11,7 @@ router.get("/", userController.getAllUsers);
 
 router.get("/:userId", chatController.getChat);
 
-router.post("/:userId/sendMessage", chatController.sendMessage);
+router.post("/:userId/sendMessage", upload.none(), chatController.sendMessage);
 
 router.put(
   "/user/update",

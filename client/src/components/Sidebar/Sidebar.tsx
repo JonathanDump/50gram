@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { DecodedJwt, SidebarInterface } from "../../interfaces/interfaces";
+import { SidebarInterface } from "../../interfaces/interfaces";
 import UserCard from "../UserCard/UserCard";
 import cl from "./Sidebar.module.scss";
 import burger from "/icons/hamburger.svg";
-import jwtDecode from "jwt-decode";
-import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Sidebar({ users }: SidebarInterface) {
+import { NavLink, useNavigate } from "react-router-dom";
+import useSidebar from "../../hooks/useSidebar";
+
+export default function Sidebar() {
+  const { users, loading } = useSidebar();
   const [menuVisible, setMenuVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -26,7 +28,9 @@ export default function Sidebar({ users }: SidebarInterface) {
         </div>
         <div className={cl.title}>50gram</div>
       </div>
-      {!users.length ? (
+      {loading ? (
+        <div>Loading...</div>
+      ) : !users.length ? (
         <div className={cl.text}>No people yet</div>
       ) : (
         users.map((user) => {

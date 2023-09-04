@@ -3,6 +3,7 @@ import { DecodedJwt, UserCardInterface } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
 import editIcon from "/icons/edit.svg";
 import jwtDecode from "jwt-decode";
+import { SERVER_URL } from "../config/config";
 
 export default function UserCard({ user, editOn }: UserCardInterface) {
   const decodedJwt = jwtDecode(
@@ -74,14 +75,13 @@ export default function UserCard({ user, editOn }: UserCardInterface) {
       return;
     }
     try {
-      const URL = import.meta.env.VITE_API_ENDPOINT;
       const token = localStorage.getItem("token") as string;
       const formData = new FormData();
       formData.append("name", inputValue.name);
       formData.append("id", decodedJwt.user._id);
       inputValue.image && formData.append("avatar", inputValue.image);
 
-      const response = await fetch(`${URL}/50gram/user/update`, {
+      const response = await fetch(`${SERVER_URL}/50gram/user/update`, {
         method: "PUT",
         headers: {
           Authorization: token,

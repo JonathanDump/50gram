@@ -13,7 +13,9 @@ import socketHandler from "./socket/socket";
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  /* options */
+  cors: {
+    origin: "http://localhost:5173",
+  },
 });
 
 app.use(

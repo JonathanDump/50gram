@@ -5,6 +5,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { InputValueInterface } from "../../interfaces/interfaces";
 
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
+import { SERVER_URL } from "../../components/config/config";
 
 export default function SignUp() {
   const [inputValue, setInputValue] = useState<InputValueInterface>({
@@ -55,7 +56,6 @@ export default function SignUp() {
     }
 
     try {
-      const URL = import.meta.env.VITE_API_ENDPOINT;
       const formData = new FormData();
 
       formData.append("name", inputValue.name);
@@ -65,7 +65,7 @@ export default function SignUp() {
 
       inputValue.avatar && formData.append("avatar", inputValue.avatar);
 
-      const response = await fetch(`${URL}/sign-up`, {
+      const response = await fetch(`${SERVER_URL}/sign-up`, {
         method: "POST",
         body: formData,
       });

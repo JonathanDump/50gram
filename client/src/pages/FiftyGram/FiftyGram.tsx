@@ -3,6 +3,7 @@ import cl from "./FiftyGram.module.scss";
 
 import { UserInterface } from "../../interfaces/interfaces";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import { SERVER_URL } from "../../components/config/config";
 
 export const loader = async () => {
   const token = localStorage.getItem("token");
@@ -11,9 +12,7 @@ export const loader = async () => {
     return redirect("/log-in");
   }
 
-  const URL = import.meta.env.VITE_API_ENDPOINT;
-
-  const response = await fetch(`${URL}/50gram`, {
+  const response = await fetch(`${SERVER_URL}/50gram`, {
     headers: {
       Authorization: token,
     },
@@ -30,13 +29,18 @@ export const loader = async () => {
 };
 
 export default function FiftyGram() {
-  const users = useLoaderData() as UserInterface[];
+  // const users = useLoaderData() as UserInterface[];
   const outlet = useOutlet();
+  const token = localStorage.getItem("token");
 
+  if (!token) {
+    redirect("/log-in");
+    return;
+  }
   return (
     <div className={cl.fiftyGram}>
       <div className={cl.window}>
-        <Sidebar users={users} />
+        <Sidebar />
         <div className={cl.chatContainer}>
           {outlet || <div>Choose chat to start messaging</div>}
         </div>

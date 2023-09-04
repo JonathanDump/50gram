@@ -3,6 +3,7 @@ import formCl from "../../scss/form.module.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
+import { SERVER_URL } from "../../components/config/config";
 
 export default function LogIn() {
   const navigate = useNavigate();
@@ -21,11 +22,11 @@ export default function LogIn() {
 
     try {
       console.log("inv res", invalidInput);
-      const URL = import.meta.env.VITE_API_ENDPOINT;
+
       const body = { email: inputValue.email, password: inputValue.password };
       console.log("body", body);
 
-      const response = await fetch(`${URL}/log-in/jwt`, {
+      const response = await fetch(`${SERVER_URL}/log-in/jwt`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

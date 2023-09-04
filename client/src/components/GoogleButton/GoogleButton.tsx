@@ -2,6 +2,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { DecodedJwt } from "../../interfaces/interfaces";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../config/config";
 
 export default function GoogleButton() {
   const navigate = useNavigate();
@@ -9,7 +10,6 @@ export default function GoogleButton() {
     <GoogleOAuthProvider clientId="785080223845-4r2ughnfu2lbdgfns0i0g2gpkqoicjnn.apps.googleusercontent.com">
       <GoogleLogin
         onSuccess={async (credentialResponse) => {
-          const URL = import.meta.env.VITE_API_ENDPOINT;
           const decoded: DecodedJwt = jwtDecode(credentialResponse.credential!);
           const { name, email, picture } = decoded;
           const body = {
@@ -17,7 +17,7 @@ export default function GoogleButton() {
             email,
             img: picture,
           };
-          const response = await fetch(`${URL}/sign-up/google`, {
+          const response = await fetch(`${SERVER_URL}/sign-up/google`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

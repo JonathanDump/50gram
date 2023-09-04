@@ -5,6 +5,7 @@ import { ChatInterface, DecodedJwt } from "../../interfaces/interfaces";
 import { useLoaderData, useParams } from "react-router-dom";
 import Message from "../Message/Message";
 import useChat from "../../hooks/useChat";
+import { SERVER_URL } from "../config/config";
 
 // export const loader = async ({ params }: { params: { userId: string } }) => {
 //   const URL = import.meta.env.VITE_API_ENDPOINT;
@@ -42,7 +43,6 @@ export default function Chat() {
     e.preventDefault();
 
     try {
-      const URL = import.meta.env.VITE_API_ENDPOINT;
       const token = localStorage.getItem("token") as string;
       const decodedJwt = jwtDecode(
         localStorage.getItem("token") as string
@@ -53,13 +53,16 @@ export default function Chat() {
       formData.append("myId", decodedJwt.user._id);
       formData.append("chatId", chat!._id);
 
-      const response = await fetch(`${URL}/50gram/${userId}/sendMessage`, {
-        method: "POST",
-        headers: {
-          Authorization: token,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${SERVER_URL}/50gram/${userId}/sendMessage`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: token,
+          },
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Couldn't send the message");

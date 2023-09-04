@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { ChatInterface } from "../interfaces/interfaces";
+import { SERVER_URL } from "../components/config/config";
 
 export default function useChat() {
   const [error, setError] = useState<unknown | null>(null);
@@ -12,12 +13,11 @@ export default function useChat() {
   useEffect(() => {
     async function getChat() {
       try {
-        const URL = import.meta.env.VITE_API_ENDPOINT;
         const token = localStorage.getItem("token") as string;
 
         console.log("params", userId);
 
-        const response = await fetch(`${URL}/50gram/${userId}`, {
+        const response = await fetch(`${SERVER_URL}/50gram/${userId}`, {
           headers: {
             Authorization: token,
           },

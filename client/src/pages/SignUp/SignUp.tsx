@@ -6,6 +6,7 @@ import { InputValueInterface } from "../../interfaces/interfaces";
 
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
 import { SERVER_URL } from "../../components/config/config";
+import useUserList from "../../hooks/useUserList";
 
 export default function SignUp() {
   const [inputValue, setInputValue] = useState<InputValueInterface>({
@@ -22,6 +23,7 @@ export default function SignUp() {
   const [invalidName, setInvalidName] = useState(false);
   const [passwordNotMatch, setPasswordNotMatch] = useState(false);
   const navigate = useNavigate();
+  const { signUpUser } = useUserList();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.name === "avatar") {
@@ -76,6 +78,9 @@ export default function SignUp() {
       const result = await response.json();
 
       if (result.isSuccess) {
+        console.log("result user", result.user);
+
+        signUpUser(result.user);
         navigate("/log-in");
       } else {
         throw new Error("Can't Sigh Up");

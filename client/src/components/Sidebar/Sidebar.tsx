@@ -5,10 +5,10 @@ import cl from "./Sidebar.module.scss";
 import burger from "/icons/hamburger.svg";
 
 import { NavLink, useNavigate } from "react-router-dom";
-import useSidebar from "../../hooks/useSidebar";
+import useUserList from "../../hooks/useUserList";
 
 export default function Sidebar() {
-  const { users, loading } = useSidebar();
+  const { users, loading } = useUserList();
   const [menuVisible, setMenuVisible] = useState(false);
   const navigate = useNavigate();
 

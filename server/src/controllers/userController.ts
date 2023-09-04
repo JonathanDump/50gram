@@ -6,6 +6,7 @@ import jwt, { Secret, SignOptions } from "jsonwebtoken";
 import { envReader } from "../functions/functions";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt } from "../interfaces/interfaces";
+import { use } from "passport";
 
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -31,7 +32,10 @@ exports.signUp = asyncHandler(
         });
 
         await user.save();
-        res.json({ isSuccess: true });
+        res.json({
+          user: { _id: user._id, name: user.name, img: user.img },
+          isSuccess: true,
+        });
       });
     }
   }
@@ -76,7 +80,11 @@ exports.signUpGoogle = asyncHandler(
         secret,
         opts
       );
-      res.status(200).json({ token: `Bearer ${token}`, isSuccess: true });
+      res.status(200).json({
+        token: `Bearer ${token}`,
+        user: { name: user.name, _id: user._id, img: user.img },
+        isSuccess: true,
+      });
       console.log("token", token);
     }
   }

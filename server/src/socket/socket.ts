@@ -10,12 +10,18 @@ export default function socketHandler(io: Server) {
 
       const allUsers = await User.find({
         _id: { $ne: id },
-      }).exec();
+      })
+        .select("id name img")
+        .exec();
       console.log("allUsers", allUsers);
 
       socket.emit("allUsers", allUsers);
     });
 
-    socket.on("signUpUser", async () => {});
+    socket.on("signUpUser", (user) => {
+      console.log("signing up the user");
+
+      socket.broadcast.emit("updateUserList", user);
+    });
   });
 }

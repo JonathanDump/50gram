@@ -1,7 +1,5 @@
-import { Outlet, redirect, useLoaderData, useOutlet } from "react-router-dom";
+import { redirect, useNavigate, useOutlet } from "react-router-dom";
 import cl from "./FiftyGram.module.scss";
-
-import { UserInterface } from "../../interfaces/interfaces";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { SERVER_URL } from "../../components/config/config";
 
@@ -34,9 +32,14 @@ export default function FiftyGram() {
   const token = localStorage.getItem("token");
 
   if (!token) {
-    redirect("/log-in");
-    return;
+    console.log("redirect");
+    // redirect("/log-in");
+    // return null;
+
+    window.location.href = "/log-in";
+    return null;
   }
+
   return (
     <div className={cl.fiftyGram}>
       <div className={cl.window}>

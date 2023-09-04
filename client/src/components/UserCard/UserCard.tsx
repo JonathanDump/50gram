@@ -12,7 +12,6 @@ export default function UserCard({ user, editOn }: UserCardInterface) {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
-  // const [settingsOn, setSettingsOn] = useState(true);
 
   const [buttonsOn, setButtonsOn] = useState(false);
   const [inputValue, setInputValue] = useState<{
@@ -23,7 +22,7 @@ export default function UserCard({ user, editOn }: UserCardInterface) {
     image: null,
   });
   const [isEditing, setIsEditing] = useState(false);
-  console.log(inputValue);
+  // console.log(inputValue);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "avatar") {

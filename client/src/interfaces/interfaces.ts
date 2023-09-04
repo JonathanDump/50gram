@@ -31,7 +31,7 @@ export interface DecodedJwt {
 export interface UserInterface {
   _id: string;
   name: string;
-  email: string;
+  email?: string;
   img: string;
   password?: string;
 }

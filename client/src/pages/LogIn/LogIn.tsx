@@ -1,11 +1,8 @@
 import cl from "./LogIn.module.scss";
 import formCl from "../../scss/form.module.scss";
-import { DecodedJwt } from "../../interfaces/interfaces";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { GoogleLogin } from "@react-oauth/google";
-import jwtDecode from "jwt-decode";
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
+import GoogleButton from "../../components/GoogleButton/GoogleButton";
 
 export default function LogIn() {
   const navigate = useNavigate();
@@ -92,41 +89,8 @@ export default function LogIn() {
           <button>Log In</button>
         </form>
         <div className={cl.text}>Or</div>
-        <GoogleOAuthProvider clientId="785080223845-4r2ughnfu2lbdgfns0i0g2gpkqoicjnn.apps.googleusercontent.com">
-          <GoogleLogin
-            onSuccess={async (credentialResponse) => {
-              const URL = import.meta.env.VITE_API_ENDPOINT;
-              const decoded: DecodedJwt = jwtDecode(
-                credentialResponse.credential!
-              );
-              const { name, email, picture } = decoded;
-              const body = {
-                name,
-                email,
-                img: picture,
-              };
-              const response = await fetch(`${URL}/sign-up/google`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-              });
-              const result = await response.json();
 
-              localStorage.setItem("token", result.token);
-              // localStorage.setItem("myInfo", result.myInfo);
-
-              result.isSuccess ? navigate("/") : new Error("Sign up failed");
-              console.log(decoded);
-
-              console.log(credentialResponse);
-            }}
-            onError={() => {
-              console.log("Login Failed");
-            }}
-          />
-        </GoogleOAuthProvider>
+        <GoogleButton />
       </div>
       <div className={formCl.additional}>
         <div className={formCl.text}>

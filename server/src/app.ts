@@ -1,30 +1,20 @@
 import express from "express";
 import dotenv from "dotenv";
-import { envReader } from "./functions/functions";
-import passport from "passport";
 dotenv.config();
 const cors = require("cors");
 const mongoose = require("mongoose");
 var logger = require("morgan");
-const jwtStrategy = require("./strategies/jwt");
+require("./strategies/jwt");
 const indexRouter = require("./routes/index");
-import "./strategies/google";
-import bodyParser from "body-parser";
-
-// require("./strategies/google.js");
-const session = require("express-session");
+import { createServer } from "http";
+import { Server } from "socket.io";
+import socketHandler from "./socket/socket";
 
 const app = express();
-
-app.use(
-  session({
-    secret: envReader("SESSION_SECRET"),
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  /* options */
+});
 
 app.use(
   cors({
@@ -49,6 +39,8 @@ app.use(express.urlencoded({ limit: "50mb" }));
 
 app.use("/", indexRouter);
 
-app.listen(port, () => {
+socketHandler(io);
+
+httpServer.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

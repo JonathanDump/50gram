@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { ChatInterface } from "../interfaces/interfaces";
-import { SERVER_URL } from "../components/config/config";
+import { SERVER_URL } from "../config/config";
 
 export default function useChat() {
   const [error, setError] = useState<unknown | null>(null);
@@ -28,7 +28,7 @@ export default function useChat() {
         }
 
         const result = await response.json();
-        console.log(result);
+        console.log("useChat fetch res", result);
         setChat(result);
         setLoading(false);
       } catch (err) {

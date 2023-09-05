@@ -5,7 +5,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { InputValueInterface } from "../../interfaces/interfaces";
 
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
-import { SERVER_URL } from "../../components/config/config";
+import { SERVER_URL } from "../../config/config";
 import useUserList from "../../hooks/useUserList";
 
 export default function SignUp() {

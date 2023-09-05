@@ -3,7 +3,7 @@ import { DecodedJwt, UserCardInterface } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
 import editIcon from "/icons/edit.svg";
 import jwtDecode from "jwt-decode";
-import { SERVER_URL } from "../config/config";
+import { SERVER_URL } from "../../config/config";
 
 export default function UserCard({ user, editOn }: UserCardInterface) {
   const decodedJwt = jwtDecode(

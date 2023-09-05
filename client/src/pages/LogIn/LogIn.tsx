@@ -3,7 +3,7 @@ import formCl from "../../scss/form.module.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, useState } from "react";
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
-import { SERVER_URL } from "../../components/config/config";
+import { SERVER_URL } from "../../config/config";
 
 export default function LogIn() {
   const navigate = useNavigate();

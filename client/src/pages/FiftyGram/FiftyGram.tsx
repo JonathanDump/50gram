@@ -1,7 +1,7 @@
 import { redirect, useNavigate, useOutlet } from "react-router-dom";
 import cl from "./FiftyGram.module.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { SERVER_URL } from "../../components/config/config";
+import { SERVER_URL } from "../../config/config";
 
 export const loader = async () => {
   const token = localStorage.getItem("token");

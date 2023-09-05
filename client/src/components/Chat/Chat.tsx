@@ -5,7 +5,7 @@ import { ChatInterface, DecodedJwt } from "../../interfaces/interfaces";
 import { useLoaderData, useParams } from "react-router-dom";
 import Message from "../Message/Message";
 import useChat from "../../hooks/useChat";
-import { SERVER_URL } from "../config/config";
+import { SERVER_URL } from "../../config/config";
 
 // export const loader = async ({ params }: { params: { userId: string } }) => {
 //   const URL = import.meta.env.VITE_API_ENDPOINT;

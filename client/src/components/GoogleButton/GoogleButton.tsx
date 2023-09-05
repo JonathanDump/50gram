@@ -2,7 +2,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { DecodedJwt } from "../../interfaces/interfaces";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { SERVER_URL } from "../config/config";
+import { SERVER_URL } from "../../config/config";
 
 export default function GoogleButton() {
   const navigate = useNavigate();

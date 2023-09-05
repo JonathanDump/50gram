@@ -29,7 +29,7 @@ exports.getChat = asyncHandler(async (req: Request, res: Response) => {
       messages: [],
     });
     await newChat.save();
-    res.status(200).json({ chat: newChat });
+    res.status(200).json(newChat);
   } else {
     res.status(200).json(chat);
   }

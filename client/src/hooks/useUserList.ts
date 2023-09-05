@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Socket, io } from "socket.io-client";
-import { SERVER_URL } from "../components/config/config";
+import { SERVER_URL } from "../config/config";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
@@ -21,6 +21,13 @@ export default function useUserList() {
     socket.emit("signUpUser", user);
   };
 
+  socket.on("updateUserList", (user) => {
+    console.log("Updating user list");
+    console.log("new user", user);
+
+    setUsers([...users, user]);
+  });
+
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Connected to the server");
@@ -33,13 +40,6 @@ export default function useUserList() {
 
       setUsers(users);
       setLoading(false);
-    });
-
-    socket.on("updateUserList", (user) => {
-      console.log("Updating user list");
-      console.log("new user", user);
-
-      setUsers([...users, user]);
     });
   }, []);
 

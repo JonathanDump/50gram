@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import User from "../models/user";
 
-export default function socketHandler(io: Server) {
+export default function socketHandlerUser(io: Server) {
   io.on("connect", (socket) => {
     console.log("connection created");
 

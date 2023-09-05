@@ -41,6 +41,12 @@ export default function useUserList() {
       setUsers(users);
       setLoading(false);
     });
+
+    return () => {
+      socket.off("connect");
+      socket.off("allUsers");
+      socket.off("updateUserList");
+    };
   }, []);
 
   return { loading, users, signUpUser };

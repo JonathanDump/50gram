@@ -8,7 +8,8 @@ require("./strategies/jwt");
 const indexRouter = require("./routes/index");
 import { createServer } from "http";
 import { Server } from "socket.io";
-import socketHandler from "./socket/socket";
+import socketHandlerUser from "./socket/socketHandlerUser";
+import socketHandlerChat from "./socket/socketHandlerChat";
 
 const app = express();
 const httpServer = createServer(app);
@@ -41,7 +42,8 @@ app.use(express.urlencoded({ limit: "50mb" }));
 
 app.use("/", indexRouter);
 
-socketHandler(io);
+socketHandlerUser(io);
+socketHandlerChat(io);
 
 httpServer.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

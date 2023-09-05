@@ -7,8 +7,6 @@ import userFromJwt from "../helpers/userFromJwt";
 
 var socket = io(SERVER_URL);
 
-console.log("324234234234234");
-
 export default function useUserList() {
   const [users, setUsers] = useState<UserInterface[] | []>([]);
   const [loading, setLoading] = useState(true);
@@ -21,25 +19,31 @@ export default function useUserList() {
     socket.emit("signUpUser", user);
   };
 
-  socket.on("updateUserList", (user) => {
-    console.log("Updating user list");
-    console.log("new user", user);
+  const getAllUsers = () => {
+    console.log("id", userFromJwt()!._id);
 
-    setUsers([...users, user]);
-  });
+    socket.emit("getAllUsers", { id: userFromJwt()!._id });
+  };
 
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Connected to the server");
+      getAllUsers();
     });
-
-    socket.emit("getAllUsers", { id: userFromJwt()?._id });
 
     socket.on("allUsers", (users) => {
       console.log("users", users);
 
       setUsers(users);
       setLoading(false);
+    });
+
+    socket.on("updateUserList", (user) => {
+      console.log("Updating user list");
+      console.log("new user", user);
+      console.log("users in state", users);
+
+      setUsers((prevUsers) => [...prevUsers, user]);
     });
 
     return () => {

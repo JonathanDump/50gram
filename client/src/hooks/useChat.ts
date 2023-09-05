@@ -50,6 +50,7 @@ export default function useChat() {
     console.log(userId, userFromJwt()!._id);
 
     socket.emit("get chat", { userId, myId: userFromJwt()!._id });
+
     socket.on("receive chat", (chat) => {
       console.log("receive chat", chat);
 

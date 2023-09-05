@@ -11,7 +11,7 @@ export default function socketHandlerChat(io: Server) {
       console.log("userId", userId);
       console.log("myId", myId);
 
-      let chat = await Chat.findOne({ users: [myId, userId] })
+      let chat = await Chat.findOne({ users: { $all: [myId, userId] } })
         .populate("messages")
         .exec();
       console.log("chat", chat);

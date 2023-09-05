@@ -18,7 +18,7 @@ exports.getChat = asyncHandler(async (req: Request, res: Response) => {
   console.log("myId", myId);
   console.log("userId", userId);
 
-  const chat = await Chat.findOne({ users: [myId, userId] })
+  const chat = await Chat.findOne({ users: { $all: [myId, userId] } })
     .populate("messages")
     .exec();
   console.log("chat", chat);

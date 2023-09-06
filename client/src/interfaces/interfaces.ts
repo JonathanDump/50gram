@@ -67,3 +67,9 @@ export interface ChatInterface {
 export interface MessageParams {
   message: MessageInterface;
 }
+
+export interface ISendMessage {
+  text: string;
+  myId: string;
+  chatId: string;
+}

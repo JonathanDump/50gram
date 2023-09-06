@@ -5,7 +5,7 @@ import jwtDecode from "jwt-decode";
 import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
 
-var socket = io(SERVER_URL);
+export const socket = io(SERVER_URL, { autoConnect: false });
 
 export default function useUserList() {
   const [users, setUsers] = useState<UserInterface[] | []>([]);
@@ -26,6 +26,8 @@ export default function useUserList() {
   };
 
   useEffect(() => {
+    socket.connect();
+
     socket.on("connect", () => {
       console.log("Connected to the server");
       getAllUsers();
@@ -33,9 +35,8 @@ export default function useUserList() {
 
     socket.on("allUsers", (users) => {
       console.log("users", users);
-
-      setUsers(users);
       setLoading(false);
+      setUsers(users);
     });
 
     socket.on("updateUserList", (user) => {
@@ -50,6 +51,7 @@ export default function useUserList() {
       socket.off("connect");
       socket.off("allUsers");
       socket.off("updateUserList");
+      socket.disconnect();
     };
   }, []);
 

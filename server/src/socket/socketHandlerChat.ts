@@ -7,26 +7,30 @@ export default function socketHandlerChat(io: Server) {
   io.on("connect", (socket) => {
     console.log("connected to chat");
 
-    socket.on("get chat", async ({ userId, myId }) => {
-      console.log("userId", userId);
-      console.log("myId", myId);
+    // socket.on("get chat", async ({ userId, myId }, cb) => {
+    //   console.log("userId", userId);
+    //   console.log("myId", myId);
 
-      let chat = await Chat.findOne({ users: { $all: [myId, userId] } })
-        .populate("messages")
-        .exec();
-      console.log("chat", chat);
+    //   let chat = await Chat.findOne({ users: { $all: [myId, userId] } })
+    //     .populate("messages")
+    //     .exec();
+    //   console.log("chat", chat);
 
-      if (!chat) {
-        chat = new Chat({
-          users: [myId, userId],
-          messages: [],
-        });
-        await chat.save();
-      }
-      socket.emit("receive chat", chat);
-    });
+    //   if (!chat) {
+    //     chat = new Chat({
+    //       users: [myId, userId],
+    //       messages: [],
+    //     });
+    //     await chat.save();
+    //   }
+    //   cb({
+    //     status: "ok",
+    //     chat,
+    //   });
+    //   //   socket.emit("get chat", chat);
+    // });
 
-    socket.on("send message", async ({ text, myId, chatId }) => {
+    socket.on("send message", async ({ text, myId, chatId }, cb) => {
       const chat = await Chat.findById(chatId).populate("messages").exec();
 
       if (!chat) {
@@ -42,10 +46,12 @@ export default function socketHandlerChat(io: Server) {
       });
 
       chat!.messages.push(message._id);
+      console.log("msg", message);
 
       await message.save();
       await chat.save();
 
+      cb(message);
       socket.broadcast.emit("receive message", message);
     });
   });

@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { ChatInterface } from "../interfaces/interfaces";
+import {
+  ChatInterface,
+  ISendMessage,
+  MessageInterface,
+} from "../interfaces/interfaces";
 import { SERVER_URL } from "../config/config";
 import { io } from "socket.io-client";
 import userFromJwt from "../helpers/userFromJwt";
-
-const socket = io(SERVER_URL);
+import { socket } from "../hooks/useUserList";
+// const socket = io(SERVER_URL);
 
 export default function useChat() {
   const [error, setError] = useState<unknown | null>(null);
@@ -14,56 +18,81 @@ export default function useChat() {
   const { userId } = useParams();
   const location = useLocation();
 
-  useEffect(() => {
-    // async function getChat() {
-    //   try {
-    //     const token = localStorage.getItem("token") as string;
+  // const getChat = () => {
+  //   socket.emit(
+  //     "get chat",
+  //     { userId, myId: userFromJwt()!._id },
+  //     ({ chat }) => {
+  //       console.log("received chat", chat);
+  //       setLoading(false);
+  //       setChat(chat);
+  //     }
+  //   );
+  // };
 
-    //     console.log("params", userId);
+  const sendMessage = (messageData: ISendMessage) => {
+    socket.emit("send message", messageData, (message: MessageInterface) => {
+      console.log("EMIT");
+      setChat((prevChat) => {
+        const newChat = { ...prevChat };
+        const newMessages = [...prevChat!.messages];
 
-    //     const response = await fetch(`${SERVER_URL}/50gram/${userId}`, {
-    //       headers: {
-    //         Authorization: token,
-    //       },
-    //     });
-
-    //     if (!response.ok) {
-    //       throw new Error("Couldn't find the chat");
-    //     }
-
-    //     const result = await response.json();
-    //     console.log("useChat fetch res", result);
-    //     setChat(result);
-    //     setLoading(false);
-    //   } catch (err) {
-    //     console.log("err", err);
-
-    //     setError(err);
-    //   }
-    // }
-
-    // getChat();
-
-    socket.on("connect", () => {
-      console.log("connected to chat");
+        newMessages.push(message);
+        newChat.messages = newMessages;
+        return newChat as ChatInterface;
+      });
     });
-    console.log(userId, userFromJwt()!._id);
+  };
 
-    socket.emit("get chat", { userId, myId: userFromJwt()!._id });
+  useEffect(() => {
+    async function getChat() {
+      try {
+        const token = localStorage.getItem("token") as string;
 
-    socket.on("receive chat", (chat) => {
-      console.log("receive chat", chat);
+        console.log("params", userId);
 
-      setChat(chat);
-      setLoading(false);
+        const response = await fetch(`${SERVER_URL}/50gram/${userId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Couldn't find the chat");
+        }
+
+        const result = await response.json();
+        console.log("useChat fetch res", result);
+        setChat(result);
+        setLoading(false);
+      } catch (err) {
+        console.log("err", err);
+
+        setError(err);
+      }
+    }
+
+    getChat();
+
+    socket.on("receive message", (message: MessageInterface) => {
+      console.log("ON");
+
+      setChat((prevChat) => {
+        const newChat = { ...prevChat };
+        const newMessages = [...prevChat!.messages];
+
+        newMessages.push(message);
+        newChat.messages = newMessages;
+        return newChat as ChatInterface;
+      });
     });
 
     return () => {
       socket.off("connect");
-      socket.off("receive chat");
+      socket.off("get chat");
+      socket.off("receive message");
     };
   }, [location]);
-  console.log("hook obj", { error, loading, chat, setChat });
 
-  return { error, loading, chat, setChat };
+  return { error, loading, chat, setChat, sendMessage };
 }

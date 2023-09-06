@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import {
+  redirect,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import {
   ChatInterface,
   ISendMessage,
   MessageInterface,
 } from "../interfaces/interfaces";
 import { SERVER_URL } from "../config/config";
-import { io } from "socket.io-client";
-import userFromJwt from "../helpers/userFromJwt";
+
 import { socket } from "../hooks/useUserList";
 // const socket = io(SERVER_URL);
 
@@ -17,7 +21,7 @@ export default function useChat() {
   const [chat, setChat] = useState<ChatInterface | null>(null);
   const { userId } = useParams();
   const location = useLocation();
-
+  const navigate = useNavigate();
   // const getChat = () => {
   //   socket.emit(
   //     "get chat",
@@ -31,6 +35,9 @@ export default function useChat() {
   // };
 
   const sendMessage = (messageData: ISendMessage) => {
+    if (!messageData.text.trim()) {
+      return;
+    }
     socket.emit("send message", messageData, (message: MessageInterface) => {
       console.log("EMIT");
       setChat((prevChat) => {
@@ -57,8 +64,8 @@ export default function useChat() {
           },
         });
 
-        if (!response.ok) {
-          throw new Error("Couldn't find the chat");
+        if (response.status === 401) {
+          return navigate("/log-in");
         }
 
         const result = await response.json();

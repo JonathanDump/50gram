@@ -1,20 +1,18 @@
-import { useEffect, useRef, useState } from "react";
-import { Socket, io } from "socket.io-client";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 import { SERVER_URL } from "../config/config";
-import jwtDecode from "jwt-decode";
-import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
+
+import { UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
 
-export const socket = io(SERVER_URL, { autoConnect: false });
+export const socket = io(SERVER_URL, {
+  autoConnect: false,
+  extraHeaders: { Authorization: localStorage.getItem("token") as string },
+});
 
 export default function useUserList() {
   const [users, setUsers] = useState<UserInterface[] | []>([]);
   const [loading, setLoading] = useState(true);
-
-  // const token = localStorage.getItem("token") as string;
-
-  // const decodedJwt = jwtDecode(token) as DecodedJwt;
-
   const signUpUser = async (user: UserInterface) => {
     socket.emit("signUpUser", user);
   };
@@ -30,6 +28,7 @@ export default function useUserList() {
 
     socket.on("connect", () => {
       console.log("Connected to the server");
+
       getAllUsers();
     });
 

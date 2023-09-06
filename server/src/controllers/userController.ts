@@ -43,10 +43,8 @@ exports.signUp = asyncHandler(
 
 exports.signUpGoogle = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("req.body", req.body);
-
     const opts: SignOptions = {};
-    opts.expiresIn = 1;
+    opts.expiresIn = "100d";
     const secret: Secret = envReader("SECRET_KEY");
 
     const user = await User.findOne({ email: req.body.email }).exec();
@@ -55,7 +53,6 @@ exports.signUpGoogle = asyncHandler(
       res
         .status(200)
         .json({ token: `Bearer ${token}`, myId: user!._id, isSuccess: true });
-      console.log("token", token);
     } else {
       const user = new User({
         name: req.body.name,
@@ -110,7 +107,7 @@ exports.logIn = asyncHandler(
     }
 
     const opts: SignOptions = {};
-    opts.expiresIn = 1000 * 60 * 60 * 24;
+    opts.expiresIn = "100d";
     const secret: Secret = envReader("SECRET_KEY");
     const token = await jwt.sign(
       {
@@ -162,7 +159,7 @@ exports.updateUserInfo = asyncHandler(
       // console.log("newUser", newUser);
 
       const opts: SignOptions = {};
-      opts.expiresIn = 1000 * 60 * 60 * 24;
+      opts.expiresIn = "100d";
       const secret: Secret = envReader("SECRET_KEY");
       const token = await jwt.sign(
         {

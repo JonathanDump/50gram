@@ -32,8 +32,7 @@ import userFromJwt from "../../helpers/userFromJwt";
 
 export default function Chat() {
   const [inputValue, setInputValue] = useState("");
-  const { chat, setChat, loading, error, sendMessage } = useChat();
-
+  const { chat, loading, error, sendMessage } = useChat();
   const { userId } = useParams();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

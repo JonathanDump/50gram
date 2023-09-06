@@ -1,3 +1,4 @@
+import React from "react";
 export interface GoogleButtonProps {
   title: "Log in" | "Sign Up";
 }
@@ -72,4 +73,8 @@ export interface ISendMessage {
   text: string;
   myId: string;
   chatId: string;
+}
+
+export interface IAuthProviderParams {
+  children: React.ReactNode;
 }

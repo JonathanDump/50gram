@@ -46,7 +46,7 @@ exports.signUpGoogle = asyncHandler(
     console.log("req.body", req.body);
 
     const opts: SignOptions = {};
-    opts.expiresIn = 1000 * 60 * 60 * 24;
+    opts.expiresIn = 1;
     const secret: Secret = envReader("SECRET_KEY");
 
     const user = await User.findOne({ email: req.body.email }).exec();

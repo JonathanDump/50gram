@@ -126,19 +126,21 @@ exports.logIn = asyncHandler(
   }
 );
 
-exports.getAllUsers = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const decodedJwt = jwtDecode(
-      req.headers.authorization as string
-    ) as DecodedJwt;
+// exports.getAllUsers = asyncHandler(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     console.log("header token", req.headers.authorization);
 
-    const allUsers = await User.find({
-      _id: { $ne: decodedJwt.user._id },
-    }).exec();
+//     const decodedJwt = jwtDecode(
+//       req.headers.authorization as string
+//     ) as DecodedJwt;
 
-    res.json({ users: allUsers });
-  }
-);
+//     const allUsers = await User.find({
+//       _id: { $ne: decodedJwt.user._id },
+//     }).exec();
+
+//     res.json({ users: allUsers });
+//   }
+// );
 
 exports.updateUserInfo = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -154,7 +156,7 @@ exports.updateUserInfo = asyncHandler(
       req.file &&
         (user.img = `${envReader("SERVER_URL")}/avatars/${req.file.filename}`);
 
-      const newUser = await user.save();
+      await user.save();
       // console.log("old user", user);
       // console.log("newUser", newUser);
 

@@ -7,16 +7,11 @@ import jwtDecode from "jwt-decode";
 import { DecodedJwt } from "../interfaces/interfaces";
 
 exports.getChat = asyncHandler(async (req: Request, res: Response) => {
-  // const { myId, userId } = req.body;
-  console.log("getting chat");
-
   const decodedJwt = jwtDecode(
     req.headers.authorization as string
   ) as DecodedJwt;
   const myId = decodedJwt.user._id;
   const userId = req.params.userId;
-  console.log("myId", myId);
-  console.log("userId", userId);
 
   const chat = await Chat.findOne({ users: { $all: [myId, userId] } })
     .populate("messages")

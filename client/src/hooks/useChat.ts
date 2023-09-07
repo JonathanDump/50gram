@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  redirect,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   ChatInterface,
   ISendMessage,
@@ -54,6 +49,8 @@ export default function useChat() {
   useEffect(() => {
     async function getChat() {
       try {
+        console.log("getting chat");
+
         const token = localStorage.getItem("token") as string;
 
         console.log("params", userId);
@@ -70,6 +67,9 @@ export default function useChat() {
 
         const result = await response.json();
         console.log("useChat fetch res", result);
+
+        socket.emit("join chat", result._id);
+
         setChat(result);
         setLoading(false);
       } catch (err) {
@@ -80,8 +80,6 @@ export default function useChat() {
     }
 
     getChat();
-
-    socket.emit("join chat", chat?._id);
 
     socket.on("receive message", (message: MessageInterface) => {
       console.log("ON");

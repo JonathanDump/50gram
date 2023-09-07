@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { socket } from "./useUserList";
 import { IUserIds } from "../interfaces/interfaces";
 

@@ -53,7 +53,11 @@ export default function socketHandlerChat(io: Server) {
     //   //   socket.emit("get chat", chat);
     // });
 
-    socket.on("join chat", (chatId) => socket.join(chatId));
+    socket.on("join chat", (chatId) => {
+      console.log("joining room", chatId);
+
+      socket.join(chatId);
+    });
 
     socket.on("send message", async ({ text, myId, chatId }, cb) => {
       const chat = await Chat.findById(chatId).populate("messages").exec();

@@ -7,7 +7,7 @@ const chatController = require("../controllers/chatController");
 
 router.use("/", passport.authenticate("jwt", { session: false }));
 
-router.get("/", userController.getAllUsers);
+// router.get("/", userController.getAllUsers);
 
 router.get("/:userId", chatController.getChat);
 

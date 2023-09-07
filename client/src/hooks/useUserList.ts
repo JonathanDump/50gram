@@ -5,11 +5,12 @@ import { SERVER_URL } from "../config/config";
 import { UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
 
+const token = localStorage.getItem("token") as string;
+console.log("token storage", token);
 export const socket = io(SERVER_URL, {
   autoConnect: false,
   extraHeaders: { Authorization: localStorage.getItem("token") as string },
 });
-console.log("token storage", localStorage.getItem("token"));
 
 export default function useUserList() {
   const [users, setUsers] = useState<UserInterface[] | []>([]);
@@ -21,8 +22,9 @@ export default function useUserList() {
 
   const getAllUsers = () => {
     console.log("id", userFromJwt()!._id);
-
-    socket.emit("getAllUsers", { id: userFromJwt()!._id });
+    if (userFromJwt()?._id) {
+      socket.emit("getAllUsers", { id: userFromJwt()!._id });
+    }
   };
 
   useEffect(() => {

@@ -30,24 +30,26 @@ export default function socketHandlerUser(io: Server) {
 
   io.on("connect", (socket) => {
     console.log("connection created");
-    console.log("handshake", socket.handshake.headers);
 
-    const decodedJwt: DecodedJwt = jwtDecode(
-      socket.handshake.headers.authorization as string
-    );
-    console.log("decoded jwt", decodedJwt);
+    if (socket.handshake.headers.authorization != "null") {
+      console.log("handshake auth", socket.handshake.headers.authorization);
 
-    const userIds = { socketId: socket.id, userId: decodedJwt.user._id };
-    usersOnline.find((user) => user.userId === userIds.userId) ||
-      usersOnline.push(userIds);
+      console.log("decoding token");
+
+      const decodedJwt: DecodedJwt = jwtDecode(
+        socket.handshake.headers.authorization as string
+      );
+
+      const userIds = { socketId: socket.id, userId: decodedJwt.user._id };
+      usersOnline.find((user) => user.userId === userIds.userId) ||
+        usersOnline.push(userIds);
+
+      io.emit("online", usersOnline);
+    }
 
     console.log("users online", usersOnline);
 
-    io.emit("online", usersOnline);
-
     socket.on("getAllUsers", async ({ id }) => {
-      console.log("id", id);
-
       const allUsers = await User.find({
         _id: { $ne: id },
       })
@@ -66,7 +68,7 @@ export default function socketHandlerUser(io: Server) {
     socket.on("disconnect", () => {
       usersOnline = usersOnline.filter((user) => user.socketId !== socket.id);
       io.emit("disconnected", usersOnline);
-      console.log(usersOnline);
+      console.log("final users online", usersOnline);
     });
   });
 }

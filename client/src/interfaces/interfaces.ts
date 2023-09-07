@@ -44,6 +44,7 @@ export interface SidebarInterface {
 export interface UserCardInterface {
   user?: UserInterface;
   editOn?: boolean;
+  isOnline?: boolean;
 }
 
 export interface DecodedJwt {
@@ -77,4 +78,9 @@ export interface ISendMessage {
 
 export interface IAuthProviderParams {
   children: React.ReactNode;
+}
+
+export interface IUserIds {
+  userId: string;
+  socketId: string;
 }

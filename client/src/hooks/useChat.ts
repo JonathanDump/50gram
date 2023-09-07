@@ -81,6 +81,8 @@ export default function useChat() {
 
     getChat();
 
+    socket.emit("join chat", chat?._id);
+
     socket.on("receive message", (message: MessageInterface) => {
       console.log("ON");
 

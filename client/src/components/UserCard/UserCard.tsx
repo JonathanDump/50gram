@@ -5,7 +5,11 @@ import editIcon from "/icons/edit.svg";
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
 
-export default function UserCard({ user, editOn }: UserCardInterface) {
+export default function UserCard({
+  user,
+  editOn,
+  isOnline,
+}: UserCardInterface) {
   const decodedJwt = jwtDecode(
     localStorage.getItem("token") as string
   ) as DecodedJwt;
@@ -22,7 +26,6 @@ export default function UserCard({ user, editOn }: UserCardInterface) {
     image: null,
   });
   const [isEditing, setIsEditing] = useState(false);
-  // console.log(inputValue);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "avatar") {
@@ -107,6 +110,7 @@ export default function UserCard({ user, editOn }: UserCardInterface) {
       <div className={cl.UserCard}>
         <div className={cl.avatarContainer}>
           <img src={user!.img} alt="" className={cl.avatar} ref={imgRef} />
+          {isOnline && <div>Online</div>}
         </div>
         <div className={cl.name} onClick={handleNameClick}>
           {user!.name}

@@ -9,10 +9,12 @@ export const socket = io(SERVER_URL, {
   autoConnect: false,
   extraHeaders: { Authorization: localStorage.getItem("token") as string },
 });
+console.log("token storage", localStorage.getItem("token"));
 
 export default function useUserList() {
   const [users, setUsers] = useState<UserInterface[] | []>([]);
   const [loading, setLoading] = useState(true);
+
   const signUpUser = async (user: UserInterface) => {
     socket.emit("signUpUser", user);
   };

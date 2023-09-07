@@ -6,11 +6,14 @@ import burger from "/icons/hamburger.svg";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import useUserList from "../../hooks/useUserList";
+import useOnline from "../../hooks/useOnline";
+import isOnline from "../../helpers/isOnline";
 
 export default function Sidebar() {
   const { users, loading } = useUserList();
   const [menuVisible, setMenuVisible] = useState(false);
   const navigate = useNavigate();
+  const { usersOnline } = useOnline();
 
   const handleBurgerClick = () => {
     setMenuVisible(!menuVisible);
@@ -36,7 +39,7 @@ export default function Sidebar() {
         users.map((user) => {
           return (
             <NavLink to={`/${user._id}`} key={user._id}>
-              <UserCard user={user} />
+              <UserCard user={user} isOnline={isOnline(usersOnline, user)} />
             </NavLink>
           );
         })

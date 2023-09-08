@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { SERVER_URL } from "../config/config";
-
 import { UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
 
@@ -22,13 +21,15 @@ export default function useUserList() {
   console.log("use user List");
 
   const getAllUsers = () => {
-    console.log("id", userFromJwt()!._id);
     if (userFromJwt()?._id) {
       socket.emit("getAllUsers", { id: userFromJwt()!._id });
     }
   };
 
   useEffect(() => {
+    const jwt = localStorage.getItem("token") as string;
+    socket.auth = { token: jwt };
+
     socket.connect();
 
     socket.on("connect", () => {
@@ -37,10 +38,14 @@ export default function useUserList() {
       getAllUsers();
     });
 
-    socket.on("connect_failed", () => {
-      console.log("connect_failed");
-      socket.disconnect();
+    socket.on("invalid token", () => {
+      console.log("invalid token");
+
       const jwt = localStorage.getItem("token") as string;
+      if (!jwt) {
+        return;
+      }
+      socket.disconnect();
       socket.auth = { token: jwt };
 
       console.log("reconnect");
@@ -68,10 +73,18 @@ export default function useUserList() {
       setUsers((prevUsers) => [...prevUsers, user]);
     });
 
+    socket.on("disconnect user", () => {
+      console.log("disconnect");
+
+      socket.auth = { token: "" };
+    });
+
     return () => {
       socket.off("connect");
       socket.off("allUsers");
       socket.off("updateUserList");
+      socket.off("invalid token");
+      socket.off("disconnect user");
       socket.disconnect();
     };
   }, []);

@@ -33,9 +33,9 @@ export default function socketHandlerUser(io: Server) {
     console.log("socket", socket.handshake.auth);
 
     if (socket.handshake.auth.token == null) {
-      console.log("connect_failed");
+      console.log("invalid token");
 
-      socket.emit("connect_failed");
+      socket.emit("invalid token");
     }
     if (socket.handshake.auth.token != null) {
       console.log("handshake auth", socket.handshake.auth.token);
@@ -78,6 +78,7 @@ export default function socketHandlerUser(io: Server) {
       usersOnline = usersOnline.filter((user) => user.socketId !== socket.id);
       io.emit("disconnected", usersOnline);
       console.log("final users online", usersOnline);
+      socket.emit("disconnect user");
     });
   });
 }

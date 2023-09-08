@@ -23,7 +23,7 @@ export default function SignUp() {
   const [invalidName, setInvalidName] = useState(false);
   const [passwordNotMatch, setPasswordNotMatch] = useState(false);
   const navigate = useNavigate();
-  // const { signUpUser } = useUserList();
+  const { signUpUser } = useUserList();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.name === "avatar") {
@@ -80,7 +80,7 @@ export default function SignUp() {
       if (result.isSuccess) {
         console.log("result user", result.user);
 
-        // signUpUser(result.user);
+        signUpUser(result.user);
         navigate("/log-in");
       } else {
         throw new Error("Can't Sigh Up");

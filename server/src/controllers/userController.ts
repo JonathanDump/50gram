@@ -90,7 +90,7 @@ exports.signUpGoogle = asyncHandler(
 exports.logIn = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    console.log(req.body);
+    console.log("req.body", req.body);
 
     const user = await User.findOne({ email }).exec();
 
@@ -144,9 +144,6 @@ exports.logIn = asyncHandler(
 
 exports.updateUserInfo = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    // console.log("body", req.body);
-    // console.log("file", req.file);
-
     const user = await User.findById(req.body.id).exec();
     if (!user) {
       throw new Error("Couldn't find the user");
@@ -157,13 +154,11 @@ exports.updateUserInfo = asyncHandler(
         (user.img = `${envReader("SERVER_URL")}/avatars/${req.file.filename}`);
 
       await user.save();
-      // console.log("old user", user);
-      // console.log("newUser", newUser);
 
       const opts: SignOptions = {};
       opts.expiresIn = "100d";
       const secret: Secret = envReader("SECRET_KEY");
-      const token = await jwt.sign(
+      const jwtToken = await jwt.sign(
         {
           user: {
             name: user.name,
@@ -176,7 +171,7 @@ exports.updateUserInfo = asyncHandler(
         opts
       );
 
-      res.status(200).json({ token: `Bearer ${token}` });
+      res.status(200).json({ token: `Bearer ${jwtToken}` });
     }
   }
 );

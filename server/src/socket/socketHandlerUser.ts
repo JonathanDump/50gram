@@ -30,15 +30,22 @@ export default function socketHandlerUser(io: Server) {
 
   io.on("connect", (socket) => {
     console.log("connection created");
+    console.log("socket", socket.handshake.auth);
 
-    if (socket.handshake.headers.authorization != "null") {
-      console.log("handshake auth", socket.handshake.headers.authorization);
+    if (socket.handshake.auth.token == null) {
+      console.log("connect_failed");
+
+      socket.emit("connect_failed");
+    }
+    if (socket.handshake.auth.token != null) {
+      console.log("handshake auth", socket.handshake.auth.token);
 
       console.log("decoding token");
 
       const decodedJwt: DecodedJwt = jwtDecode(
-        socket.handshake.headers.authorization as string
+        socket.handshake.auth.token as string
       );
+      console.log("decoded token", decodedJwt);
 
       const userIds = { socketId: socket.id, userId: decodedJwt.user._id };
       usersOnline.find((user) => user.userId === userIds.userId) ||
@@ -66,6 +73,8 @@ export default function socketHandlerUser(io: Server) {
     });
 
     socket.on("disconnect", () => {
+      console.log("disconnect");
+
       usersOnline = usersOnline.filter((user) => user.socketId !== socket.id);
       io.emit("disconnected", usersOnline);
       console.log("final users online", usersOnline);

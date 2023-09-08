@@ -4,6 +4,7 @@ import cl from "./UserCard.module.scss";
 import editIcon from "/icons/edit.svg";
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
+import defaultAvatar from "/avatars/default-avatar.jpeg";
 
 export default function UserCard({
   user,
@@ -131,7 +132,7 @@ export default function UserCard({
           onChange={handleInputChange}
         />
         <img
-          src={decodedJwt.user!.img}
+          src={decodedJwt.user.img}
           alt=""
           className={cl.avatar}
           ref={imgRef}

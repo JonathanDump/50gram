@@ -28,7 +28,7 @@ export default function socketHandlerChat(io: Server) {
   // });
 
   io.on("connect", (socket) => {
-    console.log("connected to chat");
+    // console.log("connected to chat");
 
     // socket.on("get chat", async ({ userId, myId }, cb) => {
     //   console.log("userId", userId);

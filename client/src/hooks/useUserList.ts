@@ -5,11 +5,11 @@ import { SERVER_URL } from "../config/config";
 import { UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
 
-const token = localStorage.getItem("token") as string;
-console.log("token storage", token);
-export const socket = io(SERVER_URL, {
+console.log("token storage", localStorage.getItem("token"));
+
+export let socket = io(SERVER_URL, {
   autoConnect: false,
-  extraHeaders: { Authorization: localStorage.getItem("token") as string },
+  auth: { token: localStorage.getItem("token") as string },
 });
 
 export default function useUserList() {
@@ -19,6 +19,7 @@ export default function useUserList() {
   const signUpUser = async (user: UserInterface) => {
     socket.emit("signUpUser", user);
   };
+  console.log("use user List");
 
   const getAllUsers = () => {
     console.log("id", userFromJwt()!._id);
@@ -34,6 +35,23 @@ export default function useUserList() {
       console.log("Connected to the server");
 
       getAllUsers();
+    });
+
+    socket.on("connect_failed", () => {
+      console.log("connect_failed");
+      socket.disconnect();
+      const jwt = localStorage.getItem("token") as string;
+      socket.auth = { token: jwt };
+
+      console.log("reconnect");
+      // socket = io(SERVER_URL, {
+      //   autoConnect: false,
+      //   auth: { token: jwt },
+      // });
+
+      setTimeout(() => {
+        socket.connect();
+      }, 100);
     });
 
     socket.on("allUsers", (users) => {

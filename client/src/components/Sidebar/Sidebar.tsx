@@ -36,13 +36,23 @@ export default function Sidebar() {
       ) : !users.length ? (
         <div className={cl.text}>No people yet</div>
       ) : (
-        users.map((user) => {
-          return (
-            <NavLink to={`/${user._id}`} key={user._id}>
-              <UserCard user={user} isOnline={isOnline(usersOnline, user)} />
-            </NavLink>
-          );
-        })
+        users
+          .sort((a, b) => {
+            if (isOnline(usersOnline, a) && !isOnline(usersOnline, b)) {
+              return -1;
+            } else if (isOnline(usersOnline, b) && !isOnline(usersOnline, a)) {
+              return 1;
+            } else {
+              return 0;
+            }
+          })
+          .map((user) => {
+            return (
+              <NavLink to={`/${user._id}`} key={user._id}>
+                <UserCard user={user} isOnline={isOnline(usersOnline, user)} />
+              </NavLink>
+            );
+          })
       )}
       {menuVisible && (
         <div className={cl.menu}>

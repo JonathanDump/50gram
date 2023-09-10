@@ -50,6 +50,8 @@ router.get("/log-out", (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
+router.get("/get-new-jwt", userController.getNewJwt);
+
 router.use("/50gram", require("./fiftyGram"));
 
 module.exports = router;

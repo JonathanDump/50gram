@@ -63,7 +63,17 @@ export default function useChat() {
         });
 
         if (response.status === 401) {
-          return navigate("/log-in");
+          const response = await fetch(`${SERVER_URL}/get-new-jwt`, {
+            headers: {
+              Authorization: token,
+            },
+          });
+          const result = await response.json();
+          console.log("new token", result.token);
+
+          localStorage.setItem("token", result.token as string);
+          return getChat();
+          // return navigate("/log-in");
         }
 
         const result = await response.json();
@@ -73,6 +83,7 @@ export default function useChat() {
 
         setChat(result);
         setLoading(false);
+        setError(null);
       } catch (err) {
         console.log("err", err);
 

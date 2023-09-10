@@ -44,7 +44,7 @@ exports.signUp = asyncHandler(
 exports.signUpGoogle = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const opts: SignOptions = {};
-    opts.expiresIn = "100d";
+    opts.expiresIn = "3s";
     const secret: Secret = envReader("SECRET_KEY");
 
     const user = await User.findOne({ email: req.body.email }).exec();
@@ -107,7 +107,7 @@ exports.logIn = asyncHandler(
     }
 
     const opts: SignOptions = {};
-    opts.expiresIn = "100d";
+    opts.expiresIn = "3s";
     const secret: Secret = envReader("SECRET_KEY");
     const token = await jwt.sign(
       {
@@ -173,5 +173,30 @@ exports.updateUserInfo = asyncHandler(
 
       res.status(200).json({ token: `Bearer ${jwtToken}` });
     }
+  }
+);
+
+exports.getNewJwt = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const decodedJwt: DecodedJwt = jwtDecode(
+      req.headers.authorization as string
+    );
+
+    const opts: SignOptions = {};
+    opts.expiresIn = "3s";
+    const secret: Secret = envReader("SECRET_KEY");
+    const jwtToken = await jwt.sign(
+      {
+        user: {
+          name: decodedJwt.user.name,
+          email: decodedJwt.user.email,
+          img: decodedJwt.user.img,
+          _id: decodedJwt.user._id,
+        },
+      },
+      secret,
+      opts
+    );
+    res.status(200).json({ token: `Bearer ${jwtToken}` });
   }
 );

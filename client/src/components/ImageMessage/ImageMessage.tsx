@@ -12,6 +12,8 @@ export default function ImageMessage({
   chat,
   setMessage,
   sendMessage,
+  setInputValueChat,
+  inputValueChat,
 }: ImageMessageProps) {
   const imgRef = useRef<HTMLImageElement | null>(null);
   const [inputValue, setInputValue] = useState(text);
@@ -35,12 +37,14 @@ export default function ImageMessage({
 
   const handleCancelClick = () => {
     setMessage({ file: null, text: "" });
+    setInputValueChat({
+      prevValue: "",
+      currentValue: inputValueChat.prevValue,
+    });
   };
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    //MAKE SEND IMAGE VIA API, GET IMAGE LINK AS A RESPONSE
-    //AND SEND LINK VIA SOCKET
 
     try {
       const formData = new FormData();
@@ -81,6 +85,7 @@ export default function ImageMessage({
             placeholder="Caption"
             value={inputValue}
             onChange={handleInputChange}
+            autoFocus
           />
           <button>Send</button>
           <button type="button" onClick={handleCancelClick}>

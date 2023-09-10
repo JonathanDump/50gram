@@ -1,51 +1,72 @@
 import cl from "./Chat.module.scss";
-import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Message from "../Message/Message";
 import useChat from "../../hooks/useChat";
 import userFromJwt from "../../helpers/userFromJwt";
 import attachmentsIcon from "/icons/attachments.svg";
-import { useOutletContext } from "react-router-dom";
-import { IMessageRef } from "../../interfaces/interfaces";
+import { useLocation, useOutletContext } from "react-router-dom";
+import { IMessage } from "../../interfaces/interfaces";
 import ImageMessage from "../ImageMessage/ImageMessage";
 
 export default function Chat() {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState({
+    prevValue: "",
+    currentValue: "",
+  });
   const { chat, loading, error, sendMessage } = useChat();
+  const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
+
+  const location = useLocation();
+
   const inputFileRef = useRef<HTMLInputElement | null>(null);
-  // let setMessage: React.Dispatch<React.SetStateAction<IMessageRef>> =
-  //   useOutletContext();
-  const [message, setMessage] = useState<IMessageRef>({ file: null, text: "" });
+  const inputTextRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    inputTextRef.current?.focus();
+  }, [location]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("input change");
 
     if (e.target.name === "attachments") {
-      console.log("attachments");
-      setMessage({ file: e.target.files![0], text: inputValue });
-      // file = e.target.files![0];
-      console.log("file", e.target.files![0]);
+      console.log("attachments input file", e.target.files![0]);
+      setMessage({ file: e.target.files![0], text: inputValue.currentValue });
 
-      // text = inputValue;
+      const newInputValue = {
+        prevValue: inputValue.currentValue,
+        currentValue: "",
+      };
+      setInputValue(newInputValue);
       return;
     }
-    setInputValue(e.target.value);
+    setInputValue({ ...inputValue, currentValue: e.target.value });
   };
 
   const handleAttachmentsClick = () => {
+    inputFileRef.current!.value = "";
     inputFileRef.current!.click();
   };
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!inputValue.trim()) {
+    if (!inputValue.currentValue.trim()) {
       return;
     }
     sendMessage({
-      text: inputValue,
+      text: inputValue.currentValue,
       myId: userFromJwt()!._id,
       chatId: chat!._id,
     });
-    setInputValue("");
+    setInputValue({
+      prevValue: "",
+      currentValue: "",
+    });
   };
 
   if (error) {
@@ -66,8 +87,10 @@ export default function Chat() {
         <input
           type="text"
           name="message"
-          value={inputValue}
+          autoFocus
+          value={inputValue.currentValue}
           onChange={handleInputChange}
+          ref={inputTextRef}
         />
         <div className={cl.attachments} onClick={handleAttachmentsClick}>
           <img src={attachmentsIcon} alt="" />
@@ -90,6 +113,8 @@ export default function Chat() {
           chat={chat}
           setMessage={setMessage}
           sendMessage={sendMessage}
+          setInputValueChat={setInputValue}
+          inputValueChat={inputValue}
         />
       )}
     </div>

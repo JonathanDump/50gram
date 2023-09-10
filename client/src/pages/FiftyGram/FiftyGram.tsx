@@ -5,7 +5,7 @@ import { SERVER_URL } from "../../config/config";
 import AuthProvider from "../../components/AuthProvider/AuthProvider";
 import ImageMessage from "../../components/ImageMessage/ImageMessage";
 import { useRef, useState } from "react";
-import { IMessageRef } from "../../interfaces/interfaces";
+import { IMessage } from "../../interfaces/interfaces";
 
 // export const loader = async () => {
 //   const token = localStorage.getItem("token");
@@ -33,7 +33,7 @@ import { IMessageRef } from "../../interfaces/interfaces";
 export default function FiftyGram() {
   // const users = useLoaderData() as UserInterface[];
 
-  // const [message, setMessage] = useState<IMessageRef>({ file: null, text: "" });
+  // const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
   // console.log("messageRef fifty gram", message);
 
   const outlet = useOutlet();

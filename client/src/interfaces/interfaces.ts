@@ -97,13 +97,23 @@ export interface ClientToServerEvents {
   hello: () => void;
 }
 
-export interface IMessageRef {
+export interface IMessage {
   file: Blob | null;
   text: string;
 }
 
-export interface ImageMessageProps extends IMessageRef {
-  setMessage: React.Dispatch<React.SetStateAction<IMessageRef>>;
+export interface ImageMessageProps extends IMessage {
+  setMessage: React.Dispatch<React.SetStateAction<IMessage>>;
   chat: ChatInterface | null;
   sendMessage: (messageData: ISendMessage) => void;
+  setInputValueChat: React.Dispatch<
+    React.SetStateAction<{
+      prevValue: string;
+      currentValue: string;
+    }>
+  >;
+  inputValueChat: {
+    prevValue: string;
+    currentValue: string;
+  };
 }

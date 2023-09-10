@@ -3,6 +3,9 @@ import cl from "./FiftyGram.module.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { SERVER_URL } from "../../config/config";
 import AuthProvider from "../../components/AuthProvider/AuthProvider";
+import ImageMessage from "../../components/ImageMessage/ImageMessage";
+import { useRef, useState } from "react";
+import { IMessageRef } from "../../interfaces/interfaces";
 
 // export const loader = async () => {
 //   const token = localStorage.getItem("token");
@@ -29,8 +32,11 @@ import AuthProvider from "../../components/AuthProvider/AuthProvider";
 
 export default function FiftyGram() {
   // const users = useLoaderData() as UserInterface[];
-  const outlet = useOutlet();
 
+  // const [message, setMessage] = useState<IMessageRef>({ file: null, text: "" });
+  // console.log("messageRef fifty gram", message);
+
+  const outlet = useOutlet();
   return (
     <AuthProvider>
       <div className={cl.fiftyGram}>
@@ -40,6 +46,13 @@ export default function FiftyGram() {
             {outlet || <div>Choose chat to start messaging</div>}
           </div>
         </div>
+        {/* {message.file && (
+          <ImageMessage
+            file={message.file}
+            text={message.text}
+            setMessage={setMessage}
+          />
+        )} */}
       </div>
     </AuthProvider>
   );

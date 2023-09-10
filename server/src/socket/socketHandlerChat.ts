@@ -2,8 +2,10 @@ import { Server } from "socket.io";
 import Message from "../models/message";
 import Chat from "../models/chat";
 import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
-import { envReader } from "../functions/functions";
+// import jwt from "jsonwebtoken";
+// import { envReader } from "../functions/functions";
+import { writeFile } from "fs";
+import { ISendMessage } from "../interfaces/interfaces";
 
 export default function socketHandlerChat(io: Server) {
   // io.use((socket, next) => {
@@ -59,29 +61,34 @@ export default function socketHandlerChat(io: Server) {
       socket.join(chatId);
     });
 
-    socket.on("send message", async ({ text, myId, chatId }, cb) => {
-      const chat = await Chat.findById(chatId).populate("messages").exec();
+    socket.on(
+      "send message",
+      async ({ text, imageUrl, myId, chatId }: ISendMessage, cb) => {
+        const chat = await Chat.findById(chatId).populate("messages").exec();
+        console.log("send message");
 
-      if (!chat) {
-        throw new Error("Couldn't find the chat");
+        if (!chat) {
+          throw new Error("Couldn't find the chat");
+        }
+
+        const message = new Message({
+          _id: new mongoose.Types.ObjectId(),
+          text,
+          imageUrl,
+          user: myId,
+          date: new Date(),
+          chat: chatId,
+        });
+
+        chat!.messages.push(message._id);
+        console.log("msg", message);
+
+        await message.save();
+        await chat.save();
+
+        cb(message);
+        socket.to(chatId).emit("receive message", message);
       }
-
-      const message = new Message({
-        _id: new mongoose.Types.ObjectId(),
-        text,
-        user: myId,
-        date: new Date(),
-        chat: chatId,
-      });
-
-      chat!.messages.push(message._id);
-      console.log("msg", message);
-
-      await message.save();
-      await chat.save();
-
-      cb(message);
-      socket.to(chatId).emit("receive message", message);
-    });
+    );
   });
 }

@@ -57,6 +57,7 @@ export interface MessageInterface {
   _id: string;
   text: string;
   date: string;
+  imageUrl?: string;
 }
 
 export interface ChatInterface {
@@ -72,6 +73,7 @@ export interface MessageParams {
 
 export interface ISendMessage {
   text: string;
+  imageUrl?: string;
   myId: string;
   chatId: string;
 }
@@ -93,4 +95,15 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   hello: () => void;
+}
+
+export interface IMessageRef {
+  file: Blob | null;
+  text: string;
+}
+
+export interface ImageMessageProps extends IMessageRef {
+  setMessage: React.Dispatch<React.SetStateAction<IMessageRef>>;
+  chat: ChatInterface | null;
+  sendMessage: (messageData: ISendMessage) => void;
 }

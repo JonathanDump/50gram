@@ -24,3 +24,10 @@ export interface DecodedJwt {
   exp: number;
   user: UserInterface;
 }
+
+export interface ISendMessage {
+  text: string;
+  imageUrl: string;
+  myId: string;
+  chatId: string;
+}

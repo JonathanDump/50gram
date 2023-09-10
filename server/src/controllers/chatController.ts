@@ -5,6 +5,7 @@ import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt } from "../interfaces/interfaces";
+import { envReader } from "../functions/functions";
 
 exports.getChat = asyncHandler(async (req: Request, res: Response) => {
   const decodedJwt = jwtDecode(
@@ -55,3 +56,13 @@ exports.sendMessage = asyncHandler(
     res.status(200).json({ message, isSuccess: true });
   }
 );
+
+exports.sendImageMessage = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.json({
+    imageUrl: `${envReader("SERVER_URL")}/pictures/${req.file!.filename}`,
+  });
+};

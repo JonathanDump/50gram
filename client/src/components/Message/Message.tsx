@@ -6,6 +6,11 @@ import React from "react";
 export default function Message({ message }: MessageParams) {
   return (
     <div className={cl.message}>
+      {message.imageUrl && (
+        <div className={cl.imgContainer}>
+          <img src={message.imageUrl} alt="" />
+        </div>
+      )}
       <div className={cl.text}>{message.text}</div>
       <div className={cl.date}>{format(new Date(message.date), "HH:mm")}</div>
     </div>

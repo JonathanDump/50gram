@@ -30,17 +30,18 @@ export default function useChat() {
   // };
 
   const sendMessage = (messageData: ISendMessage) => {
-    if (!messageData.text.trim()) {
-      return;
-    }
     socket.emit("send message", messageData, (message: MessageInterface) => {
       console.log("EMIT");
+      console.log("send message emit result", message);
+
       setChat((prevChat) => {
         const newChat = { ...prevChat };
         const newMessages = [...prevChat!.messages];
 
         newMessages.push(message);
         newChat.messages = newMessages;
+        console.log("set new chat", newChat);
+
         return newChat as ChatInterface;
       });
     });
@@ -82,7 +83,7 @@ export default function useChat() {
     getChat();
 
     socket.on("receive message", (message: MessageInterface) => {
-      console.log("ON");
+      console.log("receive message");
 
       setChat((prevChat) => {
         const newChat = { ...prevChat };

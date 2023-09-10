@@ -30,7 +30,7 @@ export default function socketHandlerUser(io: Server) {
 
   io.on("connect", (socket) => {
     console.log("connection created");
-    console.log("socket", socket.handshake.auth);
+    // console.log("socket", socket.handshake.auth);
 
     if (socket.handshake.auth.token == null) {
       console.log("invalid token");
@@ -38,7 +38,7 @@ export default function socketHandlerUser(io: Server) {
       socket.emit("invalid token");
     }
     if (socket.handshake.auth.token != null) {
-      console.log("handshake auth", socket.handshake.auth.token);
+      // console.log("handshake auth", socket.handshake.auth.token);
 
       console.log("decoding token");
 

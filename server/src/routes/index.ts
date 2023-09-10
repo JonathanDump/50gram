@@ -50,6 +50,6 @@ router.get("/log-out", (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-router.use("/50gram", require("./50gram"));
+router.use("/50gram", require("./fiftyGram"));
 
 module.exports = router;

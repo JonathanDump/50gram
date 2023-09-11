@@ -32,13 +32,13 @@ export default function socketHandlerUser(io: Server) {
     console.log("connection created");
     // console.log("socket", socket.handshake.auth);
 
-    if (socket.handshake.auth.token == null) {
+    if (!socket.handshake.auth.token) {
       console.log("invalid token");
 
       socket.emit("invalid token");
     }
-    if (socket.handshake.auth.token != null) {
-      // console.log("handshake auth", socket.handshake.auth.token);
+    if (socket.handshake.auth.token) {
+      console.log("handshake auth", socket.handshake.auth.token);
 
       console.log("decoding token");
 
@@ -47,7 +47,7 @@ export default function socketHandlerUser(io: Server) {
       );
       console.log("decoded token", decodedJwt);
 
-      const userIds = { socketId: socket.id, userId: decodedJwt.user._id };
+      const userIds = { socketId: socket.id, userId: decodedJwt.user._id! };
       usersOnline.find((user) => user.userId === userIds.userId) ||
         usersOnline.push(userIds);
 

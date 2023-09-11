@@ -3,10 +3,12 @@ import express, { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import User from "../models/user";
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
-import { envReader } from "../functions/functions";
+import { envReader, generateJwt } from "../functions/functions";
 import jwtDecode from "jwt-decode";
-import { DecodedJwt } from "../interfaces/interfaces";
-import { use } from "passport";
+import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
+import { totp } from "otplib";
+import sendOtp from "../functions/sendOtp";
+const nodemailer = require("nodemailer");
 
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -123,6 +125,86 @@ exports.logIn = asyncHandler(
     );
 
     res.status(200).json({ token: `Bearer ${token}` });
+  }
+);
+
+exports.logInVerify = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+    console.log("req.body", req.body);
+
+    const user = await User.findOne({ email }).exec();
+
+    if (!user) {
+      res.json({ invalid: { email: true, password: false } });
+      next();
+    }
+
+    const match = await bcrypt.compare(password, user!.password!);
+
+    if (!match) {
+      res.json({ invalid: { password: true, email: false } });
+      next();
+    }
+
+    const sendOtpResult = await sendOtp(email);
+
+    if (!sendOtpResult) {
+      res.status(400).json({ isSuccess: false });
+    }
+    res.status(200).json({ isSuccess: true });
+    //   const secret = process.env.OTP_SECRET!;
+    //  const  optToken = totp.generate(secret);
+    //   console.log("otp", optToken);
+
+    //   const message = `Your 2Auth code
+    //   ${optToken}
+    //   Don't tell it anybody`;
+
+    //   const transporter = nodemailer.createTransport({
+    //     host: "smtp.ukr.net",
+    //     port: 465,
+    //     secure: true,
+    //     auth: {
+    //       user: "tab_1337@ukr.net",
+    //       pass: process.env.UKR_NET_PASSWORD,
+    //     },
+    //   });
+
+    //   const mailOptions = {
+    //     from: "tab_1337@ukr.net",
+    //     to: email,
+    //     subject: "2FA",
+    //     text: message,
+    //   };
+
+    //   transporter.sendMail(mailOptions, function (error: Error, info: any) {
+    //     if (error) {
+    //       console.log(error);
+    //     } else {
+    //       res.status(200).json({ isSuccess: true });
+
+    //       console.log("Email sent: " + info.response);
+    //     }
+    //   });
+  }
+);
+
+exports.otpVerify = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, otp } = req.body;
+
+    const isValid = totp.check(otp, process.env.OTP_SECRET!);
+    if (!isValid) {
+      res.status(400).json({ invalidOtpToken: true });
+    }
+
+    const user = await User.findOne({ email }).exec();
+    console.log("otpVerify", user);
+
+    const jwtToken = await generateJwt(user, "100d");
+
+    res.status(200).json({ token: `Bearer ${jwtToken}` });
   }
 );
 

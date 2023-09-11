@@ -12,11 +12,14 @@ export interface ImageInterface {
 }
 
 export interface UserInterface {
-  _id: string;
-  name: string;
-  email: string;
-  img: Types.ObjectId | undefined;
-  password: string;
+  _id?: string;
+  name?: string;
+  email?: string;
+  messages?: Types.ObjectId[];
+  chats?: Types.ObjectId[];
+  img?: string | undefined;
+  googleId?: string | undefined;
+  password?: string | undefined;
 }
 
 export interface DecodedJwt {

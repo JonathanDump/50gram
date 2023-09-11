@@ -8,6 +8,7 @@ import GoogleButton from "../../components/GoogleButton/GoogleButton";
 import { SERVER_URL } from "../../config/config";
 import useUserList from "../../hooks/useUserList";
 
+//MAKE ALERT IF MAIL IS REGISTERED
 export default function SignUp() {
   const [inputValue, setInputValue] = useState<InputValueInterface>({
     name: "",

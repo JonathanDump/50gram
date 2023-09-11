@@ -1,9 +1,10 @@
 import cl from "./LogIn.module.scss";
 import formCl from "../../scss/form.module.scss";
 import { NavLink, useNavigate } from "react-router-dom";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
 import { SERVER_URL } from "../../config/config";
+import OtpInput from "react-otp-input";
 
 export default function LogIn() {
   const navigate = useNavigate();
@@ -12,14 +13,17 @@ export default function LogIn() {
     email: false,
     password: false,
   });
+  const [isOtp, setIsOtp] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [invalidOtp, setInvalidOtp] = useState(false);
+
   console.log(inputValue);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
   };
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
 
+  const sendOtpToken = async () => {
     try {
       console.log("inv res", invalidInput);
 
@@ -40,20 +44,107 @@ export default function LogIn() {
 
       if (result.invalid) {
         setInvalidInput(result.invalid);
+        return false;
+      }
+      setInvalidInput({ email: false, password: false });
+      return true;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    (await sendOtpToken()) && setIsOtp(true);
+    // try {
+    //   console.log("inv res", invalidInput);
+
+    //   const body = { email: inputValue.email, password: inputValue.password };
+    //   console.log("body", body);
+
+    //   const response = await fetch(`${SERVER_URL}/log-in/jwt`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(body),
+    //   });
+    //   if (!response.ok) {
+    //     throw new Error("Can't log in");
+    //   }
+
+    //   const result = await response.json();
+    //   console.log("res", result);
+
+    //   if (result.invalid) {
+    //     setInvalidInput(result.invalid);
+    //     return;
+    //   }
+
+    // console.log("myInfo log", result.myInfo);
+
+    // localStorage.setItem("token", result.token);
+
+    // setInvalidInput({ email: false, password: false });
+    // navigate("/");
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
+
+  const handleSendNewOtp = async () => {
+    (await sendOtpToken()) && setInvalidOtp(false);
+  };
+
+  const handleOtpSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const body = { email: inputValue.email, otp };
+      const response = await fetch(`${SERVER_URL}/log-in/otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        setInvalidOtp(true);
         return;
       }
-
-      console.log("myInfo log", result.myInfo);
+      const result = await response.json();
+      console.log("res", result);
 
       localStorage.setItem("token", result.token);
-      // localStorage.setItem("myInfo", JSON.stringify(result.myInfo));
-
-      setInvalidInput({ email: false, password: false });
       navigate("/");
     } catch (err) {
       console.log(err);
     }
   };
+
+  if (isOtp) {
+    return (
+      <div className={cl.logIn}>
+        <form className={cl.container} onSubmit={handleOtpSubmit}>
+          <div className={cl.message}>
+            {invalidOtp ? (
+              <div>
+                Invalid code. Please try again or
+                <button type="button" onClick={handleSendNewOtp}>
+                  Send new code
+                </button>
+              </div>
+            ) : (
+              "Please enter the code sent to your email"
+            )}
+          </div>
+          <OtpInput
+            numInputs={6}
+            onChange={setOtp}
+            value={otp}
+            renderInput={(props) => <input {...props} />}
+            shouldAutoFocus={true}
+          />
+          <button>Submit</button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className={cl.logIn}>

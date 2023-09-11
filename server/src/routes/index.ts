@@ -29,7 +29,9 @@ router.get("/", (req: Request, res: Response) => {
 router.post("/sign-up", upload.single("avatar"), userController.signUp);
 router.post("/sign-up/google", userController.signUpGoogle);
 
-router.post("/log-in/jwt", userController.logIn);
+// router.post("/log-in/jwt", userController.logIn);
+router.post("/log-in/jwt", userController.logInVerify);
+router.post("/log-in/otp", userController.otpVerify);
 
 router.get("/log-in/google", passport.authenticate("google"));
 router.get(

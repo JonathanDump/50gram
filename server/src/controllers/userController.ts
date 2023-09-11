@@ -44,7 +44,7 @@ exports.signUp = asyncHandler(
 exports.signUpGoogle = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const opts: SignOptions = {};
-    opts.expiresIn = "3s";
+    opts.expiresIn = "100d";
     const secret: Secret = envReader("SECRET_KEY");
 
     const user = await User.findOne({ email: req.body.email }).exec();
@@ -107,7 +107,7 @@ exports.logIn = asyncHandler(
     }
 
     const opts: SignOptions = {};
-    opts.expiresIn = "3s";
+    opts.expiresIn = "100d";
     const secret: Secret = envReader("SECRET_KEY");
     const token = await jwt.sign(
       {
@@ -183,7 +183,7 @@ exports.getNewJwt = asyncHandler(
     );
 
     const opts: SignOptions = {};
-    opts.expiresIn = "3s";
+    opts.expiresIn = "100d";
     const secret: Secret = envReader("SECRET_KEY");
     const jwtToken = await jwt.sign(
       {

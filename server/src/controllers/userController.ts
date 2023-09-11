@@ -17,8 +17,12 @@ exports.signUp = asyncHandler(
 
     const user = await User.findOne({ email: req.body.email }).exec();
     if (user) {
-      res.status(400).json({ isSuccess: false });
+      console.log("user exist");
+
+      res.json({ isExist: true });
     } else {
+      console.log("signing up the user");
+
       bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
         if (err) {
           return next(err);

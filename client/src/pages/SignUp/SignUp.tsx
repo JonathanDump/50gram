@@ -22,6 +22,7 @@ export default function SignUp() {
     number: false,
   });
   const [invalidName, setInvalidName] = useState(false);
+  const [invalidEmail, setInvalidEmail] = useState(false);
   const [passwordNotMatch, setPasswordNotMatch] = useState(false);
   const navigate = useNavigate();
   const { signUpUser } = useUserList();
@@ -73,18 +74,23 @@ export default function SignUp() {
         body: formData,
       });
       if (!response.ok) {
+        console.log("response in not ok");
+
         throw new Error("Can't Sigh Up");
       }
 
       const result = await response.json();
+
+      if (result.isExist) {
+        setInvalidEmail(true);
+        return;
+      }
 
       if (result.isSuccess) {
         console.log("result user", result.user);
 
         signUpUser(result.user);
         navigate("/log-in");
-      } else {
-        throw new Error("Can't Sigh Up");
       }
     } catch (err) {
       console.log(err);
@@ -124,6 +130,13 @@ export default function SignUp() {
               value={inputValue.email}
               onChange={handleInputChange}
             />
+            {invalidEmail && (
+              <div className={formCl.inputError}>
+                <div className={formCl.invalid}>
+                  Account with this email is already exist
+                </div>
+              </div>
+            )}
           </div>
           <div className={formCl.inputContainer}>
             <label htmlFor="password">Password*</label>

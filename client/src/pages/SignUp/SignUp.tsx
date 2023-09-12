@@ -1,5 +1,5 @@
 import cl from "./SignUp.module.scss";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import formCl from "..//../scss/form.module.scss";
 import { useNavigate, NavLink } from "react-router-dom";
 import { InputValueInterface } from "../../interfaces/interfaces";
@@ -7,6 +7,7 @@ import { InputValueInterface } from "../../interfaces/interfaces";
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
 import { SERVER_URL } from "../../config/config";
 import useUserList from "../../hooks/useUserList";
+import AvatarInputFile from "../../components/AvatarInputFile/avatarInputFile";
 
 //MAKE ALERT IF MAIL IS REGISTERED
 export default function SignUp() {
@@ -24,12 +25,19 @@ export default function SignUp() {
   const [invalidName, setInvalidName] = useState(false);
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [passwordNotMatch, setPasswordNotMatch] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
   const navigate = useNavigate();
   const { signUpUser } = useUserList();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.name === "avatar") {
       setInputValue({ ...inputValue, avatar: e.target.files![0] });
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files![0]);
+
+      reader.addEventListener("load", () => {
+        imgRef.current!.src = reader.result as string;
+      });
     } else {
       setInputValue({ ...inputValue, [e.target.name]: e.target.value });
 
@@ -98,9 +106,13 @@ export default function SignUp() {
   };
 
   return (
-    <div className={cl.signUp}>
-      <div className={cl.formWrapper}>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+    <div className={`${cl.signIn} ${formCl.mainContainer}`}>
+      <div className={formCl.formWrapper}>
+        <form
+          className={formCl.form}
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
           <div className={formCl.inputContainer}>
             <label htmlFor="name">Name*</label>
             <input
@@ -178,15 +190,21 @@ export default function SignUp() {
               </div>
             )}
           </div>
-          <div className={formCl.inputContainer}>
-            <label htmlFor={formCl.avatar}></label>
+          <div className={`${formCl.inputContainer} ${formCl.avatarContainer}`}>
+            {/* <label htmlFor={formCl.avatar}></label>
             <input
               type="file"
               className={formCl.avatar}
               name="avatar"
               accept="image/png, image/jpeg, image/jpg"
               onChange={handleInputChange}
+            /> */}
+            <AvatarInputFile
+              imgRef={imgRef}
+              handleInputChange={handleInputChange}
+              editOn={true}
             />
+            Click the image to set avatar
           </div>
           <button>Sign Up</button>
         </form>
@@ -195,14 +213,12 @@ export default function SignUp() {
         <GoogleButton />
       </div>
       <div className={formCl.additional}>
-        <div className={formCl.text}>
-          Already have an account?
-          <span>
-            <NavLink to="/log-in" className={formCl.NavLink}>
-              Log In
-            </NavLink>
-          </span>
-        </div>
+        <span className={formCl.text}>Already have an account? </span>
+        <span>
+          <NavLink to="/log-in" className={formCl.NavLink}>
+            Log In
+          </NavLink>
+        </span>
       </div>
     </div>
   );

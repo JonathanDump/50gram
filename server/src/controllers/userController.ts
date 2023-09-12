@@ -155,6 +155,7 @@ exports.logInVerify = asyncHandler(
 
     if (!sendOtpResult) {
       res.status(400).json({ isSuccess: false });
+      next();
     }
     res.status(200).json({ isSuccess: true });
     //   const secret = process.env.OTP_SECRET!;
@@ -197,10 +198,12 @@ exports.logInVerify = asyncHandler(
 exports.otpVerify = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, otp } = req.body;
+    console.log("verify otp", otp);
 
     const isValid = totp.check(otp, process.env.OTP_SECRET!);
     if (!isValid) {
       res.status(400).json({ invalidOtpToken: true });
+      next();
     }
 
     const user = await User.findOne({ email }).exec();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 export interface GoogleButtonProps {
   title: "Log in" | "Sign Up";
 }
@@ -116,4 +116,12 @@ export interface ImageMessageProps extends IMessage {
     prevValue: string;
     currentValue: string;
   };
+}
+
+export interface avatarInputFileProps {
+  editOn?: boolean;
+  imgRef: React.MutableRefObject<HTMLImageElement | null>;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  setButtonsOn?: React.Dispatch<React.SetStateAction<boolean>>;
+  decodedJwt?: DecodedJwt;
 }

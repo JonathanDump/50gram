@@ -4,6 +4,7 @@ import cl from "./UserCard.module.scss";
 import editIcon from "/icons/edit.svg";
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
+import AvatarInputFile from "../AvatarInputFile/avatarInputFile";
 
 export default function UserCard({
   user,
@@ -14,7 +15,7 @@ export default function UserCard({
     localStorage.getItem("token") as string
   ) as DecodedJwt;
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  // const inputRef = useRef<HTMLInputElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
 
   const [buttonsOn, setButtonsOn] = useState(false);
@@ -46,13 +47,13 @@ export default function UserCard({
     }
   };
 
-  const handleImageClick = () => {
-    if (!editOn) {
-      return;
-    }
-    setButtonsOn(true);
-    inputRef.current!.click();
-  };
+  // const handleImageClick = () => {
+  //   if (!editOn) {
+  //     return;
+  //   }
+  //   setButtonsOn(true);
+  //   inputRef.current!.click();
+  // };
 
   const handleCancelClick = () => {
     setButtonsOn(false);
@@ -121,7 +122,7 @@ export default function UserCard({
 
   return (
     <div className={cl.UserCard}>
-      <div className={cl.avatarContainer} onClick={handleImageClick}>
+      {/* <div className={cl.avatarContainer} onClick={handleImageClick}>
         <input
           type="file"
           ref={inputRef}
@@ -136,7 +137,14 @@ export default function UserCard({
           className={cl.avatar}
           ref={imgRef}
         />
-      </div>
+      </div> */}
+      <AvatarInputFile
+        editOn={editOn}
+        imgRef={imgRef}
+        handleInputChange={handleInputChange}
+        setButtonsOn={setButtonsOn}
+        decodedJwt={decodedJwt}
+      />
 
       {isEditing ? (
         <input

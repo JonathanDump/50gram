@@ -1,7 +1,116 @@
+@import "./themes";
+@import "./variables";
+
 .invalid {
-  color: red;
+  color: $red-color;
+
+  &::before {
+    content: "🞩";
+  }
 }
 
 .valid {
-  color: green;
+  color: $green-color;
+
+  &:before {
+    content: "✓";
+  }
+}
+
+.mainContainer {
+  background: $background-color;
+  backdrop-filter: blur(10px);
+  padding: $padding-form;
+
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+
+  max-width: 400px;
+  width: 100%;
+  //   max-height: 700px;
+  //   height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  justify-content: space-between;
+
+  .formWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    .form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border: 2px solid $stroke-color;
+      border-radius: $border-radius;
+      padding: $padding-form;
+
+      .inputContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        input {
+          appearance: none;
+          border: none;
+          border-bottom: 2px solid $stroke-color;
+          background-color: transparent;
+
+          &:focus-visible {
+            outline: none;
+            border-bottom: 2px solid $accent-color;
+          }
+        }
+
+        .inputError {
+          font-size: 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+      }
+      .avatarContainer {
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+      }
+      button {
+        appearance: none;
+        border: none;
+
+        border: 1px solid $accent-color;
+        border-radius: $border-radius;
+        padding: $padding-button;
+        width: fit-content;
+        align-self: center;
+        background-color: $accent-color;
+        color: white;
+
+        &:hover {
+          background-color: transparent;
+          color: $accent-color;
+        }
+      }
+    }
+  }
+
+  .additional {
+    font-size: 14px;
+    .text {
+      cursor: default;
+    }
+    .NavLink {
+      color: $accent-color;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }

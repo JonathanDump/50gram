@@ -120,7 +120,7 @@ export default function LogIn() {
   if (isOtp) {
     return (
       <div className={cl.logIn}>
-        <form className={cl.container} onSubmit={handleOtpSubmit}>
+        <form className={formCl.form} onSubmit={handleOtpSubmit}>
           <div className={cl.message}>
             {invalidOtp ? (
               <div>
@@ -147,9 +147,9 @@ export default function LogIn() {
   }
 
   return (
-    <div className={cl.logIn}>
-      <div className={cl.formWrapper}>
-        <form onSubmit={handleFormSubmit}>
+    <div className={`${cl.logIn} ${formCl.mainContainer}`}>
+      <div className={formCl.formWrapper}>
+        <form onSubmit={handleFormSubmit} className={formCl.form}>
           <div className={formCl.inputContainer}>
             <label htmlFor="email">Email</label>
             <input
@@ -178,21 +178,19 @@ export default function LogIn() {
               <div className={formCl.inputError}>invalid Password</div>
             )}
           </div>
-          <button>Log In</button>
+          <button className={formCl.button}>Log In</button>
         </form>
         <div className={cl.text}>Or</div>
 
         <GoogleButton />
       </div>
       <div className={formCl.additional}>
-        <div className={formCl.text}>
-          Don't have an account?{" "}
-          <span>
-            <NavLink to="/sign-up" className={formCl.NavLink}>
-              Sign Up
-            </NavLink>
-          </span>
-        </div>
+        <span className={formCl.text}>Don't have an account? </span>
+        <span>
+          <NavLink to="/sign-up" className={formCl.NavLink}>
+            Sign Up
+          </NavLink>
+        </span>
       </div>
     </div>
   );

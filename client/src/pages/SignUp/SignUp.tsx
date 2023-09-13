@@ -1,4 +1,5 @@
 import cl from "./SignUp.module.scss";
+import btn from "../../scss/button.module.scss";
 import React, { ChangeEvent, useRef, useState } from "react";
 import formCl from "..//../scss/form.module.scss";
 import { useNavigate, NavLink } from "react-router-dom";
@@ -206,7 +207,7 @@ export default function SignUp() {
             />
             <div className={formCl.text}>Click the image to set the avatar</div>
           </div>
-          <button>Sign Up</button>
+          <button className={btn.button}>Sign Up</button>
         </form>
         <div className={cl.text}> Or </div>
 

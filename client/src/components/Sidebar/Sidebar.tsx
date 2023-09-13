@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { SidebarInterface } from "../../interfaces/interfaces";
 import UserCard from "../UserCard/UserCard";
 import cl from "./Sidebar.module.scss";
@@ -14,6 +14,12 @@ export default function Sidebar() {
   const [menuVisible, setMenuVisible] = useState(false);
   const navigate = useNavigate();
   const { usersOnline } = useOnline();
+  const menuBgRef = useRef<HTMLDivElement | null>(null);
+
+  const menuClass = menuVisible ? `${cl.menu} ${cl.menuVisible}` : `${cl.menu}`;
+  const menuBgClass = menuVisible
+    ? `${cl.menuBg} ${cl.menuBgVisible}`
+    : `${cl.menuBg}`;
 
   const handleBurgerClick = () => {
     setMenuVisible(!menuVisible);
@@ -23,6 +29,10 @@ export default function Sidebar() {
     localStorage.removeItem("token");
     navigate("/log-in");
   };
+
+  const handleMenuBgRefClick = () => {
+    setMenuVisible(!menuVisible);
+  };
   return (
     <div className={cl.sidebar}>
       <div className={cl.header}>
@@ -31,37 +41,62 @@ export default function Sidebar() {
         </div>
         <div className={cl.title}>50gram</div>
       </div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : !users.length ? (
-        <div className={cl.text}>No people yet</div>
-      ) : (
-        users
-          .sort((a, b) => {
-            if (isOnline(usersOnline, a) && !isOnline(usersOnline, b)) {
-              return -1;
-            } else if (isOnline(usersOnline, b) && !isOnline(usersOnline, a)) {
-              return 1;
-            } else {
-              return 0;
-            }
-          })
-          .map((user) => {
-            return (
-              <NavLink to={`/${user._id}`} key={user._id}>
-                <UserCard user={user} isOnline={isOnline(usersOnline, user)} />
-              </NavLink>
-            );
-          })
-      )}
-      {menuVisible && (
+      <div className={cl.userList}>
+        {loading ? (
+          <div>Loading...</div>
+        ) : !users.length ? (
+          <div className={cl.text}>No people yet</div>
+        ) : (
+          users
+            .sort((a, b) => {
+              if (isOnline(usersOnline, a) && !isOnline(usersOnline, b)) {
+                return -1;
+              } else if (
+                isOnline(usersOnline, b) &&
+                !isOnline(usersOnline, a)
+              ) {
+                return 1;
+              } else {
+                return 0;
+              }
+            })
+            .map((user) => {
+              return (
+                <NavLink to={`/${user._id}`} key={user._id}>
+                  <UserCard
+                    user={user}
+                    isOnline={isOnline(usersOnline, user)}
+                  />
+                </NavLink>
+              );
+            })
+        )}
+      </div>
+      {/* {menuVisible && (
         <div className={cl.menu}>
           <UserCard editOn={true} />
           <button type="button" onClick={handleLogOutClick}>
             Log Out
           </button>
+          <div
+            className={cl.menuBg}
+            ref={menuBgRef}
+            onClick={handleMenuBgRefClick}
+          ></div>
         </div>
-      )}
+      )} */}
+
+      <div className={menuClass}>
+        <UserCard editOn={true} />
+        <button type="button" onClick={handleLogOutClick}>
+          Log Out
+        </button>
+      </div>
+      <div
+        className={menuBgClass}
+        ref={menuBgRef}
+        onClick={handleMenuBgRefClick}
+      ></div>
     </div>
   );
 }

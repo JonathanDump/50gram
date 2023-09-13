@@ -4,7 +4,8 @@ import cl from "./UserCard.module.scss";
 import editIcon from "/icons/edit.svg";
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
-import AvatarInputFile from "../AvatarInputFile/avatarInputFile";
+import AvatarInputFile from "../AvatarInputFile/AvatarInputFile";
+import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 
 export default function UserCard({
   user,
@@ -108,10 +109,10 @@ export default function UserCard({
   };
   if (!editOn) {
     return (
-      <div className={cl.UserCard}>
+      <div className={cl.userCard}>
         <div className={cl.avatarContainer}>
           <img src={user!.img} alt="" className={cl.avatar} ref={imgRef} />
-          {isOnline && <div>Online</div>}
+          {isOnline && <div className={cl.online}></div>}
         </div>
         <div className={cl.name} onClick={handleNameClick}>
           {user!.name}
@@ -121,7 +122,7 @@ export default function UserCard({
   }
 
   return (
-    <div className={cl.UserCard}>
+    <div className={`${cl.userCard} ${cl.personal}`}>
       {/* <div className={cl.avatarContainer} onClick={handleImageClick}>
         <input
           type="file"
@@ -162,8 +163,8 @@ export default function UserCard({
         />
       ) : (
         <div className={cl.name} onClick={handleNameClick}>
-          {decodedJwt.user.name}
-          {editOn && <img src={editIcon} alt="" className={cl.icon} />}
+          {decodedJwt.user.name}{" "}
+          <img src={editIcon} alt="" className={cl.icon} />
         </div>
       )}
 
@@ -182,6 +183,8 @@ export default function UserCard({
           </form>
         </div>
       )}
+
+      <ThemeSwitcher />
     </div>
   );
 }

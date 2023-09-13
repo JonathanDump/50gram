@@ -25,4 +25,22 @@ body {
       color: $text-color;
     }
   }
+
+  button {
+    appearance: none;
+    border: none;
+    border: 1px solid $accent-color;
+    border-radius: $border-radius;
+    padding: $padding-button;
+    width: fit-content;
+    align-self: center;
+    background-color: $accent-color;
+    color: white;
+    transition: $transition;
+
+    &:hover {
+      background-color: transparent;
+      color: $accent-color;
+    }
+  }
 }

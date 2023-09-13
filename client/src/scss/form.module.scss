@@ -97,23 +97,23 @@
           cursor: default;
         }
       }
-      button {
-        appearance: none;
-        border: none;
-        border: 1px solid $accent-color;
-        border-radius: $border-radius;
-        padding: $padding-button;
-        width: fit-content;
-        align-self: center;
-        background-color: $accent-color;
-        color: white;
-        transition: $transition;
+      // button {
+      //   appearance: none;
+      //   border: none;
+      //   border: 1px solid $accent-color;
+      //   border-radius: $border-radius;
+      //   padding: $padding-button;
+      //   width: fit-content;
+      //   align-self: center;
+      //   background-color: $accent-color;
+      //   color: white;
+      //   transition: $transition;
 
-        &:hover {
-          background-color: transparent;
-          color: $accent-color;
-        }
-      }
+      //   &:hover {
+      //     background-color: transparent;
+      //     color: $accent-color;
+      //   }
+      // }
     }
   }
 
@@ -160,15 +160,15 @@
   text-align: center;
 }
 
-.sendOtpButton {
-  display: inline !important;
-  background-color: transparent !important;
-  color: $accent-color !important;
-  margin-left: 6px;
-  margin-top: 6px;
+// .sendOtpButton {
+//   display: inline !important;
+//   background-color: transparent !important;
+//   color: $accent-color !important;
+//   margin-left: 6px;
+//   margin-top: 6px;
 
-  &:hover {
-    background-color: $accent-color !important;
-    color: white !important;
-  }
-}
+//   &:hover {
+//     background-color: $accent-color !important;
+//     color: white !important;
+//   }
+// }

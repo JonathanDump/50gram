@@ -6,18 +6,13 @@
   position: relative;
   transition: $transition;
 
-  // &:hover {
-  //   filter: saturate(0);
-  //   backdrop-filter: blur(10px);
-  // }
-
   &::after {
     content: url("/icons/editImage.svg");
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.267);
+    background-color: rgba(255, 255, 255, 0.3);
     width: 101%;
     height: 101%;
     display: flex;
@@ -35,23 +30,18 @@
     }
   }
   .imgContainer {
-    width: 128px;
-    height: 128px;
+    width: 64px;
+    height: 64px;
     background-image: url("/avatars/default-avatar.jpeg");
     background-size: contain;
     border-radius: 50%;
 
-    // &:hover {
-    //   // filter: saturate(0);
-    //   backdrop-filter: blur(10px);
-    //   background-color: rgba(0, 0, 0, 0.301);
     // }
     img {
-      width: 128px;
-      height: 128px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      // background-size: contain;
     }
   }
 }

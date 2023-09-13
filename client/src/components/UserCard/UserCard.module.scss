@@ -1,22 +1,85 @@
-.avatarContainer {
-  max-width: 100px;
-  min-width: 50px;
-  background-color: rgba(0, 0, 0, 0.171);
-  cursor: pointer;
-  .avatar {
-    max-width: 100px;
-  }
-}
-.name {
-  cursor: pointer;
-  .icon {
-    max-width: 16px;
-    opacity: 0;
-  }
+@import "../../scss/themes";
+@import "../../scss/variables";
+
+.userCard {
+  display: flex;
+  padding: $padding-user-card;
+  gap: $gap-user-card;
+  align-items: center;
+  transition: $transition;
+  border-radius: $border-radius;
 
   &:hover {
-    .icon {
-      opacity: 1;
+    background-color: $overlay-color;
+  }
+
+  .avatarContainer {
+    // max-width: 128px;
+    // min-width: 64px;
+    width: 54px;
+    height: 54px;
+    background-image: url("/avatars/default-avatar.jpeg");
+    background-size: contain;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .avatar {
+      width: 100%;
+      border-radius: 50%;
+      position: absolute;
     }
+
+    .online {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: $green-color;
+      position: absolute;
+      z-index: 6;
+      right: 4px;
+      bottom: 4px;
+      border: 1px solid $stroke-color;
+    }
+  }
+
+  .name {
+    display: flex;
+    cursor: text;
+    width: max-content;
+    text-wrap: nowrap;
+    gap: 6px;
+    color: inherit;
+
+    .icon {
+      max-width: 16px;
+      opacity: 0;
+      display: inline;
+      transition: $transition;
+      img {
+        width: 16px;
+      }
+    }
+
+    &:hover {
+      .icon {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.personal {
+  flex-direction: column;
+  background-color: $accent-color;
+  align-items: flex-start;
+  border-radius: 0;
+  color: white !important;
+  position: relative;
+  &:hover {
+    background-color: $accent-color;
   }
 }

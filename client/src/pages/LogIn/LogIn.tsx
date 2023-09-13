@@ -1,4 +1,5 @@
 import cl from "./LogIn.module.scss";
+import btn from "../../scss/button.module.scss";
 import formCl from "../../scss/form.module.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import React, { ChangeEvent, FormEvent, useState } from "react";
@@ -126,10 +127,10 @@ export default function LogIn() {
             <div className={formCl.text}>
               {invalidOtp ? (
                 <div>
-                  <span style={{ color: "red" }}>Invalid code.</span> Please try
-                  again or
+                  <span style={{ color: "#ed5050" }}>Invalid code.</span> Please
+                  try again or
                   <button
-                    className={formCl.sendOtpButton}
+                    className={btn.sendOtpButton}
                     type="button"
                     onClick={handleSendNewOtp}
                   >
@@ -149,7 +150,7 @@ export default function LogIn() {
               inputStyle={formCl.inputStyle}
               containerStyle={formCl.otpContainer}
             />
-            <button>Submit</button>
+            <button className={btn.button}>Submit</button>
           </form>
         </div>
       </div>
@@ -190,7 +191,7 @@ export default function LogIn() {
               <div className={formCl.inputError}>invalid Password</div>
             )}
           </div>
-          <button className={formCl.button}>Log In</button>
+          <button className={btn.button}>Log In</button>
         </form>
         <div className={cl.text}>Or</div>
 

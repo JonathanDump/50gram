@@ -30,12 +30,14 @@ export default function AvatarInputFile({
         style={{ display: "none" }}
         onChange={handleInputChange}
       />
-      <img
-        src={decodedJwt?.user.img || "/avatars/default-avatar.jpeg"}
-        alt=""
-        className={cl.avatar}
-        ref={imgRef}
-      />
+      <div className={cl.imgContainer}>
+        <img
+          src={decodedJwt?.user.img}
+          alt=""
+          className={cl.avatar}
+          ref={imgRef}
+        />
+      </div>
     </div>
   );
 }

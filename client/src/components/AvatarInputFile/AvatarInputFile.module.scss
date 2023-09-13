@@ -1,7 +1,57 @@
+@import "../../scss/variables";
+
 .avatarInputFile {
   max-width: 128px;
+  cursor: pointer;
+  position: relative;
+  transition: $transition;
 
-  img {
-    max-width: 128px;
+  // &:hover {
+  //   filter: saturate(0);
+  //   backdrop-filter: blur(10px);
+  // }
+
+  &::after {
+    content: url("/icons/editImage.svg");
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.267);
+    width: 101%;
+    height: 101%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    border-radius: 50%;
+    opacity: 0;
+    transition: $transition;
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
+  }
+  .imgContainer {
+    width: 128px;
+    height: 128px;
+    background-image: url("/avatars/default-avatar.jpeg");
+    background-size: contain;
+    border-radius: 50%;
+
+    // &:hover {
+    //   // filter: saturate(0);
+    //   backdrop-filter: blur(10px);
+    //   background-color: rgba(0, 0, 0, 0.301);
+    // }
+    img {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      object-fit: cover;
+      // background-size: contain;
+    }
   }
 }

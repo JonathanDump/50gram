@@ -7,7 +7,7 @@ import { InputValueInterface } from "../../interfaces/interfaces";
 import GoogleButton from "../../components/GoogleButton/GoogleButton";
 import { SERVER_URL } from "../../config/config";
 import useUserList from "../../hooks/useUserList";
-import AvatarInputFile from "../../components/AvatarInputFile/avatarInputFile";
+import AvatarInputFile from "../../components/AvatarInputFile/AvatarInputFile";
 
 //MAKE ALERT IF MAIL IS REGISTERED
 export default function SignUp() {
@@ -204,7 +204,7 @@ export default function SignUp() {
               handleInputChange={handleInputChange}
               editOn={true}
             />
-            Click the image to set avatar
+            <div className={formCl.text}>Click the image to set the avatar</div>
           </div>
           <button>Sign Up</button>
         </form>

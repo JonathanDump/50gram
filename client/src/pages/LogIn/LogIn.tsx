@@ -91,6 +91,7 @@ export default function LogIn() {
 
   const handleSendNewOtp = async () => {
     (await sendOtpToken()) && setInvalidOtp(false);
+    setOtp("");
   };
 
   const handleOtpSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -119,35 +120,46 @@ export default function LogIn() {
 
   if (isOtp) {
     return (
-      <div className={cl.logIn}>
-        <form className={formCl.form} onSubmit={handleOtpSubmit}>
-          <div className={cl.message}>
-            {invalidOtp ? (
-              <div>
-                Invalid code. Please try again or
-                <button type="button" onClick={handleSendNewOtp}>
-                  Send new code
-                </button>
-              </div>
-            ) : (
-              "Please enter the code sent to your email"
-            )}
-          </div>
-          <OtpInput
-            numInputs={6}
-            onChange={setOtp}
-            value={otp}
-            renderInput={(props) => <input {...props} />}
-            shouldAutoFocus={true}
-          />
-          <button>Submit</button>
-        </form>
+      <div className={`${cl.logIn} ${formCl.mainContainer}`}>
+        <div className={formCl.formWrapper}>
+          <form className={formCl.form} onSubmit={handleOtpSubmit}>
+            <div className={formCl.text}>
+              {invalidOtp ? (
+                <div>
+                  <span style={{ color: "red" }}>Invalid code.</span> Please try
+                  again or
+                  <button
+                    className={formCl.sendOtpButton}
+                    type="button"
+                    onClick={handleSendNewOtp}
+                  >
+                    get new code
+                  </button>
+                </div>
+              ) : (
+                "Please enter the code sent to your email"
+              )}
+            </div>
+            <OtpInput
+              numInputs={6}
+              onChange={setOtp}
+              value={otp}
+              renderInput={(props) => <input {...props} />}
+              shouldAutoFocus={true}
+              inputStyle={formCl.inputStyle}
+              containerStyle={formCl.otpContainer}
+            />
+            <button>Submit</button>
+          </form>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={`${cl.logIn} ${formCl.mainContainer}`}>
+    <div
+      className={`${cl.logIn} ${formCl.mainContainer} ${formCl.formNamePassword}`}
+    >
       <div className={formCl.formWrapper}>
         <form onSubmit={handleFormSubmit} className={formCl.form}>
           <div className={formCl.inputContainer}>

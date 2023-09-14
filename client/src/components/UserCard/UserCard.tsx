@@ -14,6 +14,7 @@ import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
 import AvatarInputFile from "../AvatarInputFile/AvatarInputFile";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
+import { useLocation } from "react-router-dom";
 
 export default function UserCard({
   user,
@@ -25,7 +26,6 @@ export default function UserCard({
     localStorage.getItem("token") as string
   ) as DecodedJwt;
 
-  // const inputRef = useRef<HTMLInputElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
 
   const [buttonsOn, setButtonsOn] = useState(false);
@@ -123,9 +123,19 @@ export default function UserCard({
       console.log(err);
     }
   };
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    document
+      .querySelector("[class*=userCardActive]")
+      ?.classList.remove(`${cl.userCardActive}`);
+
+    const target = e.target as HTMLDivElement;
+    target.classList.add(`${cl.userCardActive}`);
+  };
+
   if (!editOn) {
     return (
-      <div className={cl.userCard}>
+      <div className={cl.userCard} onClick={handleCardClick}>
         <div className={cl.avatarContainer}>
           <img src={user!.img} alt="" className={cl.avatar} ref={imgRef} />
           {isOnline && <div className={cl.online}></div>}

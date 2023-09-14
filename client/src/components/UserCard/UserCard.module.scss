@@ -73,7 +73,13 @@
     }
   }
 }
+.userCardActive {
+  background-color: var(--selected-color);
 
+  &:hover {
+    background-color: var(--selected-color);
+  }
+}
 .personal {
   flex-direction: column;
   background-color: var(--accent-color);

@@ -19,7 +19,9 @@ export default function Chat() {
     prevValue: "",
     currentValue: "",
   });
-  const { chat, loading, error, sendMessage } = useChat();
+  const { chat, loading, error, sendMessage, userId } = useChat();
+  console.log("chat", chat);
+
   const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
 
   const location = useLocation();
@@ -78,34 +80,42 @@ export default function Chat() {
 
   return (
     <div className={cl.chat}>
-      <div className={cl.messagesWindow}>
-        {chat!.messages.map((msg) => {
-          return <Message message={msg} key={msg._id} />;
-        })}
-      </div>
-      <form className={cl.messageForm} onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          name="message"
-          autoFocus
-          value={inputValue.currentValue}
-          onChange={handleInputChange}
-          ref={inputTextRef}
-        />
-        <div className={cl.attachments} onClick={handleAttachmentsClick}>
-          <img src={attachmentsIcon} alt="" />
-          <input
-            ref={inputFileRef}
-            type="file"
-            style={{ display: "none" }}
-            name="attachments"
-            id="attachments"
-            accept="image/png, image/gif, image/jpeg"
-            onChange={handleInputChange}
-          />
+      <div className={cl.header}>
+        <div className={cl.userName}>
+          {chat!.users.find((user) => user._id === userId)?.name}
         </div>
-        <button>Send</button>
-      </form>
+        <div className={cl.onlineStatus}>last seen 11 minutes ago</div>
+      </div>
+      <div className={cl.container}>
+        <div className={cl.messagesWindow}>
+          {chat!.messages.map((msg) => {
+            return <Message message={msg} key={msg._id} />;
+          })}
+        </div>
+        <form className={cl.messageForm} onSubmit={handleFormSubmit}>
+          <input
+            type="text"
+            name="message"
+            autoFocus
+            value={inputValue.currentValue}
+            onChange={handleInputChange}
+            ref={inputTextRef}
+          />
+          <div className={cl.attachments} onClick={handleAttachmentsClick}>
+            <img src={attachmentsIcon} alt="" />
+            <input
+              ref={inputFileRef}
+              type="file"
+              style={{ display: "none" }}
+              name="attachments"
+              id="attachments"
+              accept="image/png, image/gif, image/jpeg"
+              onChange={handleInputChange}
+            />
+          </div>
+          <button>Send</button>
+        </form>
+      </div>
       {message.file && (
         <ImageMessage
           file={message.file}

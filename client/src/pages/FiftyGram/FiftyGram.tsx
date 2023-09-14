@@ -42,9 +42,9 @@ export default function FiftyGram() {
       <div className={cl.fiftyGram}>
         <div className={cl.window}>
           <Sidebar />
-          <div className={cl.chatContainer}>
-            {outlet || <div>Choose chat to start messaging</div>}
-          </div>
+          {/* <div className={cl.chatContainer}> */}
+          {outlet || <div>Choose chat to start messaging</div>}
+          {/* </div> */}
         </div>
         {/* {message.file && (
           <ImageMessage

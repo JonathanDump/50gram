@@ -46,6 +46,7 @@ export interface UserCardInterface {
   editOn?: boolean;
   isOnline?: boolean;
   menuVisible?: boolean;
+  isSelected?: boolean;
 }
 
 export interface DecodedJwt {
@@ -59,11 +60,12 @@ export interface MessageInterface {
   text: string;
   date: string;
   imageUrl?: string;
+  user: string;
 }
 
 export interface ChatInterface {
   _id: string;
-  users: string[];
+  users: UserInterface[];
   messages: MessageInterface[];
   _v: number;
 }

@@ -1,5 +1,45 @@
-.imgContainer {
-  img {
-    max-width: 128px;
+@import "../../scss/variables";
+@import "../../scss/themes";
+
+.message {
+  max-width: 278px;
+  padding: $padding-message;
+
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+
+  .imgContainer {
+    img {
+      border-radius: $border-radius;
+      width: 100%;
+    }
   }
+
+  .text {
+    // padding: $padding-message;
+
+    display: flex;
+    align-items: center;
+    gap: $gap-message;
+
+    justify-content: flex-end;
+
+    .date {
+      float: right;
+      font-size: 12px;
+      align-self: flex-end;
+      justify-self: flex-end;
+    }
+  }
+}
+
+.messageIn {
+  align-self: flex-start;
+  background-color: var(--message-color);
+}
+
+.messageOut {
+  align-self: flex-end;
+  background-color: var(--my-message-color);
 }

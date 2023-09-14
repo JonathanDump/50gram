@@ -4,7 +4,7 @@ import UserCard from "../UserCard/UserCard";
 import cl from "./Sidebar.module.scss";
 import burger from "/icons/hamburger.svg";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import useUserList from "../../hooks/useUserList";
 import useOnline from "../../hooks/useOnline";
 import isOnline from "../../helpers/isOnline";
@@ -15,6 +15,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const { usersOnline } = useOnline();
   const menuBgRef = useRef<HTMLDivElement | null>(null);
+  const { userId } = useParams();
 
   const menuClass = menuVisible ? `${cl.menu} ${cl.menuVisible}` : `${cl.menu}`;
   const menuBgClass = menuVisible
@@ -65,11 +66,14 @@ export default function Sidebar() {
                 }
               })
               .map((user) => {
+                let isSelected = userId === user._id;
+
                 return (
                   <NavLink to={`/${user._id}`} key={user._id}>
                     <UserCard
                       user={user}
                       isOnline={isOnline(usersOnline, user)}
+                      isSelected={isSelected}
                     />
                   </NavLink>
                 );

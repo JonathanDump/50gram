@@ -21,6 +21,7 @@ export default function UserCard({
   editOn,
   isOnline,
   menuVisible,
+  isSelected,
 }: UserCardInterface) {
   const decodedJwt = jwtDecode(
     localStorage.getItem("token") as string
@@ -37,6 +38,9 @@ export default function UserCard({
     image: null,
   });
   const [isEditing, setIsEditing] = useState(false);
+  const userCardClass = isSelected
+    ? `${cl.userCard} ${cl.userCardSelected}`
+    : `${cl.userCard}`;
 
   useEffect(() => {
     if (!menuVisible) {
@@ -124,18 +128,18 @@ export default function UserCard({
     }
   };
 
-  const handleCardClick = (e: React.MouseEvent) => {
-    document
-      .querySelector("[class*=userCardActive]")
-      ?.classList.remove(`${cl.userCardActive}`);
+  // const handleCardClick = (e: React.MouseEvent) => {
+  //   document
+  //     .querySelector("[class*=userCardActive]")
+  //     ?.classList.remove(`${cl.userCardActive}`);
 
-    const target = e.target as HTMLDivElement;
-    target.classList.add(`${cl.userCardActive}`);
-  };
+  //   const target = e.target as HTMLDivElement;
+  //   target.classList.add(`${cl.userCardActive}`);
+  // };
 
   if (!editOn) {
     return (
-      <div className={cl.userCard} onClick={handleCardClick}>
+      <div className={userCardClass}>
         <div className={cl.avatarContainer}>
           <img src={user!.img} alt="" className={cl.avatar} ref={imgRef} />
           {isOnline && <div className={cl.online}></div>}

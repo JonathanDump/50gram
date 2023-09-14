@@ -113,5 +113,5 @@ export default function useChat() {
     };
   }, [location]);
 
-  return { error, loading, chat, setChat, sendMessage };
+  return { error, loading, chat, setChat, sendMessage, userId };
 }

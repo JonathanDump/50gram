@@ -1,13 +1,56 @@
-.chat {
-  .messagesWindow {
-    min-width: 400px;
-    min-height: 400px;
-    border: 1px solid black;
-  }
+@import "../../scss/themes";
+@import "../../scss/variables";
 
-  .attachments {
-    img {
-      max-width: 64px;
+.chat {
+  width: 100%;
+  max-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+
+  .header {
+    padding: $padding-header;
+    background-color: var(--background-color);
+    height: 52px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    .onlineStatus {
+      font-size: 14px;
+    }
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 $padding-chat;
+    flex: 1;
+    align-items: center;
+    overflow: hidden;
+    gap: $gap-chat;
+
+    .messagesWindow {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-width: 300px;
+      width: 100%;
+      max-width: 800px;
+
+      // border: 1px solid black;
+      overflow-x: hidden;
+      overflow-y: auto;
+      flex: 1;
+      gap: $gap-messages-window;
+
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .attachments {
+      img {
+        max-width: 64px;
+      }
     }
   }
 }

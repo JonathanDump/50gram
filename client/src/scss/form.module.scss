@@ -2,7 +2,7 @@
 @import "./variables";
 
 .invalid {
-  color: $red-color;
+  color: var(--red-color);
   transition: $transition;
   position: relative;
   margin-left: 12px;
@@ -16,7 +16,7 @@
 }
 
 .valid {
-  color: $green-color;
+  color: var--green-color;
   transition: $transition;
   position: relative;
   margin-left: 12px;
@@ -30,7 +30,7 @@
 }
 
 .mainContainer {
-  background: $background-color;
+  background: var(--background-color);
   backdrop-filter: blur(10px);
   padding: $padding-form;
   border-radius: $border-radius;
@@ -57,7 +57,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      border: 2px solid $stroke-color;
+      border: 2px solid var(--stroke-color);
       border-radius: $border-radius;
       padding: $padding-form;
 
@@ -66,18 +66,18 @@
         flex-direction: column;
         gap: 2px;
 
-        input {
-          appearance: none;
-          border: none;
-          border-bottom: 2px solid $stroke-color;
-          background-color: transparent;
-          transition: $transition;
+        // input {
+        //   appearance: none;
+        //   border: none;
+        //   border-bottom: 2px solid var(--stroke-color);
+        //   background-color: transparent;
+        //   transition: $transition;
 
-          &:focus-visible {
-            outline: none;
-            border-bottom: 2px solid $accent-color;
-          }
-        }
+        //   &:focus-visible {
+        //     outline: none;
+        //     border-bottom: 2px solid var(--accent-color);
+        //   }
+        // }
 
         .inputError {
           font-size: 14px;
@@ -100,18 +100,18 @@
       // button {
       //   appearance: none;
       //   border: none;
-      //   border: 1px solid $accent-color;
-      //   border-radius: $border-radius;
-      //   padding: $padding-button;
+      //   border: 1px solid var(--accent-color);
+      //   border-radius: var(--border-radius);
+      //   padding: var--padding-button;
       //   width: fit-content;
       //   align-self: center;
-      //   background-color: $accent-color;
+      //   background-color: var(--accent-color);
       //   color: white;
-      //   transition: $transition;
+      //   transition: var(--transition);
 
       //   &:hover {
       //     background-color: transparent;
-      //     color: $accent-color;
+      //     color: var(--accent-color);
       //   }
       // }
     }
@@ -123,7 +123,7 @@
       cursor: default;
     }
     .NavLink {
-      color: $accent-color;
+      color: var(--accent-color);
       transition: $transition;
       &:hover {
         text-decoration: underline;
@@ -137,18 +137,18 @@
   width: 100%;
 }
 
-.inputStyle {
-  appearance: none;
-  border: none;
-  border-bottom: 2px solid $stroke-color;
-  background-color: transparent;
-  transition: $transition;
+// .inputStyle {
+//   appearance: none;
+//   border: none;
+//   border-bottom: 2px solid var(--stroke-color);
+//   background-color: transparent;
+//   transition: $transition;
 
-  &:focus-visible {
-    outline: none;
-    border-bottom: 2px solid $accent-color;
-  }
-}
+//   &:focus-visible {
+//     outline: none;
+//     border-bottom: 2px solid var(--accent-color);
+//   }
+// }
 
 .otpContainer {
   display: flex;
@@ -163,12 +163,12 @@
 // .sendOtpButton {
 //   display: inline !important;
 //   background-color: transparent !important;
-//   color: $accent-color !important;
+//   color: var(--accent-color) !important;
 //   margin-left: 6px;
 //   margin-top: 6px;
 
 //   &:hover {
-//     background-color: $accent-color !important;
+//     background-color: var(--accent-color) !important;
 //     color: white !important;
 //   }
 // }

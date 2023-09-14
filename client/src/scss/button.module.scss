@@ -22,12 +22,20 @@
 .sendOtpButton {
   display: inline !important;
   background-color: transparent !important;
-  color: $accent-color !important;
+  color: var(--accent-color) !important;
   margin-left: 6px;
   margin-top: 6px;
 
   &:hover {
-    background-color: $accent-color !important;
+    background-color: var(--accent-color) !important;
     color: white !important;
+  }
+}
+
+.buttonSettings {
+  // border-color: white;
+
+  &:hover {
+    background-color: white;
   }
 }

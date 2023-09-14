@@ -2,17 +2,15 @@
 @import "./scss/themes";
 @import "./scss/variables";
 
-* {
-  box-sizing: border-box;
-  color: $text-color;
-}
-
 body {
-  background: $chat-background-color;
+  background: var(--chat-background-color);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   width: 100vw;
   height: 100vh;
-
+  * {
+    box-sizing: border-box;
+    color: var(--text-color);
+  }
   #root {
     width: 100%;
     height: 100%;
@@ -20,27 +18,40 @@ body {
 
   a {
     text-decoration: none;
-    color: $text-color;
+    color: var(--text-color);
     &:visited {
-      color: $text-color;
+      color: var(--text-color);
     }
   }
 
   button {
     appearance: none;
     border: none;
-    border: 1px solid $accent-color;
+    border: 1px solid var(--accent-color);
     border-radius: $border-radius;
     padding: $padding-button;
     width: fit-content;
     align-self: center;
-    background-color: $accent-color;
+    background-color: var(--accent-color);
     color: white;
     transition: $transition;
 
     &:hover {
       background-color: transparent;
-      color: $accent-color;
+      color: var(--accent-color);
+    }
+  }
+
+  input {
+    appearance: none;
+    border: none;
+    border-bottom: 2px solid var(--stroke-color);
+    background-color: transparent;
+    transition: $transition;
+
+    &:focus-visible {
+      outline: none;
+      border-bottom: 2px solid var(--accent-color);
     }
   }
 }

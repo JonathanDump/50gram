@@ -20,6 +20,9 @@ export default function Sidebar() {
   const menuBgClass = menuVisible
     ? `${cl.menuBg} ${cl.menuBgVisible}`
     : `${cl.menuBg}`;
+  const burgerClass = document.body.hasAttribute("data-theme")
+    ? `${cl.burger} ${cl.burgerDarkTheme}`
+    : `${cl.burger}`;
 
   const handleBurgerClick = () => {
     setMenuVisible(!menuVisible);
@@ -36,7 +39,7 @@ export default function Sidebar() {
   return (
     <div className={cl.sidebar}>
       <div className={cl.header}>
-        <div className={cl.burger} onClick={handleBurgerClick}>
+        <div className={burgerClass} onClick={handleBurgerClick}>
           <img src={burger} alt="" />
         </div>
         <div className={cl.title}>50gram</div>
@@ -87,7 +90,7 @@ export default function Sidebar() {
       )} */}
 
       <div className={menuClass}>
-        <UserCard editOn={true} />
+        <UserCard editOn={true} menuVisible={menuVisible} />
         <button type="button" onClick={handleLogOutClick}>
           Log Out
         </button>

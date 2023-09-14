@@ -7,7 +7,7 @@
   width: 100%;
   overflow-y: auto;
   height: 100vh;
-  background-color: $background-color;
+  background-color: var(--background-color);
   position: relative;
 
   .header {
@@ -28,11 +28,11 @@
       // height: 24px;
 
       &:hover {
-        background-color: $overlay-color;
+        background-color: var(--overlay-color);
       }
     }
 
-    .burgerInvert {
+    .burgerDarkTheme {
       filter: invert(100);
     }
 
@@ -58,7 +58,7 @@
     bottom: 0;
     z-index: 10;
     position: absolute;
-    background-color: $background-color;
+    background-color: var(--background-color);
     padding-bottom: 8px;
     display: flex;
     flex-direction: column;

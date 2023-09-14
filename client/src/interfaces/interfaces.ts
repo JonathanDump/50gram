@@ -45,6 +45,7 @@ export interface UserCardInterface {
   user?: UserInterface;
   editOn?: boolean;
   isOnline?: boolean;
+  menuVisible?: boolean;
 }
 
 export interface DecodedJwt {

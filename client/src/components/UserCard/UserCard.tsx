@@ -1,6 +1,14 @@
-import { ChangeEvent, FormEvent, InvalidEvent, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  InvalidEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { DecodedJwt, UserCardInterface } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
+import btn from "../../scss/button.module.scss";
 import editIcon from "/icons/edit.svg";
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
@@ -11,6 +19,7 @@ export default function UserCard({
   user,
   editOn,
   isOnline,
+  menuVisible,
 }: UserCardInterface) {
   const decodedJwt = jwtDecode(
     localStorage.getItem("token") as string
@@ -28,6 +37,13 @@ export default function UserCard({
     image: null,
   });
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (!menuVisible) {
+      setIsEditing(false);
+      setButtonsOn(false);
+    }
+  }, [menuVisible]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "avatar") {
@@ -148,19 +164,23 @@ export default function UserCard({
       />
 
       {isEditing ? (
-        <input
-          form="editForm"
-          type="text"
-          name="name"
-          value={inputValue!.name}
-          onChange={handleInputChange}
-          minLength={1}
-          title="At least 1 character long"
-          required
-          onInvalid={(e: InvalidEvent<HTMLInputElement>) =>
-            e.target.setCustomValidity("At least 1 character long")
-          }
-        />
+        <div className={cl.inputWrapper}>
+          <input
+            className={cl.inputName}
+            form="editForm"
+            type="text"
+            name="name"
+            value={inputValue!.name}
+            onChange={handleInputChange}
+            minLength={1}
+            title="At least 1 character long"
+            required
+            onInvalid={(e: InvalidEvent<HTMLInputElement>) =>
+              e.target.setCustomValidity("At least 1 character long")
+            }
+            autoFocus
+          />
+        </div>
       ) : (
         <div className={cl.name} onClick={handleNameClick}>
           {decodedJwt.user.name}{" "}
@@ -176,10 +196,14 @@ export default function UserCard({
             onSubmit={handleFormSubmit}
             encType="multipart/form-data"
           >
-            <button type="button" onClick={handleCancelClick}>
+            <button
+              className={btn.buttonSettings}
+              type="button"
+              onClick={handleCancelClick}
+            >
               Cancel
             </button>
-            <button>Save</button>
+            <button className={btn.buttonSettings}>Save</button>
           </form>
         </div>
       )}

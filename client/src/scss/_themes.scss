@@ -1,29 +1,62 @@
-$text-color: #212121;
-$caption-color: rgba(0, 0, 0, 0.6);
-$accent-color: #40a7e3;
-$message-color: #ffffff;
-$message-navigation-color: #40a7e3;
-$my-message-color: #effdde;
-$my-message-navigation-color: #78c67f;
-$green-color: #00a629;
-$red-color: #ed5050;
-$card: #ffffff;
-$background-color: #ffffff;
-$chat-background-color: linear-gradient(#d6dab8, #98be8f);
-$overlay-color: rgba(0, 0, 0, 0.1);
-$stroke-color: rgba(0, 0, 0, 0.06);
-
-// $text-color: #ffffff;
-// $caption-color: rgba(255, 255, 255, 0.6);
-// $accent-color: #5187c1;
-// $message-color: #1c2633;
-// $message-navigation-color: #3f96d0;
-// $my-message-color: #456a93;
-// $my-message-navigation-color: #70a5de;
+// $text-color: #212121;
+// $caption-color: rgba(0, 0, 0, 0.6);
+// $accent-color: #40a7e3;
+// $message-color: #ffffff;
+// $message-navigation-color: #40a7e3;
+// $my-message-color: #effdde;
+// $my-message-navigation-color: #78c67f;
 // $green-color: #00a629;
 // $red-color: #ed5050;
-// $card: #252525;
-// $background-color: #262c38;
-// $chat-background-color: #0d0f13;
-// $overlay-color: rgba(255, 255, 255, 0.15);
-// $stroke-color: rgba(255, 255, 255, 0.06);
+// $card: #ffffff;
+// $background-color: #ffffff;
+// $chat-background-color: linear-gradient(#d6dab8, #98be8f);
+// $overlay-color: rgba(0, 0, 0, 0.1);
+// $stroke-color: rgba(0, 0, 0, 0.06);
+
+// [data-theme="dark"] {
+//   $text-color: #ffffff;
+//   $caption-color: rgba(255, 255, 255, 0.6);
+//   $accent-color: #5187c1;
+//   $message-color: #1c2633;
+//   $message-navigation-color: #3f96d0;
+//   $my-message-color: #456a93;
+//   $my-message-navigation-color: #70a5de;
+//   $green-color: #00a629;
+//   $red-color: #ed5050;
+//   $card: #252525;
+//   $background-color: #262c38 !important;
+//   $chat-background-color: #0d0f13;
+//   $overlay-color: rgba(255, 255, 255, 0.15);
+//   $stroke-color: rgba(255, 255, 255, 0.06);
+// }
+
+:root {
+  --text-color: #212121;
+  --caption-color: rgba(0, 0, 0, 0.6);
+  --accent-color: #40a7e3;
+  --message-color: #ffffff;
+  --message-navigation-color: #40a7e3;
+  --my-message-color: #effdde;
+  --my-message-navigation-color: #78c67f;
+  --green-color: #00a629;
+  --red-color: #ed5050;
+  --card: #ffffff;
+  --background-color: #ffffff;
+  --chat-background-color: linear-gradient(#d6dab8, #98be8f);
+  --overlay-color: rgba(0, 0, 0, 0.1);
+  --stroke-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] {
+  --text-color: #ffffff;
+  --caption-color: rgba(255, 255, 255, 0.6);
+  --accent-color: #5187c1;
+  --message-color: #1c2633;
+  --message-navigation-color: #3f96d0;
+  --my-message-color: #456a93;
+  --my-message-navigation-color: #70a5de;
+  --background-color: #262c38 !important;
+  --chat-background-color: #0d0f13;
+  --overlay-color: rgba(255, 255, 255, 0.15);
+  --stroke-color: rgba(255, 255, 255, 0.06);
+}

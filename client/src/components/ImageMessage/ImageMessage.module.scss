@@ -1,3 +1,6 @@
+@import "../../scss/themes";
+@import "../../scss/variables";
+
 .imageMessage {
   position: fixed;
   width: 100vw;
@@ -9,11 +12,64 @@
   justify-content: center;
   align-items: center;
 
-  .form {
-    img {
-      max-width: 128px;
+  .formWrapper {
+    background-color: var(--background-color);
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // max-width: 400px;
+    // width: 100%;
+
+    .imageWrapper {
+      padding: $padding-image-message;
+      border-bottom: 1px solid var(--stroke-color);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      img {
+        max-width: 400px;
+        border-radius: $border-radius;
+      }
     }
-    form {
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      padding: $padding-image-message;
+      width: 100%;
+      background-color: var(--overlay-color);
+      gap: $gap-image-message;
+
+      .inputWrapper {
+        display: flex;
+        .messageInput {
+          all: unset;
+          flex: 1;
+          border-radius: 7px;
+          border: 1px solid var(--stroke-color);
+          padding: 8px;
+          background-color: var(--background-color);
+
+          &:focus-visible {
+            border-bottom: 1px solid var(--accent-color);
+          }
+        }
+      }
+
+      .buttonsWrapper {
+        display: flex;
+        gap: $gap-image-message;
+
+        button {
+          width: 100%;
+        }
+
+        .cancelButton {
+          background-color: var(--background-color);
+          border: unset;
+        }
+      }
     }
   }
 }

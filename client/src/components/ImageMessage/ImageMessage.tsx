@@ -4,6 +4,7 @@ import userFromJwt from "../../helpers/userFromJwt";
 import useChat from "../../hooks/useChat";
 import { ImageMessageProps } from "../../interfaces/interfaces";
 import cl from "./ImageMessage.module.scss";
+
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 export default function ImageMessage({
@@ -76,21 +77,33 @@ export default function ImageMessage({
   };
   return (
     <div className={cl.imageMessage}>
-      <div className={cl.form}>
-        <img src="" alt="" ref={imgRef} />
-        <form onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            name="message"
-            placeholder="Caption"
-            value={inputValue}
-            onChange={handleInputChange}
-            autoFocus
-          />
-          <button>Send</button>
-          <button type="button" onClick={handleCancelClick}>
-            Cancel
-          </button>
+      <div className={cl.formWrapper}>
+        <div className={cl.imageWrapper}>
+          <img src="" alt="" ref={imgRef} />
+        </div>
+
+        <form onSubmit={handleFormSubmit} className={cl.form}>
+          <div className={cl.inputWrapper}>
+            <input
+              className={cl.messageInput}
+              type="text"
+              name="message"
+              placeholder="Caption"
+              value={inputValue}
+              onChange={handleInputChange}
+              autoFocus
+            />
+          </div>
+          <div className={cl.buttonsWrapper}>
+            <button
+              className={cl.cancelButton}
+              type="button"
+              onClick={handleCancelClick}
+            >
+              Cancel
+            </button>
+            <button className={cl.sendButton}>Send</button>
+          </div>
         </form>
       </div>
     </div>

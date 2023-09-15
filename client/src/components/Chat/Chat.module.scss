@@ -16,29 +16,44 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     .onlineStatus {
       font-size: 14px;
+      color: var(--caption-color);
     }
   }
   .container {
     display: flex;
     flex-direction: column;
-    padding: 0 $padding-chat;
+    padding: $padding-chat;
+    padding-top: 0;
     flex: 1;
     align-items: center;
     overflow: hidden;
     gap: $gap-chat;
+    min-width: 300px;
+    width: 100%;
+    max-width: 750px;
+    align-self: center;
 
     .messagesWindow {
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      min-width: 300px;
+      // flex-direction: column;
+      // min-width: 300px;
       width: 100%;
-      max-width: 800px;
+      // max-width: 750px;
+      flex-direction: column-reverse;
+      scroll-behavior: smooth;
 
-      // border: 1px solid black;
+      // & > :first-child {
+      //   margin-top: auto !important;
+      // }
+
+      // & > :last-child {
+      //   margin-top: auto !important;
+      // }
+
       overflow-x: hidden;
       overflow-y: auto;
-      flex: 1;
+      // flex: 1;
+      height: 100%;
       gap: $gap-messages-window;
 
       scrollbar-width: none;
@@ -47,9 +62,52 @@
       }
     }
 
-    .attachments {
-      img {
-        max-width: 64px;
+    .messageForm {
+      display: flex;
+      background-color: var(--background-color);
+      width: 100%;
+      border-radius: $border-radius;
+      padding: $padding-input-message;
+      border-bottom: 2px solid transparent;
+      transition: $transition;
+      align-items: center;
+      gap: $gap-input-massage;
+
+      &:focus-within {
+        border-bottom: 2px solid var(--accent-color);
+      }
+
+      .inputMessage {
+        width: 100%;
+        white-space: pre-line;
+        max-height: 150px;
+        overflow: auto;
+        appearance: none;
+        background-color: transparent;
+        border: none;
+        line-height: 1.5rem;
+        outline: none;
+
+        &[placeholder]:empty::before {
+          content: attr(placeholder);
+          color: var(--caption-color);
+          cursor: text;
+        }
+      }
+
+      .attachments {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        img {
+          transition: $transition;
+          filter: var(--svg-invert-secondary);
+
+          &:hover {
+            filter: var(--svg-invert-accent);
+          }
+        }
       }
     }
   }

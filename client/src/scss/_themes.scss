@@ -46,10 +46,16 @@
   --overlay-color: rgba(0, 0, 0, 0.03);
   --stroke-color: rgba(0, 0, 0, 0.06);
   --selected-color: rgba(0, 0, 0, 0.1);
+  --svg-invert: invert(0);
+  --svg-invert-secondary: invert(38%) sepia(6%) saturate(34%) hue-rotate(314deg)
+    brightness(99%) contrast(82%);
+  --svg-invert-accent: invert(56%) sepia(96%) saturate(856%) hue-rotate(173deg)
+    brightness(95%) contrast(88%);
+  --send-button: url("/icons/sendButtonLight.svg");
 }
 
 [data-theme="dark"] {
-  --text-color: #ffffff;
+  --text-color: #f0f0f0;
   --caption-color: rgba(255, 255, 255, 0.6);
   --accent-color: #5187c1;
   --message-color: #1c2633;
@@ -64,4 +70,9 @@
   --overlay-color: rgba(255, 255, 255, 0.06);
   --stroke-color: rgba(255, 255, 255, 0.06);
   --selected-color: rgba(255, 255, 255, 0.15);
+  --svg-invert: invert(100);
+  --svg-invert-secondary: invert(74%) sepia(0%) saturate(7500%)
+    hue-rotate(288deg) brightness(92%) contrast(94%);
+  --svg-invert-accent: invert(56%) sepia(52%) saturate(542%) hue-rotate(172deg)
+    brightness(81%) contrast(84%);
 }

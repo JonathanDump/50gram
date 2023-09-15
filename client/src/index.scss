@@ -35,6 +35,7 @@ body {
     background-color: var(--accent-color);
     color: white;
     transition: $transition;
+    cursor: pointer;
 
     &:hover {
       background-color: transparent;

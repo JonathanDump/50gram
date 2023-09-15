@@ -1,4 +1,5 @@
 import cl from "./Chat.module.scss";
+import btn from "../../scss/button.module.scss";
 import React, {
   ChangeEvent,
   FormEvent,
@@ -9,7 +10,7 @@ import React, {
 import Message from "../Message/Message";
 import useChat from "../../hooks/useChat";
 import userFromJwt from "../../helpers/userFromJwt";
-import attachmentsIcon from "/icons/attachments.svg";
+import attachmentsIcon from "/icons/attachmentsImg.svg";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { IMessage } from "../../interfaces/interfaces";
 import ImageMessage from "../ImageMessage/ImageMessage";
@@ -19,6 +20,8 @@ export default function Chat() {
     prevValue: "",
     currentValue: "",
   });
+  console.log("message input value", inputValue);
+
   const { chat, loading, error, sendMessage, userId } = useChat();
   console.log("chat", chat);
 
@@ -28,6 +31,26 @@ export default function Chat() {
 
   const inputFileRef = useRef<HTMLInputElement | null>(null);
   const inputTextRef = useRef<HTMLInputElement | null>(null);
+  const messagesWindowRef = useRef<HTMLDivElement | null>(null);
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToBottom = () => {
+    // messagesEndRef.current?.scrollIntoView({ behavior });
+    messagesWindowRef.current?.scrollTo(
+      0,
+      messagesWindowRef.current?.scrollHeight
+    );
+  };
+
+  useEffect(() => {
+    // scrollToBottom();
+    setTimeout(() => {
+      scrollToBottom();
+    }, 200);
+    inputTextRef.current!.textContent = "";
+    inputTextRef.current?.focus();
+  }, [chat]);
 
   useEffect(() => {
     inputTextRef.current?.focus();
@@ -47,7 +70,10 @@ export default function Chat() {
       setInputValue(newInputValue);
       return;
     }
-    setInputValue({ ...inputValue, currentValue: e.target.value });
+    setInputValue({
+      ...inputValue,
+      currentValue: e.target.textContent as string,
+    });
   };
 
   const handleAttachmentsClick = () => {
@@ -69,6 +95,11 @@ export default function Chat() {
       prevValue: "",
       currentValue: "",
     });
+    // inputTextRef.current!.textContent = "";
+    // inputTextRef.current?.focus();
+    // setTimeout(() => {
+    //   scrollToBottom();
+    // }, 200);
   };
 
   if (error) {
@@ -87,20 +118,15 @@ export default function Chat() {
         <div className={cl.onlineStatus}>last seen 11 minutes ago</div>
       </div>
       <div className={cl.container}>
-        <div className={cl.messagesWindow}>
-          {chat!.messages.map((msg) => {
+        <div className={cl.messagesWindow} ref={messagesWindowRef}>
+          {/* <div style={{ visibility: "hidden" }} ref={messagesEndRef} /> */}
+          {[...chat!.messages].reverse().map((msg) => {
             return <Message message={msg} key={msg._id} />;
           })}
+          <div style={{ height: "12px" }}></div>
+          {/* <div style={{ visibility: "hidden" }} ref={messagesEndRef} /> */}
         </div>
         <form className={cl.messageForm} onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            name="message"
-            autoFocus
-            value={inputValue.currentValue}
-            onChange={handleInputChange}
-            ref={inputTextRef}
-          />
           <div className={cl.attachments} onClick={handleAttachmentsClick}>
             <img src={attachmentsIcon} alt="" />
             <input
@@ -113,7 +139,25 @@ export default function Chat() {
               onChange={handleInputChange}
             />
           </div>
-          <button>Send</button>
+          {/* <input
+            type="text"
+            name="message"
+            autoFocus
+            value={inputValue.currentValue}
+            onChange={handleInputChange}
+            ref={inputTextRef}
+          /> */}
+          <div
+            className={cl.inputMessage}
+            contentEditable={true}
+            autoFocus
+            onInput={handleInputChange}
+            ref={inputTextRef}
+            placeholder={"Message"}
+          ></div>
+          <button className={btn.sendButton}>
+            <img src="/icons/sendButtonLight.svg" alt="" />
+          </button>
         </form>
       </div>
       {message.file && (

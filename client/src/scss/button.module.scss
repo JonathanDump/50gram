@@ -39,3 +39,20 @@
     background-color: white;
   }
 }
+
+.sendButton {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: var(--svg-invert-accent);
+  cursor: pointer;
+  // padding: 4px;
+  width: 24px;
+  height: 24px;
+  // background-color: red;
+
+  // &::after {
+  //   content: url("/icons/sendButtonLight.svg");
+  // }
+}

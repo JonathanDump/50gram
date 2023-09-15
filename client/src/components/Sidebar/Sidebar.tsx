@@ -17,13 +17,9 @@ export default function Sidebar() {
   const menuBgRef = useRef<HTMLDivElement | null>(null);
   const { userId } = useParams();
 
-  const menuClass = menuVisible ? `${cl.menu} ${cl.menuVisible}` : `${cl.menu}`;
-  const menuBgClass = menuVisible
-    ? `${cl.menuBg} ${cl.menuBgVisible}`
-    : `${cl.menuBg}`;
-  const burgerClass = document.body.hasAttribute("data-theme")
-    ? `${cl.burger} ${cl.burgerDarkTheme}`
-    : `${cl.burger}`;
+  const menuContainerClass = menuVisible
+    ? `${cl.menuContainer} ${cl.menuContainerVisible}`
+    : `${cl.menuContainer}`;
 
   const handleBurgerClick = () => {
     setMenuVisible(!menuVisible);
@@ -41,7 +37,7 @@ export default function Sidebar() {
     <>
       <div className={cl.sidebar}>
         <div className={cl.header}>
-          <div className={burgerClass} onClick={handleBurgerClick}>
+          <div className={cl.burger} onClick={handleBurgerClick}>
             <img src={burger} alt="" />
           </div>
           <div className={cl.title}>50gram</div>
@@ -94,17 +90,19 @@ export default function Sidebar() {
         </div>
       )} */}
       </div>
-      <div className={menuClass}>
-        <UserCard editOn={true} menuVisible={menuVisible} />
-        <button type="button" onClick={handleLogOutClick}>
-          Log Out
-        </button>
+      <div className={menuContainerClass}>
+        <div className={cl.menu}>
+          <UserCard editOn={true} menuVisible={menuVisible} />
+          <button type="button" onClick={handleLogOutClick}>
+            Log Out
+          </button>
+        </div>
+        <div
+          className={cl.menuBg}
+          ref={menuBgRef}
+          onClick={handleMenuBgRefClick}
+        ></div>
       </div>
-      <div
-        className={menuBgClass}
-        ref={menuBgRef}
-        onClick={handleMenuBgRefClick}
-      ></div>
     </>
   );
 }

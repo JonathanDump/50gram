@@ -48,8 +48,10 @@ export default function Chat() {
     setTimeout(() => {
       scrollToBottom();
     }, 200);
-    inputTextRef.current!.textContent = "";
-    inputTextRef.current?.focus();
+    if (inputTextRef.current) {
+      inputTextRef.current.textContent = "";
+      inputTextRef.current.focus();
+    }
   }, [chat]);
 
   useEffect(() => {

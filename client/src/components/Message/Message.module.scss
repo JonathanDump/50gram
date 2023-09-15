@@ -2,12 +2,14 @@
 @import "../../scss/themes";
 
 .message {
-  max-width: 278px;
+  // max-width: 278px;
+  max-width: 430px;
   padding: $padding-message;
 
   border-radius: $border-radius;
   display: flex;
   flex-direction: column;
+  gap: $gap-message;
 
   .imgContainer {
     img {

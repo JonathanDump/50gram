@@ -32,6 +32,7 @@
     width: 100%;
     max-width: 750px;
     align-self: center;
+    overflow: hidden;
 
     .messagesWindow {
       display: flex;
@@ -87,6 +88,12 @@
         border: none;
         line-height: 1.5rem;
         outline: none;
+        transition: $transition;
+
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+          display: none;
+        }
 
         &[placeholder]:empty::before {
           content: attr(placeholder);

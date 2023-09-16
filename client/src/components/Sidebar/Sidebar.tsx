@@ -52,11 +52,14 @@ export default function Sidebar() {
           ) : (
             users
               .sort((a, b) => {
-                if (isOnline(usersOnline, a) && !isOnline(usersOnline, b)) {
+                if (
+                  isOnline(usersOnline, a._id) &&
+                  !isOnline(usersOnline, b._id)
+                ) {
                   return -1;
                 } else if (
-                  isOnline(usersOnline, b) &&
-                  !isOnline(usersOnline, a)
+                  isOnline(usersOnline, b._id) &&
+                  !isOnline(usersOnline, a._id)
                 ) {
                   return 1;
                 } else {
@@ -70,7 +73,7 @@ export default function Sidebar() {
                   <NavLink to={`/${user._id}`} key={user._id}>
                     <UserCard
                       user={user}
-                      isOnline={isOnline(usersOnline, user)}
+                      isOnline={isOnline(usersOnline, user._id)}
                       isSelected={isSelected}
                     />
                   </NavLink>

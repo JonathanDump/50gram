@@ -2,7 +2,7 @@ import { IUserIds, UserInterface } from "../interfaces/interfaces";
 
 export default function isOnline(
   usersOnline: IUserIds[],
-  user: UserInterface
+  userId: string
 ): boolean {
-  return !!usersOnline.find((userIds) => userIds.userId === user!._id);
+  return !!usersOnline.find((userIds) => userIds.userId === userId);
 }

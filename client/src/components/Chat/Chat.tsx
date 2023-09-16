@@ -14,6 +14,8 @@ import attachmentsIcon from "/icons/attachmentsImg.svg";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { IMessage } from "../../interfaces/interfaces";
 import ImageMessage from "../ImageMessage/ImageMessage";
+import useOnline from "../../hooks/useOnline";
+import isOnline from "../../helpers/isOnline";
 
 export default function Chat() {
   const [inputValue, setInputValue] = useState({
@@ -23,6 +25,7 @@ export default function Chat() {
   console.log("message input value", inputValue);
 
   const { chat, loading, error, sendMessage, userId, loadMessages } = useChat();
+  const { usersOnline } = useOnline();
   console.log("chat", chat);
 
   const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
@@ -108,6 +111,18 @@ export default function Chat() {
     // }, 200);
   };
 
+  const handleChatScroll = () => {
+    const { scrollHeight, scrollTop, clientHeight } =
+      messagesWindowRef.current!;
+    const pxToEnd = scrollHeight + scrollTop - clientHeight;
+
+    //Make some kind of throttling!!!!!!!!!!!!!!!!!
+    if (pxToEnd <= 3) {
+      pageRef.current++;
+      loadMessages(pageRef.current);
+    }
+  };
+
   if (error) {
     return (
       <div className={cl.chat}>
@@ -130,7 +145,9 @@ export default function Chat() {
           {chat!.getInterlocutor(userId!)?.name}
         </div>
         <div className={cl.onlineStatus}>
-          {chat!.getInterlocutorLastOnline(userId!)}
+          {isOnline(usersOnline, userId!)
+            ? "online"
+            : chat!.getInterlocutorLastOnline(userId!)}
         </div>
       </div>
       <div
@@ -142,26 +159,7 @@ export default function Chat() {
         <div
           className={cl.messagesWindow}
           ref={messagesWindowRef}
-          onScroll={(e: React.UIEvent<HTMLDivElement>) => {
-            // console.log(
-            //   "scrollHeight",
-            //   messagesWindowRef.current?.scrollHeight
-            // );
-            // console.log("scrollTop", messagesWindowRef.current?.scrollTop);
-            // console.log(
-            //   "clientHeight",
-            //   messagesWindowRef.current!.clientHeight
-            // );
-            const { scrollHeight, scrollTop, clientHeight } =
-              messagesWindowRef.current!;
-            const pxToEnd = scrollHeight + scrollTop - clientHeight;
-            console.log("pxToEnd", pxToEnd);
-
-            if (pxToEnd < 3) {
-              pageRef.current++;
-              loadMessages(pageRef.current);
-            }
-          }}
+          onScroll={handleChatScroll}
         >
           {chat!.messages.map((msg) => {
             return <Message message={msg} key={msg._id} />;

@@ -72,8 +72,18 @@ export default function socketHandlerUser(io: Server) {
       socket.broadcast.emit("updateUserList", user);
     });
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       console.log("disconnect");
+
+      const disconnectedUser = usersOnline.filter(
+        (user) => user.socketId === socket.id
+      );
+      const userDb = await User.findById(disconnectedUser[0].userId);
+
+      if (userDb) {
+        userDb.lastOnline = Date.now();
+        await userDb.save();
+      }
 
       usersOnline = usersOnline.filter((user) => user.socketId !== socket.id);
       io.emit("disconnected", usersOnline);

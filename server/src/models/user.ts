@@ -11,6 +11,7 @@ const UserSchema = new Schema(
     messages: [{ type: Schema.Types.ObjectId, ref: "Message", default: [] }],
     chats: [{ type: Schema.Types.ObjectId, ref: "Chat", default: [] }],
     googleId: String,
+    lastOnline: Number,
   },
   { collection: "Users" }
 );

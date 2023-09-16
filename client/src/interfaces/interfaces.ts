@@ -35,6 +35,7 @@ export interface UserInterface {
   email?: string;
   img: string;
   password?: string;
+  lastOnline?: number;
 }
 
 export interface SidebarInterface {

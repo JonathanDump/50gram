@@ -40,7 +40,9 @@ export default function Sidebar() {
           <div className={cl.burger} onClick={handleBurgerClick}>
             <img src={burger} alt="" />
           </div>
-          <div className={cl.title}>50gram</div>
+          <NavLink to="/" className={cl.title}>
+            50gram
+          </NavLink>
         </div>
         <div className={cl.userList}>
           {loading ? (

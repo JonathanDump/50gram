@@ -105,28 +105,36 @@ export default function Chat() {
   };
 
   if (error) {
-    return <div>Something went wrong</div>;
+    return (
+      <div className={cl.chat}>
+        <div className={cl.componentStatus}>Something went wrong</div>
+      </div>
+    );
   }
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={cl.chat}>
+        <div className={cl.componentStatus}>Loading...</div>
+      </div>
+    );
   }
 
   return (
     <div className={cl.chat}>
       <div className={cl.header}>
         <div className={cl.userName}>
-          {chat!.users.find((user) => user._id === userId)?.name}
+          {chat!.getInterlocutor(userId!)?.name}
         </div>
-        <div className={cl.onlineStatus}>last seen 11 minutes ago</div>
+        <div className={cl.onlineStatus}>
+          {chat!.getInterlocutorLastOnline(userId!)}
+        </div>
       </div>
       <div className={cl.container}>
         <div className={cl.messagesWindow} ref={messagesWindowRef}>
-          {/* <div style={{ visibility: "hidden" }} ref={messagesEndRef} /> */}
-          {[...chat!.messages].reverse().map((msg) => {
+          {chat!.getReversedMessages().map((msg) => {
             return <Message message={msg} key={msg._id} />;
           })}
           <div style={{ height: "12px" }}></div>
-          {/* <div style={{ visibility: "hidden" }} ref={messagesEndRef} /> */}
         </div>
         <form className={cl.messageForm} onSubmit={handleFormSubmit}>
           <div className={cl.attachments} onClick={handleAttachmentsClick}>

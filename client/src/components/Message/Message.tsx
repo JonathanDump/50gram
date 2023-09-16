@@ -19,7 +19,11 @@ export default function Message({ message }: MessageParams) {
       )}
       <div className={cl.text}>
         {message.text}
-        <div className={cl.date}>{format(new Date(message.date), "HH:mm")}</div>
+        <span className={cl.messageMeta}>
+          <span className={cl.date}>
+            {format(new Date(message.date), "HH:mm")}
+          </span>
+        </span>
       </div>
     </div>
   );

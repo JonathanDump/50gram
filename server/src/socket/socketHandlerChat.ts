@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 // import jwt from "jsonwebtoken";
 // import { envReader } from "../functions/functions";
 import { writeFile } from "fs";
-import { ISendMessage } from "../interfaces/interfaces";
+import { ISendMessage, ILoadMessages } from "../interfaces/interfaces";
 
 export default function socketHandlerChat(io: Server) {
   // io.use((socket, next) => {
@@ -88,6 +88,26 @@ export default function socketHandlerChat(io: Server) {
 
         cb(message);
         socket.to(chatId).emit("receive message", message);
+      }
+    );
+
+    socket.on(
+      "load messages",
+      async ({ page, myId, userId }: ILoadMessages, cb) => {
+        console.log("load msg page", page);
+
+        const pageSize = 50;
+        const chat = await Chat.findOne({ users: { $all: [myId, userId] } })
+          .populate({
+            path: "messages",
+            options: {
+              sort: { date: -1 },
+              skip: (+page - 1) * pageSize, // Calculate the number of messages to skip
+              limit: pageSize, // Limit the number of messages per page
+            },
+          })
+          .exec();
+        cb(chat!.messages);
       }
     );
   });

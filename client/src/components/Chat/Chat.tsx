@@ -22,7 +22,7 @@ export default function Chat() {
   });
   console.log("message input value", inputValue);
 
-  const { chat, loading, error, sendMessage, userId } = useChat();
+  const { chat, loading, error, sendMessage, userId, loadMessages } = useChat();
   console.log("chat", chat);
 
   const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
@@ -35,6 +35,8 @@ export default function Chat() {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+  const pageRef = useRef(1);
+
   const scrollToBottom = () => {
     // messagesEndRef.current?.scrollIntoView({ behavior });
     messagesWindowRef.current?.scrollTo(
@@ -45,9 +47,7 @@ export default function Chat() {
 
   useEffect(() => {
     // scrollToBottom();
-    setTimeout(() => {
-      scrollToBottom();
-    }, 200);
+
     if (inputTextRef.current) {
       inputTextRef.current.textContent = "";
       inputTextRef.current.focus();
@@ -97,6 +97,10 @@ export default function Chat() {
       prevValue: "",
       currentValue: "",
     });
+
+    setTimeout(() => {
+      scrollToBottom();
+    }, 200);
     // inputTextRef.current!.textContent = "";
     // inputTextRef.current?.focus();
     // setTimeout(() => {
@@ -129,9 +133,37 @@ export default function Chat() {
           {chat!.getInterlocutorLastOnline(userId!)}
         </div>
       </div>
-      <div className={cl.container}>
-        <div className={cl.messagesWindow} ref={messagesWindowRef}>
-          {chat!.getReversedMessages().map((msg) => {
+      <div
+        className={cl.container}
+        onScroll={() => {
+          messagesWindowRef.current?.scroll();
+        }}
+      >
+        <div
+          className={cl.messagesWindow}
+          ref={messagesWindowRef}
+          onScroll={(e: React.UIEvent<HTMLDivElement>) => {
+            // console.log(
+            //   "scrollHeight",
+            //   messagesWindowRef.current?.scrollHeight
+            // );
+            // console.log("scrollTop", messagesWindowRef.current?.scrollTop);
+            // console.log(
+            //   "clientHeight",
+            //   messagesWindowRef.current!.clientHeight
+            // );
+            const { scrollHeight, scrollTop, clientHeight } =
+              messagesWindowRef.current!;
+            const pxToEnd = scrollHeight + scrollTop - clientHeight;
+            console.log("pxToEnd", pxToEnd);
+
+            if (pxToEnd < 3) {
+              pageRef.current++;
+              loadMessages(pageRef.current);
+            }
+          }}
+        >
+          {chat!.messages.map((msg) => {
             return <Message message={msg} key={msg._id} />;
           })}
           <div style={{ height: "12px" }}></div>

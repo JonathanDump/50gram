@@ -34,3 +34,9 @@ export interface ISendMessage {
   myId: string;
   chatId: string;
 }
+
+export interface ILoadMessages {
+  page: number;
+  myId: string;
+  userId: string;
+}

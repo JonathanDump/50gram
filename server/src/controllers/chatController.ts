@@ -8,18 +8,28 @@ import { DecodedJwt } from "../interfaces/interfaces";
 import { envReader } from "../functions/functions";
 
 exports.getChat = asyncHandler(async (req: Request, res: Response) => {
+  console.log("page", req.body.page);
+
   const decodedJwt = jwtDecode(
     req.headers.authorization as string
   ) as DecodedJwt;
   const myId = decodedJwt.user._id;
   const userId = req.params.userId;
 
+  const pageSize = 50;
   const chat = await Chat.findOne({ users: { $all: [myId, userId] } })
     .populate({
       path: "users",
       select: ["name", "lastOnline"],
     })
-    .populate("messages")
+    .populate({
+      path: "messages",
+      options: {
+        sort: { date: -1 },
+        skip: (+req.body.page - 1) * pageSize, // Calculate the number of messages to skip
+        limit: pageSize, // Limit the number of messages per page
+      },
+    })
     .exec();
   console.log("chat", chat);
 

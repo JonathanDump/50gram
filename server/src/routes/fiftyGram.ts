@@ -28,7 +28,7 @@ router.use("/", passport.authenticate("jwt", { session: false }));
 
 // router.get("/", userController.getAllUsers);
 
-router.get("/:userId", chatController.getChat);
+router.post("/:userId", chatController.getChat);
 
 router.post(
   "/:userId/sendImageMessage",

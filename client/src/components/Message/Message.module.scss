@@ -21,18 +21,27 @@
   .text {
     // padding: $padding-message;
 
-    display: flex;
-    align-items: center;
-    gap: $gap-message;
+    overflow-wrap: break-word;
 
-    justify-content: flex-end;
+    // display: flex;
+    // align-items: center;
+    // gap: $gap-message;
 
-    .date {
+    // justify-content: flex-end;
+
+    .messageMeta {
+      position: relative;
+      top: 0.375rem;
+      bottom: auto !important;
+      margin-left: 8px;
       float: right;
-      font-size: 12px;
-      align-self: flex-end;
-      justify-self: flex-end;
-      color: var(--caption-color);
+
+      .date {
+        font-size: 12px;
+        // align-self: flex-end;
+        // justify-self: flex-end;
+        color: var(--caption-color);
+      }
     }
   }
 }
@@ -40,9 +49,11 @@
 .messageIn {
   align-self: flex-start;
   background-color: var(--message-color);
+  margin-right: 24px;
 }
 
 .messageOut {
   align-self: flex-end;
   background-color: var(--my-message-color);
+  margin-left: 24px;
 }

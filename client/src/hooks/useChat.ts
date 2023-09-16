@@ -10,6 +10,10 @@ import { SERVER_URL } from "../config/config";
 
 import { socket } from "../hooks/useUserList";
 import { format, isToday, isYesterday } from "date-fns";
+import copyAndUpdateMessagesInChat from "../helpers/copyAndUpdateMessagesInChat";
+import concatChats from "../helpers/copyAndConcatChats";
+import copyAndConcatChats from "../helpers/copyAndConcatChats";
+import userFromJwt from "../helpers/userFromJwt";
 // const socket = io(SERVER_URL);
 
 export class Chat implements ChatInterface {
@@ -33,10 +37,7 @@ export class Chat implements ChatInterface {
   }
 
   getInterlocutorLastOnline(userId: string) {
-    console.log("interlocutor", this.getInterlocutor(userId));
-
-    const lastOnline = this.getInterlocutor(userId)!.lastOnline!;
-    console.log("last online", lastOnline);
+    const lastOnline = this.getInterlocutor(userId)?.lastOnline!;
 
     const timeAgo = Date.now() - lastOnline;
     const minute = 1000 * 60;
@@ -69,7 +70,9 @@ export default function useChat() {
   const [loading, setLoading] = useState(true);
   const [chat, setChat] = useState<Chat | null>(null);
   const { userId } = useParams();
+  const myUserObject = userFromJwt();
   const location = useLocation();
+
   const navigate = useNavigate();
   // const getChat = () => {
   //   socket.emit(
@@ -89,24 +92,48 @@ export default function useChat() {
       console.log("send message emit result", message);
 
       setChat((prevChat) => {
-        if (prevChat) {
-          const newChat = { ...prevChat };
-          const newMessages = [...prevChat!.messages];
-
-          newMessages.push(message);
-          newChat.messages = newMessages;
-          console.log("set new chat", newChat);
-
-          return Chat.fromObject(newChat);
+        if (!prevChat) {
+          return null;
         }
-        return null;
-        // return newChat as ChatInterface;
+        // const newChat = { ...prevChat };
+        // const newMessages = [...prevChat!.messages];
+
+        // newMessages.push(message);
+        // newChat.messages = newMessages;
+        // console.log("set new chat", newChat);
+
+        // return Chat.fromObject(newChat);
+
+        return Chat.fromObject(
+          copyAndUpdateMessagesInChat(prevChat, [message])
+        );
       });
     });
   };
 
+  const loadMessages = (page: number) => {
+    console.log("loading new messages");
+
+    socket.emit(
+      "load messages",
+      { page, myId: myUserObject!._id, userId },
+      (messages: MessageInterface[]) => {
+        setChat((prevChat) => {
+          if (!prevChat) {
+            return null;
+          }
+          console.log("loaded messages", messages);
+
+          return Chat.fromObject(
+            copyAndUpdateMessagesInChat(prevChat, messages)
+          );
+        });
+      }
+    );
+  };
+
   useEffect(() => {
-    async function getChat() {
+    async function getChat(page: number = 1) {
       try {
         console.log("getting chat");
 
@@ -115,9 +142,12 @@ export default function useChat() {
         console.log("params", userId);
 
         const response = await fetch(`${SERVER_URL}/50gram/${userId}`, {
+          method: "POST",
           headers: {
             Authorization: token,
+            "Content-Type": "application/json",
           },
+          body: JSON.stringify({ page }),
         });
 
         if (response.status === 401) {
@@ -159,12 +189,16 @@ export default function useChat() {
         if (!prevChat) {
           return null;
         }
-        const newChat = { ...prevChat };
-        const newMessages = [...prevChat!.messages];
+        // const newChat = { ...prevChat };
+        // const newMessages = [...prevChat!.messages];
 
-        newMessages.push(message);
-        newChat.messages = newMessages;
-        return Chat.fromObject(newChat);
+        // newMessages.push(message);
+        // newChat.messages = newMessages;
+        // return Chat.fromObject(newChat);
+
+        return Chat.fromObject(
+          copyAndUpdateMessagesInChat(prevChat, [message])
+        );
         // return newChat as ChatInterface;
       });
     });
@@ -173,8 +207,9 @@ export default function useChat() {
       socket.off("connect");
       socket.off("get chat");
       socket.off("receive message");
+      socket.off("load messages");
     };
   }, [location]);
 
-  return { error, loading, chat, setChat, sendMessage, userId };
+  return { error, loading, chat, setChat, sendMessage, userId, loadMessages };
 }

@@ -6,17 +6,18 @@ import AuthProvider from "../../components/AuthProvider/AuthProvider";
 import ImageMessage from "../../components/ImageMessage/ImageMessage";
 import { useRef, useState } from "react";
 import { IMessage } from "../../interfaces/interfaces";
+import useOnline from "../../hooks/useOnline";
 
 export default function FiftyGram() {
   // const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
   // console.log("messageRef fifty gram", message);
-
-  const outlet = useOutlet();
+  const { usersOnline } = useOnline();
+  const outlet = useOutlet({ usersOnline });
   return (
     <AuthProvider>
       <div className={cl.fiftyGram}>
         <div className={cl.window}>
-          <Sidebar />
+          <Sidebar usersOnline={usersOnline} />
           {outlet || (
             <div className={cl.componentStatus}>
               Choose chat to start messaging

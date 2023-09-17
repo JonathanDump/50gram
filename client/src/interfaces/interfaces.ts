@@ -62,6 +62,7 @@ export interface MessageInterface {
   date: string;
   imageUrl?: string;
   user: string;
+  isRead: boolean;
 }
 
 export interface ChatInterface {
@@ -128,4 +129,12 @@ export interface avatarInputFileProps {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   setButtonsOn?: React.Dispatch<React.SetStateAction<boolean>>;
   decodedJwt?: DecodedJwt;
+}
+
+export interface SidebarParams {
+  usersOnline: IUserIds[];
+}
+
+export interface IOutletContext {
+  usersOnline: IUserIds[];
 }

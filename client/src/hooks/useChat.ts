@@ -197,11 +197,34 @@ export default function useChat() {
       });
     });
 
+    socket.on("disconnected user", (userDisconnected: UserInterface) => {
+      // if (chat!.users.find(user => user._id === userDisconnected._id)) {
+      // }
+      console.log("userDisconnected", userDisconnected);
+
+      if (chat!.users.find((user) => user._id === userDisconnected._id)) {
+        console.log("includes");
+
+        setChat((prevChat) => {
+          if (!prevChat) {
+            return null;
+          }
+          const newChat = { ...prevChat };
+          const user = prevChat!.users.find(
+            (user) => user._id === userDisconnected._id
+          );
+          user!.lastOnline = userDisconnected.lastOnline;
+          return Chat.fromObject(newChat);
+        });
+      }
+    });
+
     return () => {
       socket.off("connect");
       socket.off("get chat");
       socket.off("receive message");
       socket.off("load messages");
+      socket.off("disconnected user");
     };
   }, [location]);
 

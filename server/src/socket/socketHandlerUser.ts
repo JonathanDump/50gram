@@ -1,7 +1,6 @@
 import { Server } from "socket.io";
 import User from "../models/user";
-import jwt from "jsonwebtoken";
-// import { envReader } from "../functions/functions";
+
 import jwtDecode from "jwt-decode";
 import { DecodedJwt } from "../interfaces/interfaces";
 
@@ -83,6 +82,12 @@ export default function socketHandlerUser(io: Server) {
       if (userDb) {
         userDb.lastOnline = Date.now();
         await userDb.save();
+
+        socket.broadcast.emit("disconnected user", {
+          _id: userDb._id,
+          name: userDb.name,
+          lastOnline: userDb.lastOnline,
+        });
       }
 
       usersOnline = usersOnline.filter((user) => user.socketId !== socket.id);

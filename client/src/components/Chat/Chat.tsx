@@ -12,7 +12,11 @@ import useChat from "../../hooks/useChat";
 import userFromJwt from "../../helpers/userFromJwt";
 import attachmentsIcon from "/icons/attachmentsImg.svg";
 import { useLocation, useOutletContext } from "react-router-dom";
-import { IMessage } from "../../interfaces/interfaces";
+import {
+  IMessage,
+  IOutletContext,
+  IUserIds,
+} from "../../interfaces/interfaces";
 import ImageMessage from "../ImageMessage/ImageMessage";
 import useOnline from "../../hooks/useOnline";
 import isOnline from "../../helpers/isOnline";
@@ -25,7 +29,8 @@ export default function Chat() {
   console.log("message input value", inputValue);
 
   const { chat, loading, error, sendMessage, userId, loadMessages } = useChat();
-  const { usersOnline } = useOnline();
+  const { usersOnline }: IOutletContext = useOutletContext();
+  // const { usersOnline } = useOnline();
   console.log("chat", chat);
 
   const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
@@ -39,6 +44,7 @@ export default function Chat() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const pageRef = useRef(1);
+  const thresholdRef = useRef(10);
 
   const scrollToBottom = () => {
     // messagesEndRef.current?.scrollIntoView({ behavior });
@@ -111,23 +117,21 @@ export default function Chat() {
     // }, 200);
   };
 
-  let threshold = useRef(10);
   const handleChatScroll = async () => {
     const { scrollHeight, scrollTop, clientHeight } =
       messagesWindowRef.current!;
     const pxToEnd = scrollHeight + scrollTop - clientHeight;
     console.log(pxToEnd);
 
-    //Make some kind of throttling!!!!!!!!!!!!!!!!!
-    if (pxToEnd <= threshold.current) {
-      threshold.current = -1;
+    if (pxToEnd <= thresholdRef.current) {
+      thresholdRef.current = -1;
 
       pageRef.current++;
       loadMessages(pageRef.current);
-      await setTimeout(() => (threshold.current = 10), 1000);
-      console.log("threshold upd", threshold.current);
+      await setTimeout(() => (thresholdRef.current = 10), 1000);
+      console.log("threshold upd", thresholdRef.current);
     }
-    console.log("threshold", threshold.current);
+    console.log("threshold", thresholdRef.current);
   };
 
   if (error) {

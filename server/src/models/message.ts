@@ -7,6 +7,7 @@ const MessageSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   date: Date,
   chat: { type: Schema.Types.ObjectId, ref: "Chat", required: true },
+  isRead: { type: Boolean, default: false },
 });
 
 export default mongoose.model("Message", MessageSchema);

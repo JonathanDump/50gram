@@ -1,5 +1,9 @@
 import { useRef, useState } from "react";
-import { SidebarInterface } from "../../interfaces/interfaces";
+import {
+  IUserIds,
+  SidebarInterface,
+  SidebarParams,
+} from "../../interfaces/interfaces";
 import UserCard from "../UserCard/UserCard";
 import cl from "./Sidebar.module.scss";
 import burger from "/icons/hamburger.svg";
@@ -9,11 +13,11 @@ import useUserList from "../../hooks/useUserList";
 import useOnline from "../../hooks/useOnline";
 import isOnline from "../../helpers/isOnline";
 
-export default function Sidebar() {
+export default function Sidebar({ usersOnline }: SidebarParams) {
   const { users, loading } = useUserList();
   const [menuVisible, setMenuVisible] = useState(false);
   const navigate = useNavigate();
-  const { usersOnline } = useOnline();
+  // const { usersOnline } = useOnline();
   const menuBgRef = useRef<HTMLDivElement | null>(null);
   const { userId } = useParams();
 

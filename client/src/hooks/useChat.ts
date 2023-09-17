@@ -128,6 +128,10 @@ export default function useChat() {
     );
   };
 
+  const readMessages = () => {
+    socket.emit("read messages", chat!._id);
+  };
+
   useEffect(() => {
     async function getChat(page: number = 1) {
       try {

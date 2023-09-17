@@ -10,7 +10,8 @@ import React, {
 import Message from "../Message/Message";
 import useChat from "../../hooks/useChat";
 import userFromJwt from "../../helpers/userFromJwt";
-import attachmentsIcon from "/icons/attachmentsImg.svg";
+import { ReactComponent as AttachmentsIcon } from "/public/icons/attachmentsImg.svg";
+// import attachmentsIcon from "/icons/attachmentsImg.svg";
 import { useLocation, useOutletContext } from "react-router-dom";
 import {
   IMessage,
@@ -179,7 +180,8 @@ export default function Chat() {
         </div>
         <form className={cl.messageForm} onSubmit={handleFormSubmit}>
           <div className={cl.attachments} onClick={handleAttachmentsClick}>
-            <img src={attachmentsIcon} alt="" />
+            {/* <img src={attachmentsIcon} alt="" /> */}
+            <AttachmentsIcon />
             <input
               ref={inputFileRef}
               type="file"

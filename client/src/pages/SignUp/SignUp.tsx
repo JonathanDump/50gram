@@ -124,6 +124,7 @@ export default function SignUp() {
               value={inputValue.name}
               minLength={1}
               onChange={handleInputChange}
+              maxLength={50}
             />
             {invalidName && (
               <div className={formCl.inputError}>

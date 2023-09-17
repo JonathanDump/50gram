@@ -6,11 +6,11 @@ import {
 } from "../../interfaces/interfaces";
 import UserCard from "../UserCard/UserCard";
 import cl from "./Sidebar.module.scss";
-import burger from "/icons/hamburger.svg";
+import { ReactComponent as Burger } from "/public/icons/hamburger.svg";
 
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import useUserList from "../../hooks/useUserList";
-import useOnline from "../../hooks/useOnline";
+
 import isOnline from "../../helpers/isOnline";
 
 export default function Sidebar({ usersOnline }: SidebarParams) {
@@ -42,7 +42,8 @@ export default function Sidebar({ usersOnline }: SidebarParams) {
       <div className={cl.sidebar}>
         <div className={cl.header}>
           <div className={cl.burger} onClick={handleBurgerClick}>
-            <img src={burger} alt="" />
+            {/* <img src={burger} alt="" /> */}
+            <Burger />
           </div>
           <NavLink to="/" className={cl.title}>
             50gram

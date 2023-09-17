@@ -16,6 +16,11 @@
   .avatarContainer {
     // max-width: 128px;
     // min-width: 64px;
+
+    min-width: 54px;
+    min-height: 54px;
+    width: 54px;
+    height: 54px;
     width: 54px;
     height: 54px;
     background-image: url("/avatars/default-avatar.jpeg");
@@ -49,8 +54,8 @@
   .name {
     display: flex;
     cursor: text;
-    width: max-content;
-    text-wrap: nowrap;
+    // width: max-content;
+    // text-wrap: nowrap;
     gap: 6px;
     color: inherit;
 
@@ -70,6 +75,22 @@
       .icon {
         opacity: 1;
       }
+    }
+  }
+
+  .notification {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    .dot {
+      width: 17px;
+      height: 17px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f0f0f0;
     }
   }
 }

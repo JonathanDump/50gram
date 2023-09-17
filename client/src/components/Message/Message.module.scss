@@ -42,6 +42,10 @@
         // justify-self: flex-end;
         color: var(--caption-color);
       }
+
+      .status {
+        margin-left: 6px;
+      }
     }
   }
 }
@@ -50,10 +54,26 @@
   align-self: flex-start;
   background-color: var(--message-color);
   margin-right: 24px;
+
+  .status {
+    svg {
+      path {
+        stroke: var(--message-navigation-color);
+      }
+    }
+  }
 }
 
 .messageOut {
   align-self: flex-end;
   background-color: var(--my-message-color);
   margin-left: 24px;
+
+  .status {
+    svg {
+      path {
+        stroke: var(--my-message-navigation-color);
+      }
+    }
+  }
 }

@@ -1,7 +1,11 @@
+///<reference types="vite-plugin-svgr/client" />;
+
 import { useParams } from "react-router-dom";
 import { MessageParams } from "../../interfaces/interfaces";
 import cl from "./Message.module.scss";
 import { format } from "date-fns";
+import { ReactComponent as ReadIcon } from "/public/icons/read.svg";
+import { ReactComponent as UnreadIcon } from "/public/icons/unread.svg";
 import React from "react";
 
 export default function Message({ message }: MessageParams) {
@@ -23,6 +27,11 @@ export default function Message({ message }: MessageParams) {
           <span className={cl.date}>
             {format(new Date(message.date), "HH:mm")}
           </span>
+          {userId !== message.user && (
+            <span className={cl.status}>
+              {message.isRead ? <ReadIcon /> : <UnreadIcon />}
+            </span>
+          )}
         </span>
       </div>
     </div>

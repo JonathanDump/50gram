@@ -7,6 +7,7 @@ import { envReader, generateJwt } from "../functions/functions";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
 import { totp } from "otplib";
+totp.options = { step: 60 };
 import sendOtp from "../functions/sendOtp";
 const nodemailer = require("nodemailer");
 

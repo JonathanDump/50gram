@@ -9,12 +9,12 @@ import {
 import { DecodedJwt, UserCardInterface } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
 import btn from "../../scss/button.module.scss";
-import editIcon from "/icons/edit.svg";
+import { ReactComponent as EditIcon } from "/public/icons/edit.svg";
+// import editIcon from "/icons/edit.svg";
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
 import AvatarInputFile from "../AvatarInputFile/AvatarInputFile";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
-import { useLocation } from "react-router-dom";
 
 export default function UserCard({
   user,
@@ -144,8 +144,9 @@ export default function UserCard({
           <img src={user!.img} alt="" className={cl.avatar} ref={imgRef} />
           {isOnline && <div className={cl.online}></div>}
         </div>
-        <div className={cl.name} onClick={handleNameClick}>
-          {user!.name}
+        <div className={cl.name}>{user!.name}</div>
+        <div className={cl.notification}>
+          <div className={cl.dot}>1</div>
         </div>
       </div>
     );
@@ -198,7 +199,8 @@ export default function UserCard({
       ) : (
         <div className={cl.name} onClick={handleNameClick}>
           {decodedJwt.user.name}{" "}
-          <img src={editIcon} alt="" className={cl.icon} />
+          {/* <img src={editIcon} alt="" className={cl.icon} /> */}
+          <EditIcon />
         </div>
       )}
 

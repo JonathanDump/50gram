@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
-import { envReader } from "../functions/functions";
+// import { envReader } from "../functions/functions";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt } from "../interfaces/interfaces";
 

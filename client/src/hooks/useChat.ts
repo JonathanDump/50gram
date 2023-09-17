@@ -10,10 +10,10 @@ import { SERVER_URL } from "../config/config";
 
 import { socket } from "../hooks/useUserList";
 import { format, isToday, isYesterday } from "date-fns";
-import copyAndUpdateMessagesInChat from "../helpers/copyAndUpdateMessagesInChat";
-import concatChats from "../helpers/copyAndConcatChats";
-import copyAndConcatChats from "../helpers/copyAndConcatChats";
+import pushLoadedMessages from "../helpers/pushLoadedMessages";
+
 import userFromJwt from "../helpers/userFromJwt";
+import unshiftNewMessage from "../helpers/unshiftNewMessage";
 // const socket = io(SERVER_URL);
 
 export class Chat implements ChatInterface {
@@ -104,9 +104,7 @@ export default function useChat() {
 
         // return Chat.fromObject(newChat);
 
-        return Chat.fromObject(
-          copyAndUpdateMessagesInChat(prevChat, [message])
-        );
+        return Chat.fromObject(unshiftNewMessage(prevChat, message));
       });
     });
   };
@@ -124,9 +122,7 @@ export default function useChat() {
           }
           console.log("loaded messages", messages);
 
-          return Chat.fromObject(
-            copyAndUpdateMessagesInChat(prevChat, messages)
-          );
+          return Chat.fromObject(pushLoadedMessages(prevChat, messages));
         });
       }
     );
@@ -196,9 +192,7 @@ export default function useChat() {
         // newChat.messages = newMessages;
         // return Chat.fromObject(newChat);
 
-        return Chat.fromObject(
-          copyAndUpdateMessagesInChat(prevChat, [message])
-        );
+        return Chat.fromObject(unshiftNewMessage(prevChat, message));
         // return newChat as ChatInterface;
       });
     });

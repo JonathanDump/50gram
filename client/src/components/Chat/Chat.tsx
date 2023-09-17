@@ -117,7 +117,7 @@ export default function Chat() {
     const pxToEnd = scrollHeight + scrollTop - clientHeight;
 
     //Make some kind of throttling!!!!!!!!!!!!!!!!!
-    if (pxToEnd <= 3) {
+    if (pxToEnd === 1) {
       pageRef.current++;
       loadMessages(pageRef.current);
     }

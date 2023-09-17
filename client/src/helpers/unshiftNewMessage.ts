@@ -1,13 +1,15 @@
 import { Chat } from "../hooks/useChat";
 import { ChatInterface, MessageInterface } from "../interfaces/interfaces";
 
-export default function copyAndUpdateMessagesInChat(
+export default function unshiftNewMessage(
   prevChat: Chat,
-  messages: MessageInterface[]
+  messages: MessageInterface
 ) {
   const newChat = { ...prevChat };
   const newMessages = [...prevChat!.messages];
+  newMessages.unshift(messages);
 
-  newChat.messages = newMessages.concat(messages);
+  newChat.messages = newMessages;
+
   return newChat;
 }

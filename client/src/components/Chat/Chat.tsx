@@ -111,16 +111,23 @@ export default function Chat() {
     // }, 200);
   };
 
-  const handleChatScroll = () => {
+  let threshold = useRef(10);
+  const handleChatScroll = async () => {
     const { scrollHeight, scrollTop, clientHeight } =
       messagesWindowRef.current!;
     const pxToEnd = scrollHeight + scrollTop - clientHeight;
+    console.log(pxToEnd);
 
     //Make some kind of throttling!!!!!!!!!!!!!!!!!
-    if (pxToEnd === 1) {
+    if (pxToEnd <= threshold.current) {
+      threshold.current = -1;
+
       pageRef.current++;
       loadMessages(pageRef.current);
+      await setTimeout(() => (threshold.current = 10), 1000);
+      console.log("threshold upd", threshold.current);
     }
+    console.log("threshold", threshold.current);
   };
 
   if (error) {

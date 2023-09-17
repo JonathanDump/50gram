@@ -96,7 +96,7 @@ export default function socketHandlerChat(io: Server) {
       async ({ page, myId, userId }: ILoadMessages, cb) => {
         console.log("load msg page", page);
 
-        const pageSize = 50;
+        const pageSize = 100;
         const chat = await Chat.findOne({ users: { $all: [myId, userId] } })
           .populate({
             path: "messages",

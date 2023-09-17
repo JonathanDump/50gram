@@ -16,7 +16,7 @@ exports.getChat = asyncHandler(async (req: Request, res: Response) => {
   const myId = decodedJwt.user._id;
   const userId = req.params.userId;
 
-  const pageSize = 50;
+  const pageSize = 100;
   const chat = await Chat.findOne({ users: { $all: [myId, userId] } })
     .populate({
       path: "users",

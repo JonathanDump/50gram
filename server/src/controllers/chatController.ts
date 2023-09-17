@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Chat from "../models/chat";
+import User from "../models/user";
 import Message from "../models/message";
 import express, { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
@@ -34,8 +35,18 @@ exports.getChat = asyncHandler(async (req: Request, res: Response) => {
   console.log("chat", chat);
 
   if (!chat) {
+    const users = await User.find(
+      {
+        _id: { $in: [myId, userId] }, // Use $in to match both myId and userId
+      },
+      {
+        name: 1,
+        lastOnline: 1,
+      }
+    ).exec();
+
     const newChat = new Chat({
-      users: [myId, userId],
+      users,
       messages: [],
     });
     await newChat.save();

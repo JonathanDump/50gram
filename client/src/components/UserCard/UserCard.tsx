@@ -6,7 +6,11 @@ import {
   useRef,
   useState,
 } from "react";
-import { DecodedJwt, UserCardInterface } from "../../interfaces/interfaces";
+import {
+  DecodedJwt,
+  UserCardInterface,
+  UserInterface,
+} from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
 import btn from "../../scss/button.module.scss";
 import { ReactComponent as EditIcon } from "/public/icons/edit.svg";
@@ -22,6 +26,8 @@ export default function UserCard({
   isOnline,
   menuVisible,
   isSelected,
+  setUsers,
+  users,
 }: UserCardInterface) {
   const decodedJwt = jwtDecode(
     localStorage.getItem("token") as string
@@ -67,14 +73,6 @@ export default function UserCard({
       setInputValue({ ...inputValue, name: name });
     }
   };
-
-  // const handleImageClick = () => {
-  //   if (!editOn) {
-  //     return;
-  //   }
-  //   setButtonsOn(true);
-  //   inputRef.current!.click();
-  // };
 
   const handleCancelClick = () => {
     setButtonsOn(false);
@@ -128,25 +126,36 @@ export default function UserCard({
     }
   };
 
-  // const handleCardClick = (e: React.MouseEvent) => {
-  //   document
-  //     .querySelector("[class*=userCardActive]")
-  //     ?.classList.remove(`${cl.userCardActive}`);
+  const handleCardClick = () => {
+    console.log("handle card click");
+    if (!user?.newMessages || !users) {
+      console.log("handle card click return");
 
-  //   const target = e.target as HTMLDivElement;
-  //   target.classList.add(`${cl.userCardActive}`);
-  // };
+      return;
+    }
+
+    const copyUsers = [...users];
+    const usr = copyUsers.find((u: UserInterface) => u._id === user._id);
+    if (usr) {
+      console.log("handle card click setting new messages null");
+      usr.newMessages = 0;
+    }
+
+    setUsers && setUsers(copyUsers);
+  };
 
   if (!editOn) {
     return (
-      <div className={userCardClass}>
+      <div className={userCardClass} onClick={handleCardClick}>
         <div className={cl.avatarContainer}>
           <img src={user!.img} alt="" className={cl.avatar} ref={imgRef} />
           {isOnline && <div className={cl.online}></div>}
         </div>
         <div className={cl.name}>{user!.name}</div>
         <div className={cl.notification}>
-          <div className={cl.dot}>1</div>
+          {!!user?.newMessages && (
+            <div className={cl.dot}>{user.newMessages}</div>
+          )}
         </div>
       </div>
     );
@@ -154,22 +163,6 @@ export default function UserCard({
 
   return (
     <div className={`${cl.userCard} ${cl.personal}`}>
-      {/* <div className={cl.avatarContainer} onClick={handleImageClick}>
-        <input
-          type="file"
-          ref={inputRef}
-          id="imgUpload"
-          name="avatar"
-          style={{ display: "none" }}
-          onChange={handleInputChange}
-        />
-        <img
-          src={decodedJwt.user.img}
-          alt=""
-          className={cl.avatar}
-          ref={imgRef}
-        />
-      </div> */}
       <AvatarInputFile
         editOn={editOn}
         imgRef={imgRef}

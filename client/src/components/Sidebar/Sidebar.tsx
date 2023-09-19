@@ -14,7 +14,7 @@ import useUserList from "../../hooks/useUserList";
 import isOnline from "../../helpers/isOnline";
 
 export default function Sidebar({ usersOnline }: SidebarParams) {
-  const { users, loading } = useUserList();
+  const { users, loading, setUsers } = useUserList();
   const [menuVisible, setMenuVisible] = useState(false);
   const navigate = useNavigate();
   // const { usersOnline } = useOnline();
@@ -80,6 +80,8 @@ export default function Sidebar({ usersOnline }: SidebarParams) {
                       user={user}
                       isOnline={isOnline(usersOnline, user._id)}
                       isSelected={isSelected}
+                      setUsers={setUsers}
+                      users={users}
                     />
                   </NavLink>
                 );

@@ -36,6 +36,8 @@ export interface UserInterface {
   img: string;
   password?: string;
   lastOnline?: number;
+  chat?: ChatInterface;
+  newMessages: number;
 }
 
 export interface SidebarInterface {
@@ -48,6 +50,8 @@ export interface UserCardInterface {
   isOnline?: boolean;
   menuVisible?: boolean;
   isSelected?: boolean;
+  setUsers?: React.Dispatch<React.SetStateAction<UserInterface[] | []>>;
+  users?: UserInterface[];
 }
 
 export interface DecodedJwt {
@@ -81,6 +85,7 @@ export interface ISendMessage {
   imageUrl?: string;
   myId: string;
   chatId: string;
+  userId: string;
 }
 
 export interface IAuthProviderParams {

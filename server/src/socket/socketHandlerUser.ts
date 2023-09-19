@@ -1,11 +1,12 @@
 import { Server } from "socket.io";
 import User from "../models/user";
-
+import Chat from "../models/chat";
 import jwtDecode from "jwt-decode";
-import { DecodedJwt } from "../interfaces/interfaces";
+import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
+import { Document, HydratedDocument } from "mongoose";
 
+export let usersOnline: { userId: string; socketId: string }[] = [];
 export default function socketHandlerUser(io: Server) {
-  let usersOnline: { userId: string; socketId: string }[] = [];
   // io.use((socket, next) => {
   //   if (socket.handshake.headers.authorization) {
   //     const token = socket.handshake.headers.authorization.split(" ")[1];
@@ -55,14 +56,39 @@ export default function socketHandlerUser(io: Server) {
 
     console.log("users online", usersOnline);
 
-    socket.on("getAllUsers", async ({ id }) => {
+    socket.on("getAllUsers", async (myId) => {
       const allUsers = await User.find({
-        _id: { $ne: id },
+        _id: { $ne: myId },
       })
         .select("id name img")
         .exec();
 
-      socket.emit("allUsers", allUsers);
+      const populateChatsWithUnreadMessages = async (
+        user: any,
+        myId: string
+      ) => {
+        const populatedChat = await Chat.findOne({
+          users: { $all: [myId, user._id] },
+        })
+          .populate({
+            path: "messages",
+            match: { isRead: false, user: user._id },
+            select: "id",
+          })
+          .exec();
+
+        return {
+          ...user.toObject(),
+          newMessages: populatedChat?.messages.length || 0,
+        };
+      };
+
+      const usersWithPopulatedChat = await Promise.all(
+        allUsers.map((user) => populateChatsWithUnreadMessages(user, myId))
+      );
+
+      // socket.emit("allUsers", allUsers);
+      socket.emit("allUsers", usersWithPopulatedChat);
     });
 
     socket.on("signUpUser", (user) => {

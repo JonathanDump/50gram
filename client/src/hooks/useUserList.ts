@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { SERVER_URL } from "../config/config";
-import { UserInterface } from "../interfaces/interfaces";
+import { MessageInterface, UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
+import { useParams } from "react-router-dom";
 
 console.log("token storage", localStorage.getItem("token"));
 
@@ -14,6 +15,7 @@ export let socket = io(SERVER_URL, {
 export default function useUserList() {
   const [users, setUsers] = useState<UserInterface[] | []>([]);
   const [loading, setLoading] = useState(true);
+  const { userId } = useParams();
 
   const signUpUser = async (user: UserInterface) => {
     socket.emit("signUpUser", user);
@@ -22,7 +24,7 @@ export default function useUserList() {
 
   const getAllUsers = () => {
     if (userFromJwt()?._id) {
-      socket.emit("getAllUsers", { id: userFromJwt()!._id });
+      socket.emit("getAllUsers", userFromJwt()!._id);
     }
   };
 
@@ -73,6 +75,30 @@ export default function useUserList() {
       setUsers((prevUsers) => [...prevUsers, user]);
     });
 
+    socket.on("get notification", (senderId: string) => {
+      console.log("user list get notification");
+      console.log("userId", userId);
+      console.log("senderId", senderId);
+
+      if (senderId === userId) {
+        return;
+      }
+      setUsers((prevUsers) => {
+        if (!prevUsers.length) {
+          return [];
+        }
+        const copyUsers = prevUsers.map((user) => {
+          if (user._id === senderId) {
+            return { ...user, newMessages: (user.newMessages || 0) + 1 };
+          }
+          return user;
+        });
+        // const user = copyUsers.find((user) => user._id === senderId);
+        // user && user.newMessages++;
+        return copyUsers;
+      });
+    });
+
     socket.on("disconnect user", () => {
       console.log("disconnect");
 
@@ -89,5 +115,5 @@ export default function useUserList() {
     };
   }, []);
 
-  return { loading, users, signUpUser };
+  return { loading, users, signUpUser, setUsers };
 }

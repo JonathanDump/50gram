@@ -8,20 +8,21 @@ import {
   IReadMessage,
 } from "../interfaces/interfaces";
 import message from "../models/message";
+import { usersOnline } from "./socketHandlerUser";
 
 export default function socketHandlerChat(io: Server) {
   io.on("connect", (socket) => {
-    socket.on("join chat", (chatId) => {
+    socket.on("join chat", (chatId: string, uId: string) => {
       console.log("joining room", chatId);
 
       socket.join(chatId);
 
-      socket.to(chatId).emit("join chat", chatId);
+      socket.to(chatId).emit("join chat", chatId, uId);
     });
 
     socket.on(
       "send message",
-      async ({ text, imageUrl, myId, chatId }: ISendMessage, cb) => {
+      async ({ text, imageUrl, myId, chatId, userId }: ISendMessage, cb) => {
         const chat = await Chat.findById(chatId).populate("messages").exec();
         console.log("send message");
 
@@ -44,6 +45,10 @@ export default function socketHandlerChat(io: Server) {
         await message.save();
         await chat.save();
 
+        const user = usersOnline.find((userIds) => userIds.userId === userId);
+        if (user) {
+          io.to(user.socketId).emit("get notification", myId);
+        }
         cb(message);
         socket.to(chatId).emit("receive message", message);
       }

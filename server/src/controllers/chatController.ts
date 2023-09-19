@@ -67,7 +67,11 @@ exports.getChat = asyncHandler(
       });
       console.log("umread messages", await messages);
 
-      chat.messages.forEach((message: any) => (message.isRead = true));
+      chat.messages.forEach((message: any) => {
+        if (message.user === userId) {
+          message.isRead = true;
+        }
+      });
 
       res.status(200).json(chat);
     }

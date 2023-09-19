@@ -73,6 +73,7 @@ export default function useChat() {
   const { userId } = useParams();
   const myUserObject = userFromJwt();
   const location = useLocation();
+  console.log("loading", loading);
 
   const sendMessage = (messageData: ISendMessage) => {
     console.log("message data", messageData);
@@ -116,6 +117,7 @@ export default function useChat() {
 
   useEffect(() => {
     console.log("USE EFFECT USE CHAT");
+    setLoading(true);
 
     async function getChat(page: number = 1) {
       try {
@@ -151,12 +153,11 @@ export default function useChat() {
         const result = await response.json();
         console.log("useChat fetch res", result);
 
-        socket.emit("join chat", result._id);
-
         setChat(Chat.fromObject(result));
         // setChat(result);
         setLoading(false);
         setError(null);
+        socket.emit("join chat", result._id, userId);
       } catch (err) {
         console.log("err", err);
 
@@ -166,10 +167,15 @@ export default function useChat() {
 
     getChat();
 
-    socket.on("join chat", (chatId: string) => {
-      if (chatId !== chat!._id) {
-        return;
-      }
+    socket.on("join chat", (chatId: string, uId: string) => {
+      // if (chatId !== chat!._id) {
+      //   return;
+      // }
+      // if (userId !== uId) {
+      //   return;
+      // }
+      console.log("join chat");
+
       setChat((prevChat) => {
         if (!prevChat) {
           return null;

@@ -102,6 +102,7 @@ export default function Chat() {
       text: inputValue.currentValue,
       myId: userFromJwt()!._id,
       chatId: chat!._id,
+      userId: userId!,
     });
     setInputValue({
       prevValue: "",

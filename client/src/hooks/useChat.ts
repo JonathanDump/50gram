@@ -14,6 +14,7 @@ import pushLoadedMessages from "../helpers/pushLoadedMessages";
 
 import userFromJwt from "../helpers/userFromJwt";
 import unshiftNewMessage from "../helpers/unshiftNewMessage";
+import readMessages from "../helpers/readMessages";
 // const socket = io(SERVER_URL);
 
 export class Chat implements ChatInterface {
@@ -60,7 +61,7 @@ export class Chat implements ChatInterface {
     } else if (timeAgo < month) {
       return "last seen within a month";
     } else {
-      return "last seen a long tome ago";
+      return "last seen a long time ago";
     }
   }
 }
@@ -73,20 +74,9 @@ export default function useChat() {
   const myUserObject = userFromJwt();
   const location = useLocation();
 
-  const navigate = useNavigate();
-  // const getChat = () => {
-  //   socket.emit(
-  //     "get chat",
-  //     { userId, myId: userFromJwt()!._id },
-  //     ({ chat }) => {
-  //       console.log("received chat", chat);
-  //       setLoading(false);
-  //       setChat(chat);
-  //     }
-  //   );
-  // };
-
   const sendMessage = (messageData: ISendMessage) => {
+    console.log("message data", messageData);
+
     socket.emit("send message", messageData, (message: MessageInterface) => {
       console.log("EMIT");
       console.log("send message emit result", message);
@@ -95,14 +85,6 @@ export default function useChat() {
         if (!prevChat) {
           return null;
         }
-        // const newChat = { ...prevChat };
-        // const newMessages = [...prevChat!.messages];
-
-        // newMessages.push(message);
-        // newChat.messages = newMessages;
-        // console.log("set new chat", newChat);
-
-        // return Chat.fromObject(newChat);
 
         return Chat.fromObject(unshiftNewMessage(prevChat, message));
       });
@@ -128,11 +110,13 @@ export default function useChat() {
     );
   };
 
-  const readMessages = () => {
-    socket.emit("read messages", chat!._id);
-  };
+  // const readMessages = () => {
+  //   socket.emit("read messages", chat!._id);
+  // };
 
   useEffect(() => {
+    console.log("USE EFFECT USE CHAT");
+
     async function getChat(page: number = 1) {
       try {
         console.log("getting chat");
@@ -182,28 +166,59 @@ export default function useChat() {
 
     getChat();
 
-    socket.on("receive message", (message: MessageInterface) => {
-      console.log("receive message");
-
+    socket.on("join chat", (chatId: string) => {
+      if (chatId !== chat!._id) {
+        return;
+      }
       setChat((prevChat) => {
         if (!prevChat) {
           return null;
         }
-        // const newChat = { ...prevChat };
-        // const newMessages = [...prevChat!.messages];
+        return Chat.fromObject(readMessages(prevChat));
+      });
+    });
 
-        // newMessages.push(message);
-        // newChat.messages = newMessages;
-        // return Chat.fromObject(newChat);
+    socket.on("receive message", (message: MessageInterface) => {
+      console.log("receive message");
+      if (message.user !== userId) {
+        return;
+      }
+      setChat((prevChat) => {
+        if (!prevChat) {
+          return null;
+        }
 
+        message.isRead = true;
         return Chat.fromObject(unshiftNewMessage(prevChat, message));
-        // return newChat as ChatInterface;
+      });
+
+      console.log("message user", message.user);
+      console.log("userId", userId);
+      console.log("chatId", chat!._id);
+
+      socket.emit("read message", {
+        messageId: message._id,
+        chatId: chat!._id,
+      });
+    });
+
+    socket.on("read message", (messageId) => {
+      setChat((prevChat) => {
+        if (!prevChat) {
+          return null;
+        }
+        // const copyChat = { ...prevChat };
+        // const copyMessages = [...prevChat.messages];
+        // copyMessages.find((message) => message._id === messageId)!.isRead =
+        //   true;
+
+        // copyChat.messages = copyMessages;
+        // return Chat.fromObject(copyChat);
+        return Chat.fromObject(readMessages(prevChat));
       });
     });
 
     socket.on("disconnected user", (userDisconnected: UserInterface) => {
-      // if (chat!.users.find(user => user._id === userDisconnected._id)) {
-      // }
       console.log("userDisconnected", userDisconnected);
 
       if (chat!.users.find((user) => user._id === userDisconnected._id)) {
@@ -226,8 +241,10 @@ export default function useChat() {
     return () => {
       socket.off("connect");
       socket.off("get chat");
+      socket.off("join chat");
       socket.off("receive message");
       socket.off("load messages");
+      socket.off("read message");
       socket.off("disconnected user");
     };
   }, [location]);

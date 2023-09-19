@@ -2,63 +2,21 @@ import { Server } from "socket.io";
 import Message from "../models/message";
 import Chat from "../models/chat";
 import mongoose from "mongoose";
-// import jwt from "jsonwebtoken";
-// import { envReader } from "../functions/functions";
-import { writeFile } from "fs";
-import { ISendMessage, ILoadMessages } from "../interfaces/interfaces";
+import {
+  ISendMessage,
+  ILoadMessages,
+  IReadMessage,
+} from "../interfaces/interfaces";
+import message from "../models/message";
 
 export default function socketHandlerChat(io: Server) {
-  // io.use((socket, next) => {
-  //   if (socket.handshake.headers.authorization) {
-  //     const token = socket.handshake.headers.authorization.split(" ")[1];
-  //     console.log("token", token);
-
-  //     jwt.verify(token, envReader("SECRET_KEY"), function (err, decoded) {
-  //       console.log("decoded");
-
-  //       if (err) {
-  //         console.log("err", err);
-
-  //         return next(new Error("Authentication error"));
-  //       }
-
-  //       next();
-  //     });
-  //   } else {
-  //     next(new Error("Authentication error"));
-  //   }
-  // });
-
   io.on("connect", (socket) => {
-    // console.log("connected to chat");
-
-    // socket.on("get chat", async ({ userId, myId }, cb) => {
-    //   console.log("userId", userId);
-    //   console.log("myId", myId);
-
-    //   let chat = await Chat.findOne({ users: { $all: [myId, userId] } })
-    //     .populate("messages")
-    //     .exec();
-    //   console.log("chat", chat);
-
-    //   if (!chat) {
-    //     chat = new Chat({
-    //       users: [myId, userId],
-    //       messages: [],
-    //     });
-    //     await chat.save();
-    //   }
-    //   cb({
-    //     status: "ok",
-    //     chat,
-    //   });
-    //   //   socket.emit("get chat", chat);
-    // });
-
     socket.on("join chat", (chatId) => {
       console.log("joining room", chatId);
 
       socket.join(chatId);
+
+      socket.to(chatId).emit("join chat", chatId);
     });
 
     socket.on(
@@ -110,5 +68,15 @@ export default function socketHandlerChat(io: Server) {
         cb(chat!.messages);
       }
     );
+
+    socket.on("read message", async ({ messageId, chatId }: IReadMessage) => {
+      const messageDb = await Message.findById(messageId);
+      if (messageDb) {
+        messageDb.isRead = true;
+        await messageDb.save();
+
+        socket.to(chatId).emit("read message", messageId);
+      }
+    });
   });
 }

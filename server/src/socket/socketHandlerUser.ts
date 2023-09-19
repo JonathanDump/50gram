@@ -77,7 +77,7 @@ export default function socketHandlerUser(io: Server) {
       const disconnectedUser = usersOnline.filter(
         (user) => user.socketId === socket.id
       );
-      const userDb = await User.findById(disconnectedUser[0].userId);
+      const userDb = await User.findById(disconnectedUser[0]?.userId);
 
       if (userDb) {
         userDb.lastOnline = Date.now();

@@ -29,8 +29,8 @@ export interface DecodedJwt {
 }
 
 export interface ISendMessage {
-  text: string;
-  imageUrl: string;
+  text?: string;
+  imageUrl?: string;
   myId: string;
   chatId: string;
 }
@@ -39,4 +39,9 @@ export interface ILoadMessages {
   page: number;
   myId: string;
   userId: string;
+}
+
+export interface IReadMessage {
+  messageId: string;
+  chatId: string;
 }

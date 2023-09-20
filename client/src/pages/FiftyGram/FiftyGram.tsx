@@ -1,16 +1,10 @@
 import { redirect, useNavigate, useOutlet } from "react-router-dom";
 import cl from "./FiftyGram.module.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { SERVER_URL } from "../../config/config";
 import AuthProvider from "../../components/AuthProvider/AuthProvider";
-import ImageMessage from "../../components/ImageMessage/ImageMessage";
-import { useRef, useState } from "react";
-import { IMessage } from "../../interfaces/interfaces";
 import useOnline from "../../hooks/useOnline";
 
 export default function FiftyGram() {
-  // const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
-  // console.log("messageRef fifty gram", message);
   const { usersOnline } = useOnline();
   const outlet = useOutlet({ usersOnline });
   return (
@@ -24,13 +18,6 @@ export default function FiftyGram() {
             </div>
           )}
         </div>
-        {/* {message.file && (
-          <ImageMessage
-            file={message.file}
-            text={message.text}
-            setMessage={setMessage}
-          />
-        )} */}
       </div>
     </AuthProvider>
   );

@@ -100,12 +100,17 @@
         align-items: center;
         cursor: pointer;
 
-        img {
+        svg {
           transition: $transition;
-          filter: var(--svg-invert-secondary);
+
+          path {
+            fill: var(--caption-color);
+          }
 
           &:hover {
-            filter: var(--svg-invert-accent);
+            path {
+              fill: var(--accent-color);
+            }
           }
         }
       }

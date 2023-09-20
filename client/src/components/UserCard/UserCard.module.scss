@@ -52,23 +52,26 @@
   }
 
   .name {
-    display: flex;
-    cursor: text;
+    // display: flex;
+    cursor: pointer;
     // width: max-content;
     // text-wrap: nowrap;
     gap: 6px;
     color: inherit;
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 1.5rem;
 
     .icon {
+      margin-left: 6px;
       max-width: 16px;
 
       opacity: 0;
       display: inline;
       transition: $transition;
-
-      img {
-        width: 16px;
-      }
+      display: inline;
     }
 
     &:hover {

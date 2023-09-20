@@ -193,14 +193,7 @@ export default function Chat() {
               onChange={handleInputChange}
             />
           </div>
-          {/* <input
-            type="text"
-            name="message"
-            autoFocus
-            value={inputValue.currentValue}
-            onChange={handleInputChange}
-            ref={inputTextRef}
-          /> */}
+
           <div
             className={cl.inputMessage}
             contentEditable={true}

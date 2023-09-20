@@ -181,6 +181,7 @@ export default function UserCard({
             value={inputValue!.name}
             onChange={handleInputChange}
             minLength={1}
+            maxLength={50}
             title="At least 1 character long"
             required
             onInvalid={(e: InvalidEvent<HTMLInputElement>) =>
@@ -191,9 +192,9 @@ export default function UserCard({
         </div>
       ) : (
         <div className={cl.name} onClick={handleNameClick}>
-          {decodedJwt.user.name}{" "}
+          {decodedJwt.user.name}
           {/* <img src={editIcon} alt="" className={cl.icon} /> */}
-          <EditIcon />
+          <EditIcon className={cl.icon} />
         </div>
       )}
 

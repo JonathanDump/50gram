@@ -1,14 +1,30 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import cl from "./ThemeSwitcher.module.scss";
 
 export default function ThemeSwitcher() {
   const checkboxRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    console.log("setting theme");
+
+    const theme = localStorage.getItem("theme");
+    console.log("theme", theme);
+
+    if (theme === "dark") {
+      checkboxRef.current!.checked = true;
+      checkboxRef.current!.click();
+    }
+  }, []);
+
   const handleSwitcherClick = () => {
     checkboxRef.current!.checked = !checkboxRef.current!.checked;
+
     if (checkboxRef.current!.checked) {
       document.body.dataset.theme = "dark";
+      localStorage.setItem("theme", "dark");
     } else {
       document.body.removeAttribute("data-theme");
+      localStorage.setItem("theme", "light");
     }
     // document.body.classList.toggle("darkTheme");
   };

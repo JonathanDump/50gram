@@ -1,10 +1,9 @@
 import cl from "./Chat.module.scss";
-import btn from "../../scss/button.module.scss";
+
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Message from "../Message/Message";
 import useChat from "../../hooks/useChat";
 import userFromJwt from "../../helpers/userFromJwt";
-import { ReactComponent as AttachmentsIcon } from "/public/icons/attachmentsImg.svg";
 
 import { NavLink, useLocation, useOutletContext } from "react-router-dom";
 import { IMessage, IOutletContext } from "../../interfaces/interfaces";
@@ -23,7 +22,7 @@ export default function Chat() {
 
   const { chat, loading, error, sendMessage, userId, loadMessages } = useChat();
   const { usersOnline, isWindowNarrow }: IOutletContext = useOutletContext();
-  // const { usersOnline } = useOnline();
+
   console.log("chat", chat);
 
   const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
@@ -178,32 +177,7 @@ export default function Chat() {
           })}
           <div style={{ height: "12px" }}></div>
         </div>
-        {/* <form className={cl.messageForm} onSubmit={handleFormSubmit}>
-          <div className={cl.attachments} onClick={handleAttachmentsClick}>
-            <AttachmentsIcon />
-            <input
-              ref={inputFileRef}
-              type="file"
-              style={{ display: "none" }}
-              name="attachments"
-              id="attachments"
-              accept="image/png, image/gif, image/jpeg"
-              onChange={handleInputChange}
-            />
-          </div>
 
-          <div
-            className={cl.inputMessage}
-            contentEditable={true}
-            autoFocus
-            onInput={handleInputChange}
-            ref={inputTextRef}
-            placeholder={"Message"}
-          ></div>
-          <button className={btn.sendButton}>
-            <img src="/icons/sendButtonLight.svg" alt="" />
-          </button>
-        </form> */}
         <InputMessage {...inputMessageProps} />
       </div>
       {message.file && (

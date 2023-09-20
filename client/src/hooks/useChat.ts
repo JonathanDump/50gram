@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {
   ChatInterface,
   ISendMessage,
@@ -9,13 +9,12 @@ import {
 import { SERVER_URL } from "../config/config";
 
 import { socket } from "../hooks/useUserList";
-import { format, isToday, isYesterday, set } from "date-fns";
+import { format, isYesterday } from "date-fns";
 import pushLoadedMessages from "../helpers/pushLoadedMessages";
 
 import userFromJwt from "../helpers/userFromJwt";
 import unshiftNewMessage from "../helpers/unshiftNewMessage";
 import readMessages from "../helpers/readMessages";
-// const socket = io(SERVER_URL);
 
 export class Chat implements ChatInterface {
   constructor(
@@ -111,10 +110,6 @@ export default function useChat() {
     );
   };
 
-  // const readMessages = () => {
-  //   socket.emit("read messages", chat!._id);
-  // };
-
   useEffect(() => {
     console.log("USE EFFECT USE CHAT");
 
@@ -148,14 +143,13 @@ export default function useChat() {
 
           localStorage.setItem("token", result.token as string);
           return getChat();
-          // return navigate("/log-in");
         }
 
         const result = await response.json();
         console.log("useChat fetch res", result);
 
         setChat(Chat.fromObject(result));
-        // setChat(result);
+
         setLoading(false);
         setError(null);
         socket.emit("join chat", result._id, userId);
@@ -168,13 +162,7 @@ export default function useChat() {
 
     getChat();
 
-    socket.on("join chat", (chatId: string, uId: string) => {
-      // if (chatId !== chat!._id) {
-      //   return;
-      // }
-      // if (userId !== uId) {
-      //   return;
-      // }
+    socket.on("join chat", () => {
       console.log("join chat");
 
       setChat((prevChat) => {
@@ -209,18 +197,12 @@ export default function useChat() {
       });
     });
 
-    socket.on("read message", (messageId) => {
+    socket.on("read message", () => {
       setChat((prevChat) => {
         if (!prevChat) {
           return null;
         }
-        // const copyChat = { ...prevChat };
-        // const copyMessages = [...prevChat.messages];
-        // copyMessages.find((message) => message._id === messageId)!.isRead =
-        //   true;
 
-        // copyChat.messages = copyMessages;
-        // return Chat.fromObject(copyChat);
         return Chat.fromObject(readMessages(prevChat));
       });
     });
@@ -249,6 +231,7 @@ export default function useChat() {
       socket.off("connect");
       socket.off("get chat");
       socket.off("join chat");
+      socket.off("send message");
       socket.off("receive message");
       socket.off("load messages");
       socket.off("read message");

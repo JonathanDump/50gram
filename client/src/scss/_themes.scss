@@ -1,35 +1,3 @@
-//--text-color: #212121;
-//--caption-color: rgba(0, 0, 0, 0.6);
-//--accent-color: #40a7e3;
-//--message-color: #ffffff;
-//--message-navigation-color: #40a7e3;
-//--my-message-color: #effdde;
-//--my-message-navigation-color: #78c67f;
-//--green-color: #00a629;
-//--red-color: #ed5050;
-//--card: #ffffff;
-//--background-color: #ffffff;
-//--chat-background-color: linear-gradient(#d6dab8, #98be8f);
-//--overlay-color: rgba(0, 0, 0, 0.1);
-//--stroke-color: rgba(0, 0, 0, 0.06);
-
-// [data-theme="dark"] {
-//  --text-color: #ffffff;
-//  --caption-color: rgba(255, 255, 255, 0.6);
-//  --accent-color: #5187c1;
-//  --message-color: #1c2633;
-//  --message-navigation-color: #3f96d0;
-//  --my-message-color: #456a93;
-//  --my-message-navigation-color: #70a5de;
-//  --green-color: #00a629;
-//  --red-color: #ed5050;
-//  --card: #252525;
-//  --background-color: #262c38 !important;
-//  --chat-background-color: #0d0f13;
-//  --overlay-color: rgba(255, 255, 255, 0.15);
-//  --stroke-color: rgba(255, 255, 255, 0.06);
-// }
-
 :root {
   --text-color: #212121;
   --caption-color: rgba(0, 0, 0, 0.6);
@@ -46,12 +14,6 @@
   --overlay-color: rgba(0, 0, 0, 0.03);
   --stroke-color: rgba(0, 0, 0, 0.06);
   --selected-color: rgba(0, 0, 0, 0.1);
-  --svg-invert: invert(0);
-  --svg-invert-secondary: invert(38%) sepia(6%) saturate(34%) hue-rotate(314deg)
-    brightness(99%) contrast(82%);
-  --svg-invert-accent: invert(56%) sepia(96%) saturate(856%) hue-rotate(173deg)
-    brightness(95%) contrast(88%);
-  --send-button: url("/icons/sendButtonLight.svg");
 }
 
 [data-theme="dark"] {
@@ -70,9 +32,4 @@
   --overlay-color: rgba(255, 255, 255, 0.06);
   --stroke-color: rgba(255, 255, 255, 0.06);
   --selected-color: rgba(255, 255, 255, 0.15);
-  --svg-invert: invert(100);
-  --svg-invert-secondary: invert(74%) sepia(0%) saturate(7500%)
-    hue-rotate(288deg) brightness(92%) contrast(94%);
-  --svg-invert-accent: invert(56%) sepia(52%) saturate(542%) hue-rotate(172deg)
-    brightness(81%) contrast(84%);
 }

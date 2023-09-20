@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { SERVER_URL } from "../../config/config";
 import userFromJwt from "../../helpers/userFromJwt";
-import useChat from "../../hooks/useChat";
 import { ImageMessageProps } from "../../interfaces/interfaces";
 import cl from "./ImageMessage.module.scss";
 
@@ -69,6 +68,7 @@ export default function ImageMessage({
         imageUrl,
         myId: userFromJwt()!._id,
         chatId: chat!._id,
+        userId: userId!,
       });
       setMessage({ file: null, text: "" });
     } catch (err) {

@@ -56,38 +56,6 @@ export default function LogIn() {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     (await sendOtpToken()) && setIsOtp(true);
-    // try {
-    //   console.log("inv res", invalidInput);
-
-    //   const body = { email: inputValue.email, password: inputValue.password };
-    //   console.log("body", body);
-
-    //   const response = await fetch(`${SERVER_URL}/log-in/jwt`, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(body),
-    //   });
-    //   if (!response.ok) {
-    //     throw new Error("Can't log in");
-    //   }
-
-    //   const result = await response.json();
-    //   console.log("res", result);
-
-    //   if (result.invalid) {
-    //     setInvalidInput(result.invalid);
-    //     return;
-    //   }
-
-    // console.log("myInfo log", result.myInfo);
-
-    // localStorage.setItem("token", result.token);
-
-    // setInvalidInput({ email: false, password: false });
-    // navigate("/");
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
 
   const handleSendNewOtp = async () => {

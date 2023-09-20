@@ -1,4 +1,4 @@
-import { IUserIds, UserInterface } from "../interfaces/interfaces";
+import { IUserIds } from "../interfaces/interfaces";
 
 export default function isOnline(
   usersOnline: IUserIds[],

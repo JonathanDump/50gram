@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { SERVER_URL } from "../config/config";
-import { MessageInterface, UserInterface } from "../interfaces/interfaces";
+import { UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
 import { useParams } from "react-router-dom";
 
@@ -51,10 +51,6 @@ export default function useUserList() {
       socket.auth = { token: jwt };
 
       console.log("reconnect");
-      // socket = io(SERVER_URL, {
-      //   autoConnect: false,
-      //   auth: { token: jwt },
-      // });
 
       setTimeout(() => {
         socket.connect();
@@ -93,8 +89,7 @@ export default function useUserList() {
           }
           return user;
         });
-        // const user = copyUsers.find((user) => user._id === senderId);
-        // user && user.newMessages++;
+
         return copyUsers;
       });
     });
@@ -107,7 +102,10 @@ export default function useUserList() {
 
     return () => {
       socket.off("connect");
+      socket.off("signUpUser");
+      socket.off("GetAllUsers");
       socket.off("allUsers");
+      socket.off("get notification");
       socket.off("updateUserList");
       socket.off("invalid token");
       socket.off("disconnect user");

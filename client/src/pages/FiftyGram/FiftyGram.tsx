@@ -1,4 +1,4 @@
-import { redirect, useNavigate, useOutlet, useParams } from "react-router-dom";
+import { useOutlet, useParams } from "react-router-dom";
 import cl from "./FiftyGram.module.scss";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import AuthProvider from "../../components/AuthProvider/AuthProvider";

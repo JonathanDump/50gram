@@ -10,7 +10,7 @@ import { DecodedJwt } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
 import btn from "../../scss/button.module.scss";
 import { ReactComponent as EditIcon } from "/public/icons/edit.svg";
-// import editIcon from "/icons/edit.svg";
+
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
 import AvatarInputFile from "../AvatarInputFile/AvatarInputFile";

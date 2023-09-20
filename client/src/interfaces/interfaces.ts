@@ -151,3 +151,8 @@ export interface InputMessageProps {
   inputFileRef: React.MutableRefObject<HTMLInputElement | null>;
   inputTextRef: React.MutableRefObject<HTMLInputElement | null>;
 }
+
+export interface MenuProps {
+  menuVisible: boolean;
+  setMenuVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}

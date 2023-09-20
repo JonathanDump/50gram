@@ -36,9 +36,6 @@
   border-radius: $border-radius;
   box-shadow: $box-shadow;
 
-  // max-width: 400px;
-  // width: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,19 +63,6 @@
         flex-direction: column;
         gap: 2px;
 
-        // input {
-        //   appearance: none;
-        //   border: none;
-        //   border-bottom: 2px solid var(--stroke-color);
-        //   background-color: transparent;
-        //   transition: $transition;
-
-        //   &:focus-visible {
-        //     outline: none;
-        //     border-bottom: 2px solid var(--accent-color);
-        //   }
-        // }
-
         .inputError {
           font-size: 14px;
           display: flex;
@@ -97,23 +81,6 @@
           cursor: default;
         }
       }
-      // button {
-      //   appearance: none;
-      //   border: none;
-      //   border: 1px solid var(--accent-color);
-      //   border-radius: var(--border-radius);
-      //   padding: var--padding-button;
-      //   width: fit-content;
-      //   align-self: center;
-      //   background-color: var(--accent-color);
-      //   color: white;
-      //   transition: var(--transition);
-
-      //   &:hover {
-      //     background-color: transparent;
-      //     color: var(--accent-color);
-      //   }
-      // }
     }
   }
 
@@ -137,19 +104,6 @@
   width: 100%;
 }
 
-// .inputStyle {
-//   appearance: none;
-//   border: none;
-//   border-bottom: 2px solid var(--stroke-color);
-//   background-color: transparent;
-//   transition: $transition;
-
-//   &:focus-visible {
-//     outline: none;
-//     border-bottom: 2px solid var(--accent-color);
-//   }
-// }
-
 .otpContainer {
   display: flex;
   gap: 8px;
@@ -159,16 +113,3 @@
 .text {
   text-align: center;
 }
-
-// .sendOtpButton {
-//   display: inline !important;
-//   background-color: transparent !important;
-//   color: var(--accent-color) !important;
-//   margin-left: 6px;
-//   margin-top: 6px;
-
-//   &:hover {
-//     background-color: var(--accent-color) !important;
-//     color: white !important;
-//   }
-// }

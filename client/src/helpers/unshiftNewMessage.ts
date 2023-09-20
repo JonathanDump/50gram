@@ -1,5 +1,5 @@
 import { Chat } from "../hooks/useChat";
-import { ChatInterface, MessageInterface } from "../interfaces/interfaces";
+import { MessageInterface } from "../interfaces/interfaces";
 
 export default function unshiftNewMessage(
   prevChat: Chat,

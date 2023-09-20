@@ -14,9 +14,6 @@
   }
 
   .avatarContainer {
-    // max-width: 128px;
-    // min-width: 64px;
-
     min-width: 54px;
     min-height: 54px;
     width: 54px;
@@ -52,10 +49,7 @@
   }
 
   .name {
-    // display: flex;
     cursor: pointer;
-    // width: max-content;
-    // text-wrap: nowrap;
     gap: 6px;
     color: inherit;
     width: 100%;
@@ -95,7 +89,6 @@
       justify-content: center;
       color: #f0f0f0;
       font-size: 12px;
-      // padding: 4px;
     }
   }
 }

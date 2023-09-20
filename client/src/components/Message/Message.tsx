@@ -6,7 +6,6 @@ import cl from "./Message.module.scss";
 import { format } from "date-fns";
 import { ReactComponent as ReadIcon } from "/public/icons/read.svg";
 import { ReactComponent as UnreadIcon } from "/public/icons/unread.svg";
-import React from "react";
 
 export default function Message({ message }: MessageParams) {
   const { userId } = useParams();

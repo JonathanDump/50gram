@@ -27,7 +27,6 @@ export default function GoogleButton() {
           const result = await response.json();
 
           localStorage.setItem("token", result.token);
-          // localStorage.setItem("myInfo", result.myInfo);
 
           result.isSuccess ? navigate("/") : new Error("Sign up failed");
           console.log(decoded);

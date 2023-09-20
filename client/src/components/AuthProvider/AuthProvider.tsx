@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DecodedJwt, IAuthProviderParams } from "../../interfaces/interfaces";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
 
@@ -38,13 +38,14 @@ export default function AuthProvider({ children }: IAuthProviderParams) {
 
           localStorage.setItem("token", result.token as string);
           setLoading(false);
-          // return navigate("/log-in");
+
           return;
         }
         setLoading(false);
       } catch (err) {
         console.log("auth err", err);
-        // navigate("/log-in");
+        localStorage.removeItem("token");
+        navigate("/log-in");
       }
     };
     check();

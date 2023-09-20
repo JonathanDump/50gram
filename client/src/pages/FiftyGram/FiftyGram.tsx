@@ -23,10 +23,10 @@ export default function FiftyGram() {
     screenWidth.onchange = (e) => {
       if (e.matches) {
         setIsWindowNarrow(true);
-        console.log("width < 600");
+        
       } else {
         setIsWindowNarrow(false);
-        console.log("width > 600");
+        
       }
     };
   }, []);

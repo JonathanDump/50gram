@@ -24,7 +24,7 @@ export default function UserCardPersonal({
   const decodedJwt = jwtDecode(
     localStorage.getItem("token") as string
   ) as DecodedJwt;
-  console.log("user", decodedJwt.user);
+  
 
   const imgRef = useRef<HTMLImageElement | null>(null);
 
@@ -103,13 +103,13 @@ export default function UserCardPersonal({
       }
 
       const result = await response.json();
-      console.log("result", result);
+      
 
       localStorage.setItem("token", result.token);
       setButtonsOn(false);
       setIsEditing(false);
     } catch (err) {
-      console.log(err);
+      
     }
   };
 

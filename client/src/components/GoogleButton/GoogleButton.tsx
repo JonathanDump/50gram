@@ -29,12 +29,12 @@ export default function GoogleButton() {
           localStorage.setItem("token", result.token);
 
           result.isSuccess ? navigate("/") : new Error("Sign up failed");
-          console.log(decoded);
+          
 
-          console.log(credentialResponse);
+          
         }}
         onError={() => {
-          console.log("Login Failed");
+          
         }}
       />
     </GoogleOAuthProvider>

@@ -7,23 +7,22 @@ import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
 export let usersOnline: { userId: string; socketId: string }[] = [];
 export default function socketHandlerUser(io: Server) {
   io.on("connect", (socket) => {
-    console.log("connection created");
-    // console.log("socket", socket.handshake.auth);
+    
 
     if (!socket.handshake.auth.token) {
-      console.log("invalid token");
+      
 
       socket.emit("invalid token");
     }
     if (socket.handshake.auth.token) {
-      console.log("handshake auth", socket.handshake.auth.token);
+      
 
-      console.log("decoding token");
+      
 
       const decodedJwt: DecodedJwt = jwtDecode(
         socket.handshake.auth.token as string
       );
-      console.log("decoded token", decodedJwt);
+      
 
       const userIds = { socketId: socket.id, userId: decodedJwt.user._id! };
       usersOnline.find((user) => user.userId === userIds.userId) ||
@@ -32,7 +31,7 @@ export default function socketHandlerUser(io: Server) {
       io.emit("online", usersOnline);
     }
 
-    console.log("users online", usersOnline);
+    
 
     socket.on("getAllUsers", async (myId) => {
       const allUsers = await User.find({
@@ -65,18 +64,17 @@ export default function socketHandlerUser(io: Server) {
         allUsers.map((user) => populateChatsWithUnreadMessages(user, myId))
       );
 
-      // socket.emit("allUsers", allUsers);
       socket.emit("allUsers", usersWithPopulatedChat);
     });
 
     socket.on("signUpUser", (user) => {
-      console.log("signing up the user");
+      
 
       socket.broadcast.emit("updateUserList", user);
     });
 
     socket.on("disconnect", async () => {
-      console.log("disconnect");
+      
 
       const disconnectedUser = usersOnline.filter(
         (user) => user.socketId === socket.id
@@ -96,7 +94,7 @@ export default function socketHandlerUser(io: Server) {
 
       usersOnline = usersOnline.filter((user) => user.socketId !== socket.id);
       io.emit("disconnected", usersOnline);
-      console.log("final users online", usersOnline);
+      
       socket.emit("disconnect user");
     });
   });

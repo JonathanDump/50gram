@@ -2,15 +2,15 @@ import asyncHandler from "express-async-handler";
 import Chat from "../models/chat";
 import User from "../models/user";
 import Message from "../models/message";
-import express, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt } from "../interfaces/interfaces";
-import { envReader } from "../functions/functions";
+import envReader from "../functions/envReader";
 
 exports.getChat = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("page", req.body.page);
+    
 
     const decodedJwt = jwtDecode(
       req.headers.authorization as string
@@ -28,17 +28,17 @@ exports.getChat = asyncHandler(
         path: "messages",
         options: {
           sort: { date: -1 },
-          skip: (+req.body.page - 1) * pageSize, // Calculate the number of messages to skip
-          limit: pageSize, // Limit the number of messages per page
+          skip: (+req.body.page - 1) * pageSize,
+          limit: pageSize,
         },
       })
       .exec();
-    console.log("chat", chat);
+    
 
     if (!chat) {
       const users = await User.find(
         {
-          _id: { $in: [myId, userId] }, // Use $in to match both myId and userId
+          _id: { $in: [myId, userId] },
         },
         {
           name: 1,
@@ -51,7 +51,7 @@ exports.getChat = asyncHandler(
         messages: [],
       });
       await newChat.save();
-      console.log("new chat", newChat);
+      
 
       res.status(200).json(newChat);
     } else {
@@ -65,7 +65,7 @@ exports.getChat = asyncHandler(
         msg.isRead = true;
         await msg.save();
       });
-      console.log("umread messages", await messages);
+      
 
       chat.messages.forEach((message: any) => {
         if (message.user === userId) {

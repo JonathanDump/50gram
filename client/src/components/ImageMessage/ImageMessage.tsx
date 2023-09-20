@@ -71,9 +71,7 @@ export default function ImageMessage({
         userId: userId!,
       });
       setMessage({ file: null, text: "" });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   return (
     <div className={cl.imageMessage}>

@@ -72,14 +72,18 @@ export default function useChat() {
   const { userId } = useParams();
   const myUserObject = userFromJwt();
   const location = useLocation();
-  console.log("loading", loading);
+  
+
+  useEffect(() => {
+    
+  }, [chat]);
 
   const sendMessage = (messageData: ISendMessage) => {
-    console.log("message data", messageData);
+    
 
     socket.emit("send message", messageData, (message: MessageInterface) => {
-      console.log("EMIT");
-      console.log("send message emit result", message);
+      
+      
 
       setChat((prevChat) => {
         if (!prevChat) {
@@ -92,7 +96,7 @@ export default function useChat() {
   };
 
   const loadMessages = (page: number) => {
-    console.log("loading new messages");
+    
 
     socket.emit(
       "load messages",
@@ -102,7 +106,7 @@ export default function useChat() {
           if (!prevChat) {
             return null;
           }
-          console.log("loaded messages", messages);
+          
 
           return Chat.fromObject(pushLoadedMessages(prevChat, messages));
         });
@@ -111,17 +115,17 @@ export default function useChat() {
   };
 
   useEffect(() => {
-    console.log("USE EFFECT USE CHAT");
+    
 
     setLoading(true);
 
     async function getChat(page: number = 1) {
       try {
-        console.log("getting chat");
+        
 
         const token = localStorage.getItem("token") as string;
 
-        console.log("params", userId);
+        
 
         const response = await fetch(`${SERVER_URL}/50gram/${userId}`, {
           method: "POST",
@@ -139,14 +143,14 @@ export default function useChat() {
             },
           });
           const result = await response.json();
-          console.log("new token", result.token);
+          
 
           localStorage.setItem("token", result.token as string);
           return getChat();
         }
 
         const result = await response.json();
-        console.log("useChat fetch res", result);
+        
 
         setChat(Chat.fromObject(result));
 
@@ -154,7 +158,7 @@ export default function useChat() {
         setError(null);
         socket.emit("join chat", result._id, userId);
       } catch (err) {
-        console.log("err", err);
+        
 
         setError(err);
       }
@@ -163,7 +167,7 @@ export default function useChat() {
     getChat();
 
     socket.on("join chat", () => {
-      console.log("join chat");
+      
 
       setChat((prevChat) => {
         if (!prevChat) {
@@ -174,26 +178,34 @@ export default function useChat() {
     });
 
     socket.on("receive message", (message: MessageInterface) => {
-      console.log("receive message");
+      
       if (message.user !== userId) {
         return;
       }
+      
+
       setChat((prevChat) => {
+        
+
+        
         if (!prevChat) {
+          
           return null;
         }
-
+        
         message.isRead = true;
-        return Chat.fromObject(unshiftNewMessage(prevChat, message));
-      });
+        const newChat = Chat.fromObject(unshiftNewMessage(prevChat, message));
 
-      console.log("message user", message.user);
-      console.log("userId", userId);
-      console.log("chatId", chat!._id);
+        
+        
+        
 
-      socket.emit("read message", {
-        messageId: message._id,
-        chatId: chat!._id,
+        socket.emit("read message", {
+          messageId: message._id,
+          chatId: newChat!._id,
+        });
+
+        return newChat;
       });
     });
 
@@ -208,17 +220,17 @@ export default function useChat() {
     });
 
     socket.on("disconnected user", (userDisconnected: UserInterface) => {
-      console.log("userDisconnected", userDisconnected);
+      
 
       if (chat!.users.find((user) => user._id === userDisconnected._id)) {
-        console.log("includes");
+        
 
         setChat((prevChat) => {
           if (!prevChat) {
             return null;
           }
           const newChat = { ...prevChat };
-          const user = prevChat!.users.find(
+          const user = newChat!.users.find(
             (user) => user._id === userDisconnected._id
           );
           user!.lastOnline = userDisconnected.lastOnline;

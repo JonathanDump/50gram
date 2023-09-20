@@ -11,8 +11,6 @@ export default function AvatarInputFile({
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleImageClick = () => {
-    console.log("avatarInput click");
-
     setButtonsOn && setButtonsOn(true);
     inputRef.current!.click();
   };

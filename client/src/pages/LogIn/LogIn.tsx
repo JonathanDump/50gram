@@ -18,7 +18,7 @@ export default function LogIn() {
   const [otp, setOtp] = useState("");
   const [invalidOtp, setInvalidOtp] = useState(false);
 
-  console.log(inputValue);
+  
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
@@ -26,10 +26,10 @@ export default function LogIn() {
 
   const sendOtpToken = async () => {
     try {
-      console.log("inv res", invalidInput);
+      
 
       const body = { email: inputValue.email, password: inputValue.password };
-      console.log("body", body);
+      
 
       const response = await fetch(`${SERVER_URL}/log-in/jwt`, {
         method: "POST",
@@ -41,7 +41,7 @@ export default function LogIn() {
       }
 
       const result = await response.json();
-      console.log("res", result);
+      
 
       if (result.invalid) {
         setInvalidInput(result.invalid);
@@ -50,7 +50,7 @@ export default function LogIn() {
       setInvalidInput({ email: false, password: false });
       return true;
     } catch (err) {
-      console.log(err);
+      
     }
   };
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -78,12 +78,12 @@ export default function LogIn() {
         return;
       }
       const result = await response.json();
-      console.log("res", result);
+      
 
       localStorage.setItem("token", result.token);
       navigate("/");
     } catch (err) {
-      console.log(err);
+      
     }
   };
 

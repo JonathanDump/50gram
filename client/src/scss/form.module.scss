@@ -16,7 +16,7 @@
 }
 
 .valid {
-  color: var--green-color;
+  color: var(--green-color);
   transition: $transition;
   position: relative;
   margin-left: 12px;

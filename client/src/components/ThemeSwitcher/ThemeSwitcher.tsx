@@ -5,10 +5,7 @@ export default function ThemeSwitcher() {
   const checkboxRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    console.log("setting theme");
-
     const theme = localStorage.getItem("theme");
-    console.log("theme", theme);
 
     if (theme === "dark") {
       checkboxRef.current!.checked = true;

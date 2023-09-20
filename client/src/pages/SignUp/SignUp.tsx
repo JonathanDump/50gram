@@ -74,7 +74,7 @@ export default function SignUp() {
       formData.append("name", inputValue.name);
       formData.append("email", inputValue.email);
       formData.append("password", inputValue.password);
-      console.log("formData", formData);
+      
 
       inputValue.avatar && formData.append("avatar", inputValue.avatar);
 
@@ -83,7 +83,7 @@ export default function SignUp() {
         body: formData,
       });
       if (!response.ok) {
-        console.log("response in not ok");
+        
 
         throw new Error("Can't Sigh Up");
       }
@@ -96,13 +96,13 @@ export default function SignUp() {
       }
 
       if (result.isSuccess) {
-        console.log("result user", result.user);
+        
 
         signUpUser(result.user);
         navigate("/log-in");
       }
     } catch (err) {
-      console.log(err);
+      
     }
   };
 

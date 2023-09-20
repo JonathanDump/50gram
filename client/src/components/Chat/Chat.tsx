@@ -18,12 +18,12 @@ export default function Chat() {
     prevValue: "",
     currentValue: "",
   });
-  console.log("message input value", inputValue);
+  
 
   const { chat, loading, error, sendMessage, userId, loadMessages } = useChat();
   const { usersOnline, isWindowNarrow }: IOutletContext = useOutletContext();
 
-  console.log("chat", chat);
+  
 
   const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
 
@@ -55,10 +55,10 @@ export default function Chat() {
   }, [location]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("input change");
+    
 
     if (e.target.name === "attachments") {
-      console.log("attachments input file", e.target.files![0]);
+      
       setMessage({ file: e.target.files![0], text: inputValue.currentValue });
 
       const newInputValue = {
@@ -104,7 +104,7 @@ export default function Chat() {
     const { scrollHeight, scrollTop, clientHeight } =
       messagesWindowRef.current!;
     const pxToEnd = scrollHeight + scrollTop - clientHeight;
-    console.log(pxToEnd);
+    
 
     if (pxToEnd <= thresholdRef.current) {
       thresholdRef.current = -1;
@@ -112,9 +112,9 @@ export default function Chat() {
       pageRef.current++;
       loadMessages(pageRef.current);
       await setTimeout(() => (thresholdRef.current = 50), 1000);
-      console.log("threshold upd", thresholdRef.current);
+      
     }
-    console.log("threshold", thresholdRef.current);
+    
   };
 
   const inputMessageProps = {

@@ -13,7 +13,7 @@ import { usersOnline } from "./socketHandlerUser";
 export default function socketHandlerChat(io: Server) {
   io.on("connect", (socket) => {
     socket.on("join chat", (chatId: string, uId: string) => {
-      console.log("joining room", chatId);
+      
 
       socket.join(chatId);
 
@@ -24,7 +24,7 @@ export default function socketHandlerChat(io: Server) {
       "send message",
       async ({ text, imageUrl, myId, chatId, userId }: ISendMessage, cb) => {
         const chat = await Chat.findById(chatId).populate("messages").exec();
-        console.log("send message");
+        
 
         if (!chat) {
           throw new Error("Couldn't find the chat");
@@ -40,7 +40,7 @@ export default function socketHandlerChat(io: Server) {
         });
 
         chat!.messages.push(message._id);
-        console.log("msg", message);
+        
 
         await message.save();
         await chat.save();
@@ -57,7 +57,7 @@ export default function socketHandlerChat(io: Server) {
     socket.on(
       "load messages",
       async ({ page, myId, userId }: ILoadMessages, cb) => {
-        console.log("load msg page", page);
+        
 
         const pageSize = 100;
         const chat = await Chat.findOne({ users: { $all: [myId, userId] } })
@@ -65,8 +65,8 @@ export default function socketHandlerChat(io: Server) {
             path: "messages",
             options: {
               sort: { date: -1 },
-              skip: (+page - 1) * pageSize, // Calculate the number of messages to skip
-              limit: pageSize, // Limit the number of messages per page
+              skip: (+page - 1) * pageSize,
+              limit: pageSize,
             },
           })
           .exec();

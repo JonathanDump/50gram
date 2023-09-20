@@ -9,14 +9,11 @@ const storage = multer.diskStorage({
     cb(null, "public/avatars");
   },
   filename: function (req, file, cb) {
-    // console.log(file);
-
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const filename =
       file.fieldname + "-" + uniqueSuffix + "." + file.mimetype.split("/")[1];
-    console.log(filename);
+    
 
-    // req.body.imgName = filename;
     cb(null, filename);
   },
 });
@@ -29,7 +26,6 @@ router.get("/", (req: Request, res: Response) => {
 router.post("/sign-up", upload.single("avatar"), userController.signUp);
 router.post("/sign-up/google", userController.signUpGoogle);
 
-// router.post("/log-in/jwt", userController.logIn);
 router.post("/log-in/jwt", userController.logInVerify);
 router.post("/log-in/otp", userController.otpVerify);
 
@@ -38,7 +34,6 @@ router.get(
   "/auth/google",
   passport.authenticate("google", {
     successRedirect: "/50gram",
-    // failureRedirect: "/log-in",
   })
 );
 

@@ -11,22 +11,17 @@ const storage = multer.diskStorage({
     cb(null, "public/pictures");
   },
   filename: function (req, file, cb) {
-    // console.log(file);
-
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const filename =
       file.fieldname + "-" + uniqueSuffix + "." + file.mimetype.split("/")[1];
-    console.log(filename);
+    
 
-    // req.body.imgName = filename;
     cb(null, filename);
   },
 });
 export const uploadImageMessage = multer({ storage: storage });
 
 router.use("/", passport.authenticate("jwt", { session: false }));
-
-// router.get("/", userController.getAllUsers);
 
 router.post("/:userId", chatController.getChat);
 

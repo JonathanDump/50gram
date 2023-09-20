@@ -1,28 +1,29 @@
 import asyncHandler from "express-async-handler";
-import express, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import User from "../models/user";
 import jwt, { Secret, SignOptions } from "jsonwebtoken";
-import { envReader, generateJwt } from "../functions/functions";
+import envReader from "../functions/envReader";
 import jwtDecode from "jwt-decode";
-import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
+import { DecodedJwt } from "../interfaces/interfaces";
 import { totp } from "otplib";
 totp.options = { step: 60 };
 import sendOtp from "../functions/sendOtp";
+import generateJwt from "../functions/generateJwt";
 const nodemailer = require("nodemailer");
 
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-    console.log(req.file);
+    
+    
 
     const user = await User.findOne({ email: req.body.email }).exec();
     if (user) {
-      console.log("user exist");
+      
 
       res.json({ isExist: true });
     } else {
-      console.log("signing up the user");
+      
 
       bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
         if (err) {
@@ -68,7 +69,7 @@ exports.signUpGoogle = asyncHandler(
           ? req.body.img
           : `${envReader("SERVER_URL")}/avatars/default-avatar.jpeg`,
       });
-      console.log("user", user);
+      
 
       await user.save();
 
@@ -89,7 +90,7 @@ exports.signUpGoogle = asyncHandler(
         user: { name: user.name, _id: user._id, img: user.img },
         isSuccess: true,
       });
-      console.log("token", token);
+      
     }
   }
 );
@@ -97,7 +98,7 @@ exports.signUpGoogle = asyncHandler(
 exports.logIn = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    console.log("req.body", req.body);
+    
 
     const user = await User.findOne({ email }).exec();
 
@@ -136,7 +137,7 @@ exports.logIn = asyncHandler(
 exports.logInVerify = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    console.log("req.body", req.body);
+    
 
     const user = await User.findOne({ email }).exec();
 
@@ -165,7 +166,7 @@ exports.logInVerify = asyncHandler(
 exports.otpVerify = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, otp } = req.body;
-    console.log("verify otp", otp);
+    
 
     const isValid = totp.check(otp, process.env.OTP_SECRET!);
     if (!isValid) {
@@ -174,7 +175,7 @@ exports.otpVerify = asyncHandler(
     }
 
     const user = await User.findOne({ email }).exec();
-    console.log("otpVerify", user);
+    
 
     const jwtToken = await generateJwt(user, "100d");
 

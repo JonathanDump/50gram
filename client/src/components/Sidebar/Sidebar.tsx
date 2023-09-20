@@ -16,7 +16,6 @@ export default function Sidebar({
   isWindowNarrow,
 }: SidebarParams) {
   const { users, loading, setUsers } = useUserList();
-  console.log("users", users);
 
   const [menuVisible, setMenuVisible] = useState(false);
 
@@ -44,7 +43,7 @@ export default function Sidebar({
           {loading ? (
             <div className={cl.status}>Loading...</div>
           ) : !users.length ? (
-            <div className={cl.text}>No people yet</div>
+            <div className={cl.status}>No people yet</div>
           ) : (
             users
               .sort((a, b) => {

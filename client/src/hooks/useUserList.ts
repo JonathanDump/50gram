@@ -5,8 +5,6 @@ import { UserInterface } from "../interfaces/interfaces";
 import userFromJwt from "../helpers/userFromJwt";
 import { useParams } from "react-router-dom";
 
-console.log("token storage", localStorage.getItem("token"));
-
 export let socket = io(SERVER_URL, {
   autoConnect: false,
   auth: { token: localStorage.getItem("token") as string },

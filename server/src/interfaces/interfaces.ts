@@ -1,16 +1,5 @@
 import { Types } from "mongoose";
 
-export interface ImageInterface {
-  url?: string | undefined;
-  name?: string | undefined;
-  image?:
-    | {
-        data?: Buffer | undefined;
-        contentType?: string | undefined;
-      }
-    | undefined;
-}
-
 export interface UserInterface {
   _id: string;
   name: string;

@@ -14,9 +14,9 @@ export default function UserCard({
     : `${cl.userCard}`;
 
   const handleCardClick = () => {
-    console.log("handle card click");
+    
     if (!user?.newMessages || !users) {
-      console.log("handle card click return");
+      
 
       return;
     }
@@ -24,7 +24,7 @@ export default function UserCard({
     const copyUsers = [...users];
     const usr = copyUsers.find((u: UserInterface) => u._id === user._id);
     if (usr) {
-      console.log("handle card click setting new messages null");
+      
       usr.newMessages = 0;
     }
 

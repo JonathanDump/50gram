@@ -1,27 +1,18 @@
 import cl from "./Chat.module.scss";
 import btn from "../../scss/button.module.scss";
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import Message from "../Message/Message";
 import useChat from "../../hooks/useChat";
 import userFromJwt from "../../helpers/userFromJwt";
 import { ReactComponent as AttachmentsIcon } from "/public/icons/attachmentsImg.svg";
-// import attachmentsIcon from "/icons/attachmentsImg.svg";
+
 import { NavLink, useLocation, useOutletContext } from "react-router-dom";
-import {
-  IMessage,
-  IOutletContext,
-  IUserIds,
-} from "../../interfaces/interfaces";
+import { IMessage, IOutletContext } from "../../interfaces/interfaces";
 import ImageMessage from "../ImageMessage/ImageMessage";
-import useOnline from "../../hooks/useOnline";
+
 import isOnline from "../../helpers/isOnline";
 import { ReactComponent as BackArrowIcon } from "/public/icons/backArrow.svg";
+import InputMessage from "../InputMessage/InputMessage";
 
 export default function Chat() {
   const [inputValue, setInputValue] = useState({
@@ -43,16 +34,10 @@ export default function Chat() {
   const inputTextRef = useRef<HTMLInputElement | null>(null);
   const messagesWindowRef = useRef<HTMLDivElement | null>(null);
 
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
   const pageRef = useRef(1);
   const thresholdRef = useRef(10);
 
-  const chatClass =
-    isWindowNarrow && userId ? `${cl.chat} ${cl.narrow}` : `${cl.chat}`;
-
   const scrollToBottom = () => {
-    // messagesEndRef.current?.scrollIntoView({ behavior });
     messagesWindowRef.current?.scrollTo(
       0,
       messagesWindowRef.current?.scrollHeight
@@ -60,8 +45,6 @@ export default function Chat() {
   };
 
   useEffect(() => {
-    // scrollToBottom();
-
     if (inputTextRef.current) {
       inputTextRef.current.textContent = "";
       inputTextRef.current.focus();
@@ -116,11 +99,6 @@ export default function Chat() {
     setTimeout(() => {
       scrollToBottom();
     }, 200);
-    // inputTextRef.current!.textContent = "";
-    // inputTextRef.current?.focus();
-    // setTimeout(() => {
-    //   scrollToBottom();
-    // }, 200);
   };
 
   const handleChatScroll = async () => {
@@ -138,6 +116,14 @@ export default function Chat() {
       console.log("threshold upd", thresholdRef.current);
     }
     console.log("threshold", thresholdRef.current);
+  };
+
+  const inputMessageProps = {
+    handleFormSubmit,
+    handleAttachmentsClick,
+    handleInputChange,
+    inputFileRef,
+    inputTextRef,
   };
 
   if (error) {
@@ -192,9 +178,8 @@ export default function Chat() {
           })}
           <div style={{ height: "12px" }}></div>
         </div>
-        <form className={cl.messageForm} onSubmit={handleFormSubmit}>
+        {/* <form className={cl.messageForm} onSubmit={handleFormSubmit}>
           <div className={cl.attachments} onClick={handleAttachmentsClick}>
-            {/* <img src={attachmentsIcon} alt="" /> */}
             <AttachmentsIcon />
             <input
               ref={inputFileRef}
@@ -218,7 +203,8 @@ export default function Chat() {
           <button className={btn.sendButton}>
             <img src="/icons/sendButtonLight.svg" alt="" />
           </button>
-        </form>
+        </form> */}
+        <InputMessage {...inputMessageProps} />
       </div>
       {message.file && (
         <ImageMessage

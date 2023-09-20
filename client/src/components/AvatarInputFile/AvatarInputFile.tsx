@@ -3,7 +3,6 @@ import cl from "./avatarInputFile.module.scss";
 import { avatarInputFileProps } from "../../interfaces/interfaces";
 
 export default function AvatarInputFile({
-  editOn,
   imgRef,
   handleInputChange,
   setButtonsOn,
@@ -12,9 +11,6 @@ export default function AvatarInputFile({
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleImageClick = () => {
-    if (!editOn) {
-      return;
-    }
     console.log("avatarInput click");
 
     setButtonsOn && setButtonsOn(true);

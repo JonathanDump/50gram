@@ -16,11 +16,10 @@
       height: 100vh;
       max-height: 100vh;
       overflow: hidden;
-      display: flex;
       flex-direction: column;
       flex: 3;
-      background-color: var(--chat-background-color);
-
+      background: var(--chat-background-color);
+      display: flex;
       justify-content: center;
       overflow: hidden;
     }
@@ -39,18 +38,17 @@
 }
 
 .narrow {
-  visibility: hidden;
-  position: absolute !important;
+  position: fixed !important;
+  transition: $transition;
+
   width: 100%;
   max-width: 600px;
   transform: translate(600px, 0);
-  transition: $transition;
-  z-index: 10;
-  // position: fixed;
 }
 
 .visible {
   visibility: visible;
   transform: translate(0, 0);
   transition: $transition;
+  width: 100%;
 }

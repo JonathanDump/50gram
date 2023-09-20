@@ -4,7 +4,7 @@ import {
   SidebarInterface,
   SidebarParams,
 } from "../../interfaces/interfaces";
-import UserCard from "../UserCard/UserCard";
+import UserCard from "../UserCards/UserCard";
 import cl from "./Sidebar.module.scss";
 import { ReactComponent as Burger } from "/public/icons/burger.svg";
 
@@ -12,6 +12,7 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import useUserList from "../../hooks/useUserList";
 
 import isOnline from "../../helpers/isOnline";
+import UserCardPersonal from "../UserCards/UserCardPersonal";
 
 export default function Sidebar({
   usersOnline,
@@ -96,7 +97,7 @@ export default function Sidebar({
       </div>
       <div className={menuContainerClass}>
         <div className={cl.menu}>
-          <UserCard editOn={true} menuVisible={menuVisible} />
+          <UserCardPersonal menuVisible={menuVisible} />
           <button type="button" onClick={handleLogOutClick}>
             Log Out
           </button>

@@ -1,0 +1,62 @@
+@import "../../scss/themes";
+@import "../../scss/variables";
+
+.messageForm {
+  display: flex;
+  background-color: var(--background-color);
+  width: 100%;
+  border-radius: $border-radius;
+  padding: $padding-input-message;
+  border-bottom: 2px solid transparent;
+  transition: $transition;
+  align-items: center;
+  gap: $gap-input-massage;
+
+  &:focus-within {
+    border-bottom: 2px solid var(--accent-color);
+  }
+
+  .inputMessage {
+    width: 100%;
+    white-space: pre-line;
+    max-height: 150px;
+    overflow: auto;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    line-height: 1.5rem;
+    outline: none;
+    transition: $transition;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &[placeholder]:empty::before {
+      content: attr(placeholder);
+      color: var(--caption-color);
+      cursor: text;
+    }
+  }
+
+  .attachments {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    svg {
+      transition: $transition;
+
+      path {
+        fill: var(--caption-color);
+      }
+
+      &:hover {
+        path {
+          fill: var(--accent-color);
+        }
+      }
+    }
+  }
+}

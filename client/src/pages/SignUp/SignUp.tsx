@@ -193,18 +193,9 @@ export default function SignUp() {
             )}
           </div>
           <div className={`${formCl.inputContainer} ${formCl.avatarContainer}`}>
-            {/* <label htmlFor={formCl.avatar}></label>
-            <input
-              type="file"
-              className={formCl.avatar}
-              name="avatar"
-              accept="image/png, image/jpeg, image/jpg"
-              onChange={handleInputChange}
-            /> */}
             <AvatarInputFile
               imgRef={imgRef}
               handleInputChange={handleInputChange}
-              editOn={true}
             />
             <div className={formCl.text}>Click the image to set the avatar</div>
           </div>

@@ -6,11 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  DecodedJwt,
-  UserCardInterface,
-  UserInterface,
-} from "../../interfaces/interfaces";
+import { DecodedJwt } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
 import btn from "../../scss/button.module.scss";
 import { ReactComponent as EditIcon } from "/public/icons/edit.svg";
@@ -20,15 +16,11 @@ import { SERVER_URL } from "../../config/config";
 import AvatarInputFile from "../AvatarInputFile/AvatarInputFile";
 import ThemeSwitcher from "../ThemeSwitcher/ThemeSwitcher";
 
-export default function UserCard({
-  user,
-  editOn,
-  isOnline,
+export default function UserCardPersonal({
   menuVisible,
-  isSelected,
-  setUsers,
-  users,
-}: UserCardInterface) {
+}: {
+  menuVisible: boolean;
+}) {
   const decodedJwt = jwtDecode(
     localStorage.getItem("token") as string
   ) as DecodedJwt;
@@ -44,9 +36,6 @@ export default function UserCard({
     image: null,
   });
   const [isEditing, setIsEditing] = useState(false);
-  const userCardClass = isSelected
-    ? `${cl.userCard} ${cl.userCardSelected}`
-    : `${cl.userCard}`;
 
   useEffect(() => {
     if (!menuVisible) {
@@ -82,9 +71,6 @@ export default function UserCard({
   };
 
   const handleNameClick = () => {
-    if (!editOn) {
-      return;
-    }
     setButtonsOn(true);
     setIsEditing(true);
   };
@@ -93,7 +79,7 @@ export default function UserCard({
     e.preventDefault();
     if (inputValue.name === decodedJwt.user.name && !inputValue.image) {
       setIsEditing(false);
-      // setSettingsOn(false);
+
       return;
     }
     try {
@@ -126,45 +112,9 @@ export default function UserCard({
     }
   };
 
-  const handleCardClick = () => {
-    console.log("handle card click");
-    if (!user?.newMessages || !users) {
-      console.log("handle card click return");
-
-      return;
-    }
-
-    const copyUsers = [...users];
-    const usr = copyUsers.find((u: UserInterface) => u._id === user._id);
-    if (usr) {
-      console.log("handle card click setting new messages null");
-      usr.newMessages = 0;
-    }
-
-    setUsers && setUsers(copyUsers);
-  };
-
-  if (!editOn) {
-    return (
-      <div className={userCardClass} onClick={handleCardClick}>
-        <div className={cl.avatarContainer}>
-          <img src={user!.img} alt="" className={cl.avatar} ref={imgRef} />
-          {isOnline && <div className={cl.online}></div>}
-        </div>
-        <div className={cl.name}>{user!.name}</div>
-        <div className={cl.notification}>
-          {!!user?.newMessages && (
-            <div className={cl.dot}>{user.newMessages}</div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={`${cl.userCard} ${cl.personal}`}>
       <AvatarInputFile
-        editOn={editOn}
         imgRef={imgRef}
         handleInputChange={handleInputChange}
         setButtonsOn={setButtonsOn}
@@ -193,7 +143,7 @@ export default function UserCard({
       ) : (
         <div className={cl.name} onClick={handleNameClick}>
           {decodedJwt.user.name}
-          {/* <img src={editIcon} alt="" className={cl.icon} /> */}
+
           <EditIcon className={cl.icon} />
         </div>
       )}

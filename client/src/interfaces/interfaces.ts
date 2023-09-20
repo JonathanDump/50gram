@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, FormEvent } from "react";
 export interface GoogleButtonProps {
   title: "Log in" | "Sign Up";
 }
@@ -44,14 +44,12 @@ export interface SidebarInterface {
   users: UserInterface[];
 }
 
-export interface UserCardInterface {
-  user?: UserInterface;
-  editOn?: boolean;
-  isOnline?: boolean;
-  menuVisible?: boolean;
-  isSelected?: boolean;
-  setUsers?: React.Dispatch<React.SetStateAction<UserInterface[] | []>>;
-  users?: UserInterface[];
+export interface UserCardParams {
+  user: UserInterface;
+  isOnline: boolean;
+  isSelected: boolean;
+  setUsers: React.Dispatch<React.SetStateAction<UserInterface[] | []>>;
+  users: UserInterface[];
 }
 
 export interface DecodedJwt {
@@ -144,4 +142,12 @@ export interface SidebarParams {
 export interface IOutletContext {
   usersOnline: IUserIds[];
   isWindowNarrow: boolean;
+}
+
+export interface InputMessageProps {
+  handleFormSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  handleAttachmentsClick: () => void;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  inputFileRef: React.MutableRefObject<HTMLInputElement | null>;
+  inputTextRef: React.MutableRefObject<HTMLInputElement | null>;
 }

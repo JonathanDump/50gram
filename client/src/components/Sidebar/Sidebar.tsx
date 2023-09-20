@@ -1,9 +1,5 @@
 import { useRef, useState } from "react";
-import {
-  IUserIds,
-  SidebarInterface,
-  SidebarParams,
-} from "../../interfaces/interfaces";
+import { SidebarParams } from "../../interfaces/interfaces";
 import UserCard from "../UserCards/UserCard";
 import cl from "./Sidebar.module.scss";
 import { ReactComponent as Burger } from "/public/icons/burger.svg";
@@ -12,7 +8,8 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import useUserList from "../../hooks/useUserList";
 
 import isOnline from "../../helpers/isOnline";
-import UserCardPersonal from "../UserCards/UserCardPersonal";
+
+import Menu from "../Menu/Menu";
 
 export default function Sidebar({
   usersOnline,
@@ -20,30 +17,16 @@ export default function Sidebar({
 }: SidebarParams) {
   const { users, loading, setUsers } = useUserList();
   const [menuVisible, setMenuVisible] = useState(false);
-  const navigate = useNavigate();
-  // const { usersOnline } = useOnline();
-  const menuBgRef = useRef<HTMLDivElement | null>(null);
+
   const { userId } = useParams();
 
   const sidebarClass =
     isWindowNarrow && userId ? `${cl.sidebar} ${cl.narrow}` : `${cl.sidebar}`;
 
-  const menuContainerClass = menuVisible
-    ? `${cl.menuContainer} ${cl.menuContainerVisible}`
-    : `${cl.menuContainer}`;
-
   const handleBurgerClick = () => {
     setMenuVisible(!menuVisible);
   };
 
-  const handleLogOutClick = () => {
-    localStorage.removeItem("token");
-    navigate("/log-in");
-  };
-
-  const handleMenuBgRefClick = () => {
-    setMenuVisible(!menuVisible);
-  };
   return (
     <>
       <div className={sidebarClass}>
@@ -95,19 +78,7 @@ export default function Sidebar({
           )}
         </div>
       </div>
-      <div className={menuContainerClass}>
-        <div className={cl.menu}>
-          <UserCardPersonal menuVisible={menuVisible} />
-          <button type="button" onClick={handleLogOutClick}>
-            Log Out
-          </button>
-        </div>
-        <div
-          className={cl.menuBg}
-          ref={menuBgRef}
-          onClick={handleMenuBgRefClick}
-        ></div>
-      </div>
+      <Menu menuVisible={menuVisible} setMenuVisible={setMenuVisible} />
     </>
   );
 }

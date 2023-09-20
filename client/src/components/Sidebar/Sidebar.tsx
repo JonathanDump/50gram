@@ -6,20 +6,26 @@ import {
 } from "../../interfaces/interfaces";
 import UserCard from "../UserCard/UserCard";
 import cl from "./Sidebar.module.scss";
-import { ReactComponent as Burger } from "/public/icons/hamburger.svg";
+import { ReactComponent as Burger } from "/public/icons/burger.svg";
 
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import useUserList from "../../hooks/useUserList";
 
 import isOnline from "../../helpers/isOnline";
 
-export default function Sidebar({ usersOnline }: SidebarParams) {
+export default function Sidebar({
+  usersOnline,
+  isWindowNarrow,
+}: SidebarParams) {
   const { users, loading, setUsers } = useUserList();
   const [menuVisible, setMenuVisible] = useState(false);
   const navigate = useNavigate();
   // const { usersOnline } = useOnline();
   const menuBgRef = useRef<HTMLDivElement | null>(null);
   const { userId } = useParams();
+
+  const sidebarClass =
+    isWindowNarrow && userId ? `${cl.sidebar} ${cl.narrow}` : `${cl.sidebar}`;
 
   const menuContainerClass = menuVisible
     ? `${cl.menuContainer} ${cl.menuContainerVisible}`
@@ -39,10 +45,9 @@ export default function Sidebar({ usersOnline }: SidebarParams) {
   };
   return (
     <>
-      <div className={cl.sidebar}>
+      <div className={sidebarClass}>
         <div className={cl.header}>
           <div className={cl.burger} onClick={handleBurgerClick}>
-            {/* <img src={burger} alt="" /> */}
             <Burger />
           </div>
           <NavLink to="/" className={cl.title}>
@@ -51,7 +56,7 @@ export default function Sidebar({ usersOnline }: SidebarParams) {
         </div>
         <div className={cl.userList}>
           {loading ? (
-            <div>Loading...</div>
+            <div className={cl.status}>Loading...</div>
           ) : !users.length ? (
             <div className={cl.text}>No people yet</div>
           ) : (
@@ -88,19 +93,6 @@ export default function Sidebar({ usersOnline }: SidebarParams) {
               })
           )}
         </div>
-        {/* {menuVisible && (
-        <div className={cl.menu}>
-          <UserCard editOn={true} />
-          <button type="button" onClick={handleLogOutClick}>
-            Log Out
-          </button>
-          <div
-            className={cl.menuBg}
-            ref={menuBgRef}
-            onClick={handleMenuBgRefClick}
-          ></div>
-        </div>
-      )} */}
       </div>
       <div className={menuContainerClass}>
         <div className={cl.menu}>

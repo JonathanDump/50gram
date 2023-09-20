@@ -9,7 +9,7 @@ import {
 import { SERVER_URL } from "../config/config";
 
 import { socket } from "../hooks/useUserList";
-import { format, isToday, isYesterday } from "date-fns";
+import { format, isToday, isYesterday, set } from "date-fns";
 import pushLoadedMessages from "../helpers/pushLoadedMessages";
 
 import userFromJwt from "../helpers/userFromJwt";
@@ -117,6 +117,7 @@ export default function useChat() {
 
   useEffect(() => {
     console.log("USE EFFECT USE CHAT");
+
     setLoading(true);
 
     async function getChat(page: number = 1) {

@@ -8,7 +8,9 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  flex: 2;
+  flex: 3;
+  background: var(--chat-background-color);
+
   justify-content: center;
 
   .componentStatus {
@@ -20,9 +22,38 @@
     background-color: var(--background-color);
     height: 52px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    .onlineStatus {
-      font-size: 14px;
-      color: var(--caption-color);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+
+    .iconArrow {
+      padding: 4px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: $transition;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--selected-color);
+      }
+      path {
+        fill: var(--caption-color);
+      }
+    }
+
+    .meta {
+      overflow: hidden;
+      .userName {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .onlineStatus {
+        font-size: 14px;
+        color: var(--caption-color);
+      }
     }
   }
   .container {

@@ -12,7 +12,7 @@ import useChat from "../../hooks/useChat";
 import userFromJwt from "../../helpers/userFromJwt";
 import { ReactComponent as AttachmentsIcon } from "/public/icons/attachmentsImg.svg";
 // import attachmentsIcon from "/icons/attachmentsImg.svg";
-import { useLocation, useOutletContext } from "react-router-dom";
+import { NavLink, useLocation, useOutletContext } from "react-router-dom";
 import {
   IMessage,
   IOutletContext,
@@ -21,6 +21,7 @@ import {
 import ImageMessage from "../ImageMessage/ImageMessage";
 import useOnline from "../../hooks/useOnline";
 import isOnline from "../../helpers/isOnline";
+import { ReactComponent as BackArrowIcon } from "/public/icons/backArrow.svg";
 
 export default function Chat() {
   const [inputValue, setInputValue] = useState({
@@ -30,7 +31,7 @@ export default function Chat() {
   console.log("message input value", inputValue);
 
   const { chat, loading, error, sendMessage, userId, loadMessages } = useChat();
-  const { usersOnline }: IOutletContext = useOutletContext();
+  const { usersOnline, isWindowNarrow }: IOutletContext = useOutletContext();
   // const { usersOnline } = useOnline();
   console.log("chat", chat);
 
@@ -46,6 +47,9 @@ export default function Chat() {
 
   const pageRef = useRef(1);
   const thresholdRef = useRef(10);
+
+  const chatClass =
+    isWindowNarrow && userId ? `${cl.chat} ${cl.narrow}` : `${cl.chat}`;
 
   const scrollToBottom = () => {
     // messagesEndRef.current?.scrollIntoView({ behavior });
@@ -154,13 +158,22 @@ export default function Chat() {
   return (
     <div className={cl.chat}>
       <div className={cl.header}>
-        <div className={cl.userName}>
-          {chat!.getInterlocutor(userId!)?.name}
-        </div>
-        <div className={cl.onlineStatus}>
-          {isOnline(usersOnline, userId!)
-            ? "online"
-            : chat!.getInterlocutorLastOnline(userId!)}
+        {isWindowNarrow && (
+          <NavLink to={"/"}>
+            <div className={cl.iconArrow}>
+              <BackArrowIcon />
+            </div>
+          </NavLink>
+        )}
+        <div className={cl.meta}>
+          <div className={cl.userName}>
+            {chat!.getInterlocutor(userId!)?.name}
+          </div>
+          <div className={cl.onlineStatus}>
+            {isOnline(usersOnline, userId!)
+              ? "online"
+              : chat!.getInterlocutorLastOnline(userId!)}
+          </div>
         </div>
       </div>
       <div

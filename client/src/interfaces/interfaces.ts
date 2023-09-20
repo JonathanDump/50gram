@@ -138,8 +138,10 @@ export interface avatarInputFileProps {
 
 export interface SidebarParams {
   usersOnline: IUserIds[];
+  isWindowNarrow: boolean;
 }
 
 export interface IOutletContext {
   usersOnline: IUserIds[];
+  isWindowNarrow: boolean;
 }

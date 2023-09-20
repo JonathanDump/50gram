@@ -2,7 +2,7 @@
 @import "../../scss/variables";
 
 .sidebar {
-  max-width: 400px;
+  max-width: 600px;
   min-width: 300px;
   width: 100%;
   overflow-y: auto;
@@ -25,13 +25,19 @@
       padding: 6px;
       transition: $transition;
       border-radius: 50%;
-      filter: var(--svg-invert);
+      // filter: var(--svg-invert);
       // background-image: url("/icons/hamburger.svg");
       // width: 24px;
       // height: 24px;
+      svg {
+        path {
+          stroke: var(--text-color);
+          fill: var(--text-color);
+        }
+      }
 
       &:hover {
-        background-color: var(--overlay-color);
+        background-color: var(--selected-color);
       }
     }
 
@@ -52,6 +58,10 @@
     padding: 8px;
     display: flex;
     flex-direction: column;
+
+    .status {
+      align-self: center;
+    }
   }
 }
 
@@ -97,14 +107,4 @@
     visibility: visible;
     opacity: 1;
   }
-}
-
-.menuVisible {
-  transform: translate(0, 0);
-  visibility: visible;
-}
-
-.menuBgVisible {
-  visibility: visible;
-  opacity: 1;
 }

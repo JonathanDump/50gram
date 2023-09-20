@@ -2,6 +2,9 @@
 @import "./scss/themes";
 @import "./scss/variables";
 
+html {
+  overflow: hidden;
+}
 body {
   background: var(--chat-background-color);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

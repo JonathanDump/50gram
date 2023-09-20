@@ -1,3 +1,5 @@
+@import "../../scss//variables";
+
 .fiftyGram {
   width: 100%;
   max-height: 100%;
@@ -10,6 +12,19 @@
     width: 100%;
     overflow: hidden;
 
+    .chatContainer {
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex: 3;
+      background-color: var(--chat-background-color);
+
+      justify-content: center;
+      overflow: hidden;
+    }
+
     .componentStatus {
       display: flex;
       justify-content: center;
@@ -21,4 +36,21 @@
       flex: 2;
     }
   }
+}
+
+.narrow {
+  visibility: hidden;
+  position: absolute !important;
+  width: 100%;
+  max-width: 600px;
+  transform: translate(600px, 0);
+  transition: $transition;
+  z-index: 10;
+  // position: fixed;
+}
+
+.visible {
+  visibility: visible;
+  transform: translate(0, 0);
+  transition: $transition;
 }

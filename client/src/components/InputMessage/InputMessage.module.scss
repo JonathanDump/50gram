@@ -11,6 +11,8 @@
   transition: $transition;
   align-items: center;
   gap: $gap-input-massage;
+  max-width: 750px;
+  align-self: center;
 
   &:focus-within {
     border-bottom: 2px solid var(--accent-color);

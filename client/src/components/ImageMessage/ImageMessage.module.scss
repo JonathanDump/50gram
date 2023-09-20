@@ -18,8 +18,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    // max-width: 400px;
-    // width: 100%;
 
     .imageWrapper {
       padding: $padding-image-message;
@@ -43,6 +41,7 @@
 
       .inputWrapper {
         display: flex;
+
         .messageInput {
           all: unset;
           flex: 1;

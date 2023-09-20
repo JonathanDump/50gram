@@ -161,23 +161,19 @@ export default function Chat() {
           </div>
         </div>
       </div>
-      <div
-        className={cl.container}
-        onScroll={() => {
-          messagesWindowRef.current?.scroll();
-        }}
-      >
+      <div className={cl.wrapper}>
         <div
-          className={cl.messagesWindow}
+          className={cl.container}
           ref={messagesWindowRef}
           onScroll={handleChatScroll}
         >
-          {chat!.messages.map((msg) => {
-            return <Message message={msg} key={msg._id} />;
-          })}
-          <div style={{ height: "12px" }}></div>
+          <div className={cl.messagesWindow}>
+            {chat!.messages.map((msg) => {
+              return <Message message={msg} key={msg._id} />;
+            })}
+            <div style={{ height: "12px" }}></div>
+          </div>
         </div>
-
         <InputMessage {...inputMessageProps} />
       </div>
       {message.file && (

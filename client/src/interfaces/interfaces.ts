@@ -37,7 +37,8 @@ export interface UserInterface {
   password?: string;
   lastOnline?: number;
   chat?: ChatInterface;
-  newMessages: number;
+  newMessages?: number;
+  isVerified?: boolean;
 }
 
 export interface SidebarInterface {

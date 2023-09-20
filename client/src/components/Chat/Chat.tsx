@@ -34,7 +34,7 @@ export default function Chat() {
   const messagesWindowRef = useRef<HTMLDivElement | null>(null);
 
   const pageRef = useRef(1);
-  const thresholdRef = useRef(10);
+  const thresholdRef = useRef(50);
 
   const scrollToBottom = () => {
     messagesWindowRef.current?.scrollTo(
@@ -111,7 +111,7 @@ export default function Chat() {
 
       pageRef.current++;
       loadMessages(pageRef.current);
-      await setTimeout(() => (thresholdRef.current = 10), 1000);
+      await setTimeout(() => (thresholdRef.current = 50), 1000);
       console.log("threshold upd", thresholdRef.current);
     }
     console.log("threshold", thresholdRef.current);

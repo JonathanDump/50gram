@@ -41,7 +41,7 @@
       border-radius: 50%;
       background-color: var(--green-color);
       position: absolute;
-      z-index: 6;
+      z-index: 5;
       right: 4px;
       bottom: 4px;
       border: 1px solid var(--stroke-color);
@@ -50,13 +50,24 @@
 
   .name {
     cursor: pointer;
-    gap: 6px;
     color: inherit;
-    width: 100%;
+    max-width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     line-height: 1.5rem;
+    position: relative;
+    padding-right: 22px;
+
+    .verifiedIcon {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      margin-left: 8xp;
+      right: 0;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
 
     .icon {
       margin-left: 6px;
@@ -112,6 +123,10 @@
     background-color: var(--accent-color);
   }
 
+  .name {
+    width: 100%;
+  }
+
   .buttonsContainer {
     form {
       display: flex;
@@ -133,6 +148,7 @@
     position: absolute;
     right: 0;
   }
+
   .inputName {
     color: white;
     padding-right: 16px;

@@ -24,6 +24,7 @@ export default function UserCardPersonal({
   const decodedJwt = jwtDecode(
     localStorage.getItem("token") as string
   ) as DecodedJwt;
+  console.log("user", decodedJwt.user);
 
   const imgRef = useRef<HTMLImageElement | null>(null);
 

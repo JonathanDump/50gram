@@ -3,31 +3,9 @@ import User from "../models/user";
 import Chat from "../models/chat";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt, UserInterface } from "../interfaces/interfaces";
-import { Document, HydratedDocument } from "mongoose";
 
 export let usersOnline: { userId: string; socketId: string }[] = [];
 export default function socketHandlerUser(io: Server) {
-  // io.use((socket, next) => {
-  //   if (socket.handshake.headers.authorization) {
-  //     const token = socket.handshake.headers.authorization.split(" ")[1];
-  //     console.log("token", token);
-
-  //     jwt.verify(token, envReader("SECRET_KEY"), function (err, decoded) {
-  //       console.log("decoded");
-
-  //       if (err) {
-  //         console.log("err", err);
-
-  //         return next(new Error("Authentication error"));
-  //       }
-
-  //       next();
-  //     });
-  //   } else {
-  //     next(new Error("Authentication error"));
-  //   }
-  // });
-
   io.on("connect", (socket) => {
     console.log("connection created");
     // console.log("socket", socket.handshake.auth);
@@ -60,7 +38,7 @@ export default function socketHandlerUser(io: Server) {
       const allUsers = await User.find({
         _id: { $ne: myId },
       })
-        .select("id name img")
+        .select("id name img isVerified")
         .exec();
 
       const populateChatsWithUnreadMessages = async (

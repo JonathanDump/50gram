@@ -21,6 +21,7 @@ export interface UserInterface {
   googleId?: string | undefined;
   password?: string | undefined;
   lastOnline?: number;
+  isVerified?: boolean;
 }
 
 export interface DecodedJwt {

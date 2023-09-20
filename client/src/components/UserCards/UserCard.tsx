@@ -1,5 +1,6 @@
 import { UserCardParams, UserInterface } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
+import { ReactComponent as VerifiedIcon } from "/public/icons/verified.svg";
 
 export default function UserCard({
   isSelected,
@@ -36,7 +37,14 @@ export default function UserCard({
         <img src={user!.img} alt="" className={cl.avatar} />
         {isOnline && <div className={cl.online}></div>}
       </div>
-      <div className={cl.name}>{user!.name}</div>
+      <div className={cl.name}>
+        {user!.name}{" "}
+        {user.isVerified && (
+          <div className={cl.verifiedIcon}>
+            <VerifiedIcon />
+          </div>
+        )}
+      </div>
       <div className={cl.notification}>
         {!!user?.newMessages && (
           <div className={cl.dot}>{user.newMessages}</div>

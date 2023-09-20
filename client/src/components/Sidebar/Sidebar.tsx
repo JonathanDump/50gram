@@ -4,7 +4,7 @@ import UserCard from "../UserCards/UserCard";
 import cl from "./Sidebar.module.scss";
 import { ReactComponent as Burger } from "/public/icons/burger.svg";
 
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import useUserList from "../../hooks/useUserList";
 
 import isOnline from "../../helpers/isOnline";
@@ -16,6 +16,8 @@ export default function Sidebar({
   isWindowNarrow,
 }: SidebarParams) {
   const { users, loading, setUsers } = useUserList();
+  console.log("users", users);
+
   const [menuVisible, setMenuVisible] = useState(false);
 
   const { userId } = useParams();

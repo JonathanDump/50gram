@@ -159,40 +159,6 @@ exports.logInVerify = asyncHandler(
       next();
     }
     res.status(200).json({ isSuccess: true });
-    //   const secret = process.env.OTP_SECRET!;
-    //  const  optToken = totp.generate(secret);
-    //   console.log("otp", optToken);
-
-    //   const message = `Your 2Auth code
-    //   ${optToken}
-    //   Don't tell it anybody`;
-
-    //   const transporter = nodemailer.createTransport({
-    //     host: "smtp.ukr.net",
-    //     port: 465,
-    //     secure: true,
-    //     auth: {
-    //       user: "tab_1337@ukr.net",
-    //       pass: process.env.UKR_NET_PASSWORD,
-    //     },
-    //   });
-
-    //   const mailOptions = {
-    //     from: "tab_1337@ukr.net",
-    //     to: email,
-    //     subject: "2FA",
-    //     text: message,
-    //   };
-
-    //   transporter.sendMail(mailOptions, function (error: Error, info: any) {
-    //     if (error) {
-    //       console.log(error);
-    //     } else {
-    //       res.status(200).json({ isSuccess: true });
-
-    //       console.log("Email sent: " + info.response);
-    //     }
-    //   });
   }
 );
 
@@ -215,22 +181,6 @@ exports.otpVerify = asyncHandler(
     res.status(200).json({ token: `Bearer ${jwtToken}` });
   }
 );
-
-// exports.getAllUsers = asyncHandler(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     console.log("header token", req.headers.authorization);
-
-//     const decodedJwt = jwtDecode(
-//       req.headers.authorization as string
-//     ) as DecodedJwt;
-
-//     const allUsers = await User.find({
-//       _id: { $ne: decodedJwt.user._id },
-//     }).exec();
-
-//     res.json({ users: allUsers });
-//   }
-// );
 
 exports.updateUserInfo = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {

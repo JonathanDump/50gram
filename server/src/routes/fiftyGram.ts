@@ -9,9 +9,7 @@ import multer from "multer";
 import folderExists from "../functions/folderExists";
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/pictures");
-  },
+  destination: "public/pictures",
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const filename =
@@ -28,7 +26,7 @@ router.post("/:userId", chatController.getChat);
 
 router.post(
   "/:userId/sendImageMessage",
-  folderExists("public/pictures"),
+  // folderExists("public/pictures"),
   uploadImageMessage.single("image"),
   chatController.sendImageMessage
 );

@@ -14,17 +14,10 @@ const nodemailer = require("nodemailer");
 
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    
-    
-
     const user = await User.findOne({ email: req.body.email }).exec();
     if (user) {
-      
-
       res.json({ isExist: true });
     } else {
-      
-
       bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
         if (err) {
           return next(err);
@@ -35,8 +28,8 @@ exports.signUp = asyncHandler(
           email: req.body.email,
           password: hashedPassword,
           img: req.file
-            ? `${envReader("SERVER_URL")}/avatars/${req.file.filename}`
-            : `${envReader("SERVER_URL")}/avatars/default-avatar.jpeg`,
+            ? `${envReader("CORS_ORIGIN")}/avatars/${req.file.filename}`
+            : `${envReader("CORS_ORIGIN")}/avatars/default-avatar.jpeg`,
         });
 
         await user.save();
@@ -67,9 +60,8 @@ exports.signUpGoogle = asyncHandler(
         email: req.body.email,
         img: req.body.img
           ? req.body.img
-          : `${envReader("SERVER_URL")}/avatars/default-avatar.jpeg`,
+          : `${envReader("CORS_ORIGIN")}/avatars/default-avatar.jpeg`,
       });
-      
 
       await user.save();
 
@@ -90,7 +82,6 @@ exports.signUpGoogle = asyncHandler(
         user: { name: user.name, _id: user._id, img: user.img },
         isSuccess: true,
       });
-      
     }
   }
 );
@@ -98,7 +89,6 @@ exports.signUpGoogle = asyncHandler(
 exports.logIn = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    
 
     const user = await User.findOne({ email }).exec();
 
@@ -137,7 +127,6 @@ exports.logIn = asyncHandler(
 exports.logInVerify = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    
 
     const user = await User.findOne({ email }).exec();
 
@@ -166,7 +155,6 @@ exports.logInVerify = asyncHandler(
 exports.otpVerify = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, otp } = req.body;
-    
 
     const isValid = totp.check(otp, process.env.OTP_SECRET!);
     if (!isValid) {
@@ -175,7 +163,6 @@ exports.otpVerify = asyncHandler(
     }
 
     const user = await User.findOne({ email }).exec();
-    
 
     const jwtToken = await generateJwt(user, "100d");
 
@@ -192,7 +179,7 @@ exports.updateUserInfo = asyncHandler(
     if (user) {
       req.body.name && (user.name = req.body.name);
       req.file &&
-        (user.img = `${envReader("SERVER_URL")}/avatars/${req.file.filename}`);
+        (user.img = `${envReader("CORS_ORIGIN")}/avatars/${req.file.filename}`);
 
       await user.save();
 

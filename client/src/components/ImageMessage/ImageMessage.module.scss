@@ -67,6 +67,11 @@
         .cancelButton {
           background-color: var(--background-color);
           border: unset;
+          color: var(--text-color);
+
+          &:hover {
+            color: var(--accent-color);
+          }
         }
       }
     }

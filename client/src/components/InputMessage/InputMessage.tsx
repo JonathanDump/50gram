@@ -44,7 +44,7 @@ export default function InputMessage({
         onKeyDown={handleEnterKeyDown}
       ></div>
       <button className={btn.sendButton} ref={sendButtonRef}>
-        <img src="/icons/sendButtonLight.svg" alt="" />
+        <img src="/src/icons/sendButtonLight.svg" alt="" />
       </button>
     </form>
   );

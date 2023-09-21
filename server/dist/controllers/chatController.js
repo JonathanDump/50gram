@@ -90,6 +90,6 @@ exports.sendMessage = (0, express_async_handler_1.default)((req, res, next) => _
 }));
 exports.sendImageMessage = (req, res, next) => {
     res.json({
-        imageUrl: `${(0, envReader_1.default)("SERVER_URL")}/pictures/${req.file.filename}`,
+        imageUrl: `${(0, envReader_1.default)("CORS_ORIGIN")}/pictures/${req.file.filename}`,
     });
 };

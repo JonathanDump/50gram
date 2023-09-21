@@ -10,8 +10,6 @@ import envReader from "../functions/envReader";
 
 exports.getChat = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    
-
     const decodedJwt = jwtDecode(
       req.headers.authorization as string
     ) as DecodedJwt;
@@ -33,7 +31,6 @@ exports.getChat = asyncHandler(
         },
       })
       .exec();
-    
 
     if (!chat) {
       const users = await User.find(
@@ -51,7 +48,6 @@ exports.getChat = asyncHandler(
         messages: [],
       });
       await newChat.save();
-      
 
       res.status(200).json(newChat);
     } else {
@@ -65,7 +61,6 @@ exports.getChat = asyncHandler(
         msg.isRead = true;
         await msg.save();
       });
-      
 
       chat.messages.forEach((message: any) => {
         if (message.user === userId) {
@@ -110,6 +105,6 @@ exports.sendImageMessage = (
   next: NextFunction
 ) => {
   res.json({
-    imageUrl: `${envReader("SERVER_URL")}/pictures/${req.file!.filename}`,
+    imageUrl: `${envReader("CORS_ORIGIN")}/pictures/${req.file!.filename}`,
   });
 };

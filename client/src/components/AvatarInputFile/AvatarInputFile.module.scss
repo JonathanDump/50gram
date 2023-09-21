@@ -7,7 +7,7 @@
   transition: $transition;
 
   &::after {
-    content: url("/icons/editImage.svg");
+    content: url("/src/icons/editImage.svg");
     position: absolute;
     top: 50%;
     left: 50%;

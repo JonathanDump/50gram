@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { SidebarParams } from "../../interfaces/interfaces";
 import UserCard from "../UserCards/UserCard";
 import cl from "./Sidebar.module.scss";

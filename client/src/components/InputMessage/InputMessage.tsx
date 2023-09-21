@@ -1,6 +1,8 @@
 import cl from "./InputMessage.module.scss";
 import btn from "../../scss/button.module.scss";
 import { ReactComponent as AttachmentsIcon } from "/src/icons/attachmentsImg.svg";
+import { ReactComponent as SendButtonIcon } from "/src/icons/sendButton.svg";
+
 import { InputMessageProps } from "../../interfaces/interfaces";
 import { useRef } from "react";
 
@@ -44,7 +46,7 @@ export default function InputMessage({
         onKeyDown={handleEnterKeyDown}
       ></div>
       <button className={btn.sendButton} ref={sendButtonRef}>
-        <img src="/src/icons/sendButtonLight.svg" alt="" />
+        <SendButtonIcon />
       </button>
     </form>
   );

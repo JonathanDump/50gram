@@ -16,7 +16,6 @@ const express_async_handler_1 = __importDefault(require("express-async-handler")
 const chat_1 = __importDefault(require("../models/chat"));
 const user_1 = __importDefault(require("../models/user"));
 const message_1 = __importDefault(require("../models/message"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const jwt_decode_1 = __importDefault(require("jwt-decode"));
 const envReader_1 = __importDefault(require("../functions/envReader"));
 exports.getChat = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -69,24 +68,6 @@ exports.getChat = (0, express_async_handler_1.default)((req, res, next) => __awa
         });
         res.status(200).json(chat);
     }
-}));
-exports.sendMessage = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { text, myId, chatId } = req.body;
-    const chat = yield chat_1.default.findById(chatId).populate("messages").exec();
-    if (!chat) {
-        throw new Error("Couldn't find the chat");
-    }
-    const message = new message_1.default({
-        _id: new mongoose_1.default.Types.ObjectId(),
-        text,
-        user: myId,
-        date: new Date(),
-        chat: chatId,
-    });
-    chat.messages.push(message._id);
-    yield message.save();
-    yield chat.save();
-    res.status(200).json({ message, isSuccess: true });
 }));
 exports.sendImageMessage = (req, res, next) => {
     res.json({

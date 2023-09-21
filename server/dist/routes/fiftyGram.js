@@ -11,6 +11,7 @@ const router = express_1.default.Router();
 const userController = require("../controllers/userController");
 const chatController = require("../controllers/chatController");
 const multer_1 = __importDefault(require("multer"));
+const folderExists_1 = __importDefault(require("../functions/folderExists"));
 const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "public/pictures");
@@ -24,7 +25,6 @@ const storage = multer_1.default.diskStorage({
 exports.uploadImageMessage = (0, multer_1.default)({ storage: storage });
 router.use("/", passport_1.default.authenticate("jwt", { session: false }));
 router.post("/:userId", chatController.getChat);
-router.post("/:userId/sendImageMessage", exports.uploadImageMessage.single("image"), chatController.sendImageMessage);
-router.post("/:userId/sendMessage", _1.upload.none(), chatController.sendMessage);
-router.put("/user/update", _1.upload.single("avatar"), userController.updateUserInfo);
+router.post("/:userId/sendImageMessage", (0, folderExists_1.default)("public/pictures"), exports.uploadImageMessage.single("image"), chatController.sendImageMessage);
+router.put("/user/update", (0, folderExists_1.default)("public/avatars"), _1.upload.single("avatar"), userController.updateUserInfo);
 module.exports = router;

@@ -16,13 +16,13 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5173", envReader("CORS_ORIGIN")],
+    origin: "http://localhost:5173",
   },
 });
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", envReader("CORS_ORIGIN")],
+    origin: "http://localhost:5173",
   })
 );
 const port = process.env.PORT || 3000;

@@ -61,15 +61,22 @@ export default function ImageMessage({
       );
 
       const result = await response.json();
+      console.log("image message result ", result);
+
       const imageUrl: string = result.imageUrl;
 
-      sendMessage({
-        text: inputValue,
-        imageUrl,
-        myId: userFromJwt()!._id,
-        chatId: chat!._id,
-        userId: userId!,
-      });
+      await setTimeout(() => {
+        console.log("sending image message");
+
+        sendMessage({
+          text: inputValue,
+          imageUrl,
+          myId: userFromJwt()!._id,
+          chatId: chat!._id,
+          userId: userId!,
+        });
+      }, 1000);
+
       setMessage({ file: null, text: "" });
     } catch (err) {}
   };

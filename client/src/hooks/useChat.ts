@@ -72,19 +72,11 @@ export default function useChat() {
   const { userId } = useParams();
   const myUserObject = userFromJwt();
   const location = useLocation();
-  
 
-  useEffect(() => {
-    
-  }, [chat]);
+  useEffect(() => {}, [chat]);
 
   const sendMessage = (messageData: ISendMessage) => {
-    
-
     socket.emit("send message", messageData, (message: MessageInterface) => {
-      
-      
-
       setChat((prevChat) => {
         if (!prevChat) {
           return null;
@@ -96,8 +88,6 @@ export default function useChat() {
   };
 
   const loadMessages = (page: number) => {
-    
-
     socket.emit(
       "load messages",
       { page, myId: myUserObject!._id, userId },
@@ -106,7 +96,6 @@ export default function useChat() {
           if (!prevChat) {
             return null;
           }
-          
 
           return Chat.fromObject(pushLoadedMessages(prevChat, messages));
         });
@@ -115,17 +104,11 @@ export default function useChat() {
   };
 
   useEffect(() => {
-    
-
     setLoading(true);
 
     async function getChat(page: number = 1) {
       try {
-        
-
         const token = localStorage.getItem("token") as string;
-
-        
 
         const response = await fetch(`${SERVER_URL}/50gram/${userId}`, {
           method: "POST",
@@ -143,14 +126,12 @@ export default function useChat() {
             },
           });
           const result = await response.json();
-          
 
           localStorage.setItem("token", result.token as string);
           return getChat();
         }
 
         const result = await response.json();
-        
 
         setChat(Chat.fromObject(result));
 
@@ -158,8 +139,6 @@ export default function useChat() {
         setError(null);
         socket.emit("join chat", result._id, userId);
       } catch (err) {
-        
-
         setError(err);
       }
     }
@@ -167,8 +146,6 @@ export default function useChat() {
     getChat();
 
     socket.on("join chat", () => {
-      
-
       setChat((prevChat) => {
         if (!prevChat) {
           return null;
@@ -178,27 +155,17 @@ export default function useChat() {
     });
 
     socket.on("receive message", (message: MessageInterface) => {
-      
       if (message.user !== userId) {
         return;
       }
-      
 
       setChat((prevChat) => {
-        
-
-        
         if (!prevChat) {
-          
           return null;
         }
-        
+
         message.isRead = true;
         const newChat = Chat.fromObject(unshiftNewMessage(prevChat, message));
-
-        
-        
-        
 
         socket.emit("read message", {
           messageId: message._id,
@@ -220,11 +187,7 @@ export default function useChat() {
     });
 
     socket.on("disconnected user", (userDisconnected: UserInterface) => {
-      
-
       if (chat!.users.find((user) => user._id === userDisconnected._id)) {
-        
-
         setChat((prevChat) => {
           if (!prevChat) {
             return null;

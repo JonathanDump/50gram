@@ -14,7 +14,6 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const filename =
       file.fieldname + "-" + uniqueSuffix + "." + file.mimetype.split("/")[1];
-    
 
     cb(null, filename);
   },
@@ -30,8 +29,6 @@ router.post(
   uploadImageMessage.single("image"),
   chatController.sendImageMessage
 );
-
-router.post("/:userId/sendMessage", upload.none(), chatController.sendMessage);
 
 router.put(
   "/user/update",

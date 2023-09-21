@@ -105,6 +105,6 @@ exports.sendImageMessage = (
   next: NextFunction
 ) => {
   res.json({
-    imageUrl: `${envReader("CORS_ORIGIN")}/pictures/${req.file!.filename}`,
+    imageUrl: `${envReader("SERVER_URL")}/pictures/${req.file!.filename}`,
   });
 };

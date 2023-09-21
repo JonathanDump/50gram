@@ -28,8 +28,8 @@ exports.signUp = asyncHandler(
           email: req.body.email,
           password: hashedPassword,
           img: req.file
-            ? `${envReader("CORS_ORIGIN")}/avatars/${req.file.filename}`
-            : `${envReader("CORS_ORIGIN")}/avatars/default-avatar.jpeg`,
+            ? `${envReader("SERVER_URL")}/avatars/${req.file.filename}`
+            : `${envReader("SERVER_URL")}/avatars/default-avatar.jpeg`,
         });
 
         await user.save();
@@ -60,7 +60,7 @@ exports.signUpGoogle = asyncHandler(
         email: req.body.email,
         img: req.body.img
           ? req.body.img
-          : `${envReader("CORS_ORIGIN")}/avatars/default-avatar.jpeg`,
+          : `${envReader("SERVER_URL")}/avatars/default-avatar.jpeg`,
       });
 
       await user.save();
@@ -179,7 +179,7 @@ exports.updateUserInfo = asyncHandler(
     if (user) {
       req.body.name && (user.name = req.body.name);
       req.file &&
-        (user.img = `${envReader("CORS_ORIGIN")}/avatars/${req.file.filename}`);
+        (user.img = `${envReader("SERVER_URL")}/avatars/${req.file.filename}`);
 
       await user.save();
 

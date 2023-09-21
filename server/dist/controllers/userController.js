@@ -38,8 +38,8 @@ exports.signUp = (0, express_async_handler_1.default)((req, res, next) => __awai
                 email: req.body.email,
                 password: hashedPassword,
                 img: req.file
-                    ? `${(0, envReader_1.default)("CORS_ORIGIN")}/avatars/${req.file.filename}`
-                    : `${(0, envReader_1.default)("CORS_ORIGIN")}/avatars/default-avatar.jpeg`,
+                    ? `${(0, envReader_1.default)("SERVER_URL")}/avatars/${req.file.filename}`
+                    : `${(0, envReader_1.default)("SERVER_URL")}/avatars/default-avatar.jpeg`,
             });
             yield user.save();
             res.json({
@@ -66,7 +66,7 @@ exports.signUpGoogle = (0, express_async_handler_1.default)((req, res, next) => 
             email: req.body.email,
             img: req.body.img
                 ? req.body.img
-                : `${(0, envReader_1.default)("CORS_ORIGIN")}/avatars/default-avatar.jpeg`,
+                : `${(0, envReader_1.default)("SERVER_URL")}/avatars/default-avatar.jpeg`,
         });
         yield user.save();
         const token = yield jsonwebtoken_1.default.sign({
@@ -147,7 +147,7 @@ exports.updateUserInfo = (0, express_async_handler_1.default)((req, res, next) =
     if (user) {
         req.body.name && (user.name = req.body.name);
         req.file &&
-            (user.img = `${(0, envReader_1.default)("CORS_ORIGIN")}/avatars/${req.file.filename}`);
+            (user.img = `${(0, envReader_1.default)("SERVER_URL")}/avatars/${req.file.filename}`);
         yield user.save();
         const opts = {};
         opts.expiresIn = "100d";

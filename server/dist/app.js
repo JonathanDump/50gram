@@ -29,11 +29,11 @@ const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer, {
     cors: {
-        origin: ["http://localhost:5173", (0, envReader_1.default)("CORS_ORIGIN")],
+        origin: (0, envReader_1.default)("CORS_ORIGIN"),
     },
 });
 app.use(cors({
-    origin: ["http://localhost:5173", (0, envReader_1.default)("CORS_ORIGIN")],
+    origin: (0, envReader_1.default)("CORS_ORIGIN"),
 }));
 const port = process.env.PORT || 3000;
 app.use(express_1.default.static("public"));

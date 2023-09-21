@@ -6,8 +6,6 @@ const userController = require("../controllers/userController");
 const chatController = require("../controllers/chatController");
 import multer from "multer";
 
-import folderExists from "../functions/folderExists";
-
 const storage = multer.diskStorage({
   destination: "public/pictures",
   filename: function (req, file, cb) {
@@ -26,14 +24,14 @@ router.post("/:userId", chatController.getChat);
 
 router.post(
   "/:userId/sendImageMessage",
-  // folderExists("public/pictures"),
+
   uploadImageMessage.single("image"),
   chatController.sendImageMessage
 );
 
 router.put(
   "/user/update",
-  folderExists("public/avatars"),
+
   upload.single("avatar"),
   userController.updateUserInfo
 );

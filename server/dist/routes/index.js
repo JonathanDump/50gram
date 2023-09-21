@@ -10,9 +10,7 @@ const router = express_1.default.Router();
 const userController = require("../controllers/userController");
 const multer_1 = __importDefault(require("multer"));
 const storage = multer_1.default.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/avatars");
-    },
+    destination: "public/avatars",
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
         const filename = file.fieldname + "-" + uniqueSuffix + "." + file.mimetype.split("/")[1];

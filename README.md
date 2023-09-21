@@ -2,7 +2,7 @@
 
 Welcome to the Full Stack Messenger App! This is a real-time messaging application built using React, Node.js, and other modern technologies.
 
-# [Live Demo](#) (https://frabjous-cucurucho-ceeec1.netlify.app/)
+# [Live Demo](#)(https://frabjous-cucurucho-ceeec1.netlify.app/)
 
 # Technologies Used
 

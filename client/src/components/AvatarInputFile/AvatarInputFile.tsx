@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import cl from "./avatarInputFile.module.scss";
+import cl from "./AvatarInputFile.module.scss";
 import { avatarInputFileProps } from "../../interfaces/interfaces";
 
 export default function AvatarInputFile({

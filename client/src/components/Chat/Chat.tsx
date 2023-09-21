@@ -10,7 +10,7 @@ import { IMessage, IOutletContext } from "../../interfaces/interfaces";
 import ImageMessage from "../ImageMessage/ImageMessage";
 
 import isOnline from "../../helpers/isOnline";
-import { ReactComponent as BackArrowIcon } from "/public/icons/backArrow.svg";
+import { ReactComponent as BackArrowIcon } from "/src/icons/backArrow.svg";
 import InputMessage from "../InputMessage/InputMessage";
 
 export default function Chat() {
@@ -18,12 +18,9 @@ export default function Chat() {
     prevValue: "",
     currentValue: "",
   });
-  
 
   const { chat, loading, error, sendMessage, userId, loadMessages } = useChat();
   const { usersOnline, isWindowNarrow }: IOutletContext = useOutletContext();
-
-  
 
   const [message, setMessage] = useState<IMessage>({ file: null, text: "" });
 
@@ -55,10 +52,7 @@ export default function Chat() {
   }, [location]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    
-
     if (e.target.name === "attachments") {
-      
       setMessage({ file: e.target.files![0], text: inputValue.currentValue });
 
       const newInputValue = {
@@ -104,7 +98,6 @@ export default function Chat() {
     const { scrollHeight, scrollTop, clientHeight } =
       messagesWindowRef.current!;
     const pxToEnd = scrollHeight + scrollTop - clientHeight;
-    
 
     if (pxToEnd <= thresholdRef.current) {
       thresholdRef.current = -1;
@@ -112,9 +105,7 @@ export default function Chat() {
       pageRef.current++;
       loadMessages(pageRef.current);
       await setTimeout(() => (thresholdRef.current = 50), 1000);
-      
     }
-    
   };
 
   const inputMessageProps = {

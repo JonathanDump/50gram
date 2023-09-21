@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SidebarParams } from "../../interfaces/interfaces";
 import UserCard from "../UserCards/UserCard";
 import cl from "./Sidebar.module.scss";
-import { ReactComponent as Burger } from "/public/icons/burger.svg";
+import { ReactComponent as Burger } from "/src/icons/burger.svg";
 
 import { NavLink, useParams } from "react-router-dom";
 import useUserList from "../../hooks/useUserList";

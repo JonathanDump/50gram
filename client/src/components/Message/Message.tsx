@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import { MessageParams } from "../../interfaces/interfaces";
 import cl from "./Message.module.scss";
 import { format } from "date-fns";
-import { ReactComponent as ReadIcon } from "/public/icons/read.svg";
-import { ReactComponent as UnreadIcon } from "/public/icons/unread.svg";
+import { ReactComponent as ReadIcon } from "/src/icons/read.svg";
+import { ReactComponent as UnreadIcon } from "/src/icons/unread.svg";
 
 export default function Message({ message }: MessageParams) {
   const { userId } = useParams();

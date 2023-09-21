@@ -9,7 +9,7 @@ import {
 import { DecodedJwt } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
 import btn from "../../scss/button.module.scss";
-import { ReactComponent as EditIcon } from "/public/icons/edit.svg";
+import { ReactComponent as EditIcon } from "/src/icons/edit.svg";
 
 import jwtDecode from "jwt-decode";
 import { SERVER_URL } from "../../config/config";
@@ -24,7 +24,6 @@ export default function UserCardPersonal({
   const decodedJwt = jwtDecode(
     localStorage.getItem("token") as string
   ) as DecodedJwt;
-  
 
   const imgRef = useRef<HTMLImageElement | null>(null);
 
@@ -103,14 +102,11 @@ export default function UserCardPersonal({
       }
 
       const result = await response.json();
-      
 
       localStorage.setItem("token", result.token);
       setButtonsOn(false);
       setIsEditing(false);
-    } catch (err) {
-      
-    }
+    } catch (err) {}
   };
 
   return (

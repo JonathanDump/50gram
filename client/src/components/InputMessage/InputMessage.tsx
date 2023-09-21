@@ -1,6 +1,6 @@
 import cl from "./InputMessage.module.scss";
 import btn from "../../scss/button.module.scss";
-import { ReactComponent as AttachmentsIcon } from "/public/icons/attachmentsImg.svg";
+import { ReactComponent as AttachmentsIcon } from "/src/icons/attachmentsImg.svg";
 import { InputMessageProps } from "../../interfaces/interfaces";
 import { useRef } from "react";
 

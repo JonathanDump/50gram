@@ -1,6 +1,6 @@
 import { UserCardParams, UserInterface } from "../../interfaces/interfaces";
 import cl from "./UserCard.module.scss";
-import { ReactComponent as VerifiedIcon } from "/public/icons/verified.svg";
+import { ReactComponent as VerifiedIcon } from "/src/icons/verified.svg";
 
 export default function UserCard({
   isSelected,
@@ -14,17 +14,13 @@ export default function UserCard({
     : `${cl.userCard}`;
 
   const handleCardClick = () => {
-    
     if (!user?.newMessages || !users) {
-      
-
       return;
     }
 
     const copyUsers = [...users];
     const usr = copyUsers.find((u: UserInterface) => u._id === user._id);
     if (usr) {
-      
       usr.newMessages = 0;
     }
 

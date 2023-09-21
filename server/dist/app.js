@@ -24,15 +24,16 @@ const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const socketHandlerUser_1 = __importDefault(require("./socket/socketHandlerUser"));
 const socketHandlerChat_1 = __importDefault(require("./socket/socketHandlerChat"));
+const envReader_1 = __importDefault(require("./functions/envReader"));
 const app = (0, express_1.default)();
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: ["http://localhost:5173", (0, envReader_1.default)("CORS_ORIGIN")],
     },
 });
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", (0, envReader_1.default)("CORS_ORIGIN")],
 }));
 const port = process.env.PORT || 3000;
 app.use(express_1.default.static("public"));

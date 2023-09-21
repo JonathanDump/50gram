@@ -5,10 +5,13 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const chatController = require("../controllers/chatController");
 import multer from "multer";
-import timeout from "connect-timeout";
+
+import folderExists from "../functions/folderExists";
 
 const storage = multer.diskStorage({
-  destination: "public/pictures",
+  destination: function (req, file, cb) {
+    cb(null, "public/pictures");
+  },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const filename =
@@ -25,13 +28,14 @@ router.post("/:userId", chatController.getChat);
 
 router.post(
   "/:userId/sendImageMessage",
+  folderExists("public/pictures"),
   uploadImageMessage.single("image"),
-  timeout("1s"),
   chatController.sendImageMessage
 );
 
 router.put(
   "/user/update",
+  folderExists("public/avatars"),
   upload.single("avatar"),
   userController.updateUserInfo
 );

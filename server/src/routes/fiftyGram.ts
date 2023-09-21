@@ -5,6 +5,7 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const chatController = require("../controllers/chatController");
 import multer from "multer";
+import timeout from "connect-timeout";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -27,6 +28,7 @@ router.post("/:userId", chatController.getChat);
 router.post(
   "/:userId/sendImageMessage",
   uploadImageMessage.single("image"),
+  timeout("1s"),
   chatController.sendImageMessage
 );
 

@@ -20,11 +20,7 @@ const io = new Server(httpServer, {
   },
 });
 
-app.use(
-  cors({
-    origin: envReader("CORS_ORIGIN"),
-  })
-);
+app.use(cors());
 const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));

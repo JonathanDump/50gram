@@ -32,9 +32,7 @@ const io = new socket_io_1.Server(httpServer, {
         origin: (0, envReader_1.default)("CORS_ORIGIN"),
     },
 });
-app.use(cors({
-    origin: (0, envReader_1.default)("CORS_ORIGIN"),
-}));
+app.use(cors());
 const port = process.env.PORT || 3000;
 app.use(express_1.default.static("public"));
 app.use("/avatars", express_1.default.static("avatars"));

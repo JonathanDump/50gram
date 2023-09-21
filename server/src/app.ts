@@ -10,18 +10,19 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import socketHandlerUser from "./socket/socketHandlerUser";
 import socketHandlerChat from "./socket/socketHandlerChat";
+import envReader from "./functions/envReader";
 
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", envReader("CORS_ORIGIN")],
   },
 });
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", envReader("CORS_ORIGIN")],
   })
 );
 const port = process.env.PORT || 3000;

@@ -20,11 +20,16 @@ export default function InputMessage({
     if (e.key === "Enter") {
       e.preventDefault();
       sendButtonRef.current!.click();
+      inputTextRef.current!.blur();
     }
   };
 
   const handleInputClick = () => {
     inputTextRef.current!.contentEditable = "true";
+    inputTextRef.current!.focus();
+  };
+
+  const handleButtonClick = () => {
     inputTextRef.current!.focus();
   };
 
@@ -52,7 +57,11 @@ export default function InputMessage({
         onKeyDown={handleEnterKeyDown}
         onClick={handleInputClick}
       ></div>
-      <button className={btn.sendButton} ref={sendButtonRef}>
+      <button
+        className={btn.sendButton}
+        ref={sendButtonRef}
+        onClick={handleButtonClick}
+      >
         <SendButtonIcon />
       </button>
     </form>

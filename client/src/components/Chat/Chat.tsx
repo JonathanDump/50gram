@@ -162,7 +162,7 @@ export default function Chat() {
             {chat!.messages.map((msg) => {
               return <Message message={msg} key={msg._id} />;
             })}
-            <div style={{ height: "12px" }}></div>
+            <div style={{ height: "0" }}></div>
           </div>
         </div>
         <InputMessage {...inputMessageProps} />

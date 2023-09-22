@@ -17,8 +17,14 @@
     align-items: center;
     padding: $padding-header;
     gap: 16px;
+    position: relative;
+    height: 51px;
+    align-items: center;
 
     .burger {
+      position: absolute;
+      top: 8px;
+      left: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;

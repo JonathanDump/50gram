@@ -2,8 +2,8 @@
 @import "../../scss/variables";
 
 .chat {
-  height: 100vh;
-  max-height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -23,6 +23,7 @@
     display: flex;
     gap: 16px;
     align-items: center;
+    position: sticky;
 
     .iconArrow {
       padding: 4px;
@@ -56,7 +57,8 @@
   }
 
   .wrapper {
-    flex: 1;
+    // flex: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
     padding: $padding-chat;
@@ -67,7 +69,8 @@
     min-width: 300px;
 
     .container {
-      flex: 1;
+      // flex: 1;
+      height: 100%;
       display: flex;
       align-items: center;
       width: 100%;

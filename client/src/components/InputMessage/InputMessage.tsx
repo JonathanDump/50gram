@@ -15,12 +15,12 @@ export default function InputMessage({
 }: InputMessageProps) {
   const sendButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      sendButtonRef.current!.click();
-    }
-  };
+  // const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     sendButtonRef.current!.click();
+  //   }
+  // };
   return (
     <form className={cl.messageForm} onSubmit={handleFormSubmit}>
       <div className={cl.attachments} onClick={handleAttachmentsClick}>
@@ -35,8 +35,15 @@ export default function InputMessage({
           onChange={handleInputChange}
         />
       </div>
+      <input
+        type="text"
+        className={cl.inputMessage}
+        autoFocus
+        onChange={handleInputChange}
+        ref={inputTextRef}
+      />
 
-      <div
+      {/* <div
         className={cl.inputMessage}
         contentEditable={true}
         autoFocus
@@ -44,7 +51,7 @@ export default function InputMessage({
         ref={inputTextRef}
         placeholder={"Message"}
         onKeyDown={handleEnterKeyDown}
-      ></div>
+      ></div> */}
       <button className={btn.sendButton} ref={sendButtonRef}>
         <SendButtonIcon />
       </button>

@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.upload = void 0;
 const express_1 = __importDefault(require("express"));
-const passport_1 = __importDefault(require("passport"));
 const router = express_1.default.Router();
 const userController = require("../controllers/userController");
 const multer_1 = __importDefault(require("multer"));
@@ -25,10 +24,6 @@ router.post("/sign-up", exports.upload.single("avatar"), userController.signUp);
 router.post("/sign-up/google", userController.signUpGoogle);
 router.post("/log-in/jwt", userController.logInVerify);
 router.post("/log-in/otp", userController.otpVerify);
-router.get("/log-in/google", passport_1.default.authenticate("google"));
-router.get("/auth/google", passport_1.default.authenticate("google", {
-    successRedirect: "/50gram",
-}));
 router.get("/log-out", (req, res, next) => {
     req.session.destroy((err) => {
         if (err) {

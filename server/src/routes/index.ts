@@ -26,14 +26,6 @@ router.post("/sign-up/google", userController.signUpGoogle);
 router.post("/log-in/jwt", userController.logInVerify);
 router.post("/log-in/otp", userController.otpVerify);
 
-router.get("/log-in/google", passport.authenticate("google"));
-router.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    successRedirect: "/50gram",
-  })
-);
-
 router.get("/log-out", (req: Request, res: Response, next: NextFunction) => {
   req.session.destroy((err) => {
     if (err) {

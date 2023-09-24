@@ -61,11 +61,8 @@ export default function ImageMessage({
       );
 
       const result = await response.json();
-      console.log("image message result ", result);
 
       const imageUrl: string = result.imageUrl;
-
-      console.log("sending image message");
 
       sendMessage({
         text: inputValue,

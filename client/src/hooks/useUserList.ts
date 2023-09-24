@@ -18,7 +18,6 @@ export default function useUserList() {
   const signUpUser = async (user: UserInterface) => {
     socket.emit("signUpUser", user);
   };
-  console.log("use user List");
 
   const getAllUsers = () => {
     if (userFromJwt()?._id) {
@@ -33,14 +32,10 @@ export default function useUserList() {
     socket.connect();
 
     socket.on("connect", () => {
-      console.log("Connected to the server");
-
       getAllUsers();
     });
 
     socket.on("invalid token", () => {
-      console.log("invalid token");
-
       const jwt = localStorage.getItem("token") as string;
       if (!jwt) {
         return;
@@ -48,32 +43,21 @@ export default function useUserList() {
       socket.disconnect();
       socket.auth = { token: jwt };
 
-      console.log("reconnect");
-
       setTimeout(() => {
         socket.connect();
       }, 100);
     });
 
     socket.on("allUsers", (users) => {
-      console.log("users", users);
       setLoading(false);
       setUsers(users);
     });
 
     socket.on("updateUserList", (user) => {
-      console.log("Updating user list");
-      console.log("new user", user);
-      console.log("users in state", users);
-
       setUsers((prevUsers) => [...prevUsers, user]);
     });
 
     socket.on("get notification", (senderId: string) => {
-      console.log("user list get notification");
-      console.log("userId", userId);
-      console.log("senderId", senderId);
-
       if (senderId === userId) {
         return;
       }
@@ -93,8 +77,6 @@ export default function useUserList() {
     });
 
     socket.on("disconnect user", () => {
-      console.log("disconnect");
-
       socket.auth = { token: "" };
     });
 

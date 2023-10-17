@@ -86,44 +86,6 @@ exports.signUpGoogle = asyncHandler(
   }
 );
 
-exports.logIn = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email }).exec();
-
-    if (!user) {
-      res.json({ invalid: { email: true, password: false } });
-      next();
-    }
-
-    const match = await bcrypt.compare(password, user!.password!);
-
-    if (!match) {
-      res.json({ invalid: { password: true, email: false } });
-      next();
-    }
-
-    const opts: SignOptions = {};
-    opts.expiresIn = "100d";
-    const secret: Secret = envReader("SECRET_KEY");
-    const token = await jwt.sign(
-      {
-        user: {
-          name: user!.name,
-          email: user!.email,
-          img: user!.img,
-          _id: user!._id,
-        },
-      },
-      secret,
-      opts
-    );
-
-    res.status(200).json({ token: `Bearer ${token}` });
-  }
-);
-
 exports.logInVerify = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;

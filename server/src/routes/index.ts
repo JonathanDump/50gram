@@ -1,5 +1,4 @@
 import express, { NextFunction, Request, Response } from "express";
-import passport from "passport";
 const router = express.Router();
 const userController = require("../controllers/userController");
 import multer from "multer";

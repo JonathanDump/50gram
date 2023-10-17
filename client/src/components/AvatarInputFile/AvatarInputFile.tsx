@@ -14,6 +14,7 @@ export default function AvatarInputFile({
     setButtonsOn && setButtonsOn(true);
     inputRef.current!.click();
   };
+
   return (
     <div className={cl.avatarInputFile} onClick={handleImageClick}>
       <input

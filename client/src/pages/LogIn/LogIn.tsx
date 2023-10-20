@@ -18,18 +18,13 @@ export default function LogIn() {
   const [otp, setOtp] = useState("");
   const [invalidOtp, setInvalidOtp] = useState(false);
 
-  
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
   };
 
   const sendOtpToken = async () => {
     try {
-      
-
       const body = { email: inputValue.email, password: inputValue.password };
-      
 
       const response = await fetch(`${SERVER_URL}/log-in/jwt`, {
         method: "POST",
@@ -41,7 +36,6 @@ export default function LogIn() {
       }
 
       const result = await response.json();
-      
 
       if (result.invalid) {
         setInvalidInput(result.invalid);
@@ -50,7 +44,7 @@ export default function LogIn() {
       setInvalidInput({ email: false, password: false });
       return true;
     } catch (err) {
-      
+      console.log(err);
     }
   };
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -78,12 +72,33 @@ export default function LogIn() {
         return;
       }
       const result = await response.json();
-      
 
       localStorage.setItem("token", result.token);
       navigate("/");
     } catch (err) {
-      
+      console.log(err);
+    }
+  };
+
+  const handleLogInWithTestAccount = async () => {
+    const body = { email: "test@test.com", password: "qwerty123" };
+    try {
+      const response = await fetch(`${SERVER_URL}/log-in/jwt`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error("Couldn't log in. Something went wrong.");
+      }
+      const result = await response.json();
+      console.log("result", result);
+
+      localStorage.setItem("token", result.token);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -162,8 +177,14 @@ export default function LogIn() {
           <button className={btn.button}>Log In</button>
         </form>
         <div className={cl.text}>Or</div>
-
         <GoogleButton />
+        <button
+          className={btn.button}
+          type="button"
+          onClick={handleLogInWithTestAccount}
+        >
+          Log In With Test Account
+        </button>
       </div>
       <div className={formCl.additional}>
         <span className={formCl.text}>Don't have an account? </span>

@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt } from "../interfaces/interfaces";
 import envReader from "../functions/envReader";
+import { cloudinary } from "../config/config";
+import { UploadApiResponse } from "cloudinary";
 
 exports.getChat = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -73,12 +75,17 @@ exports.getChat = asyncHandler(
   }
 );
 
-exports.sendImageMessage = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  res.json({
-    imageUrl: `${envReader("SERVER_URL")}/pictures/${req.file!.filename}`,
-  });
-};
+exports.sendImageMessage = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.file) {
+      await cloudinary.uploader.upload(req.file.path, (err, result) => {
+        if (err) {
+          console.log(err);
+          next(err);
+        } else {
+          res.json({ imageUrl: result?.url });
+        }
+      });
+    }
+  }
+);

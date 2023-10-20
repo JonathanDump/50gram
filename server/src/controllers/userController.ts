@@ -7,10 +7,12 @@ import envReader from "../functions/envReader";
 import jwtDecode from "jwt-decode";
 import { DecodedJwt } from "../interfaces/interfaces";
 import { totp } from "otplib";
-totp.options = { step: 60 };
 import sendOtp from "../functions/sendOtp";
 import generateJwt from "../functions/generateJwt";
-const nodemailer = require("nodemailer");
+import { cloudinary } from "../config/config";
+import { UploadApiResponse } from "cloudinary";
+
+totp.options = { step: 60 };
 
 exports.signUp = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -23,13 +25,22 @@ exports.signUp = asyncHandler(
           return next(err);
         }
 
+        let uploadResult: UploadApiResponse | undefined;
+        if (req.file) {
+          await cloudinary.uploader.upload(req.file.path, (err, result) => {
+            if (err) {
+              console.log(err);
+            } else {
+              uploadResult = result;
+            }
+          });
+        }
+
         const user = new User({
           name: req.body.name,
           email: req.body.email,
           password: hashedPassword,
-          img: req.file
-            ? `${envReader("SERVER_URL")}/avatars/${req.file.filename}`
-            : `${envReader("SERVER_URL")}/avatars/default-avatar.jpeg`,
+          img: uploadResult?.url || "",
         });
 
         await user.save();
